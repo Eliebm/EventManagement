@@ -2,11 +2,33 @@
   <div data-theme="light" class="main">
     <h1 class="text-5xl font-bold underline">Hello world!</h1>
     <br />
-    <button data-theme="light" class="btn btn-outline btn-error">
+    <button
+      data-theme="dark"
+      class="btn btn-outline btn-error"
+      (click)="deleteUser()"
+    >
       Primary
     </button>
-    <button data-theme="light" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg">
+    <button
+      data-theme="light"
+      class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+      (click)="generateUser()"
+    >
       <i class="fa-brands fab fa-facebook-messenger"></i>
+    </button>
+    <button
+      data-theme="light"
+      class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+      (click)="addUserToEvent()"
+    >
+      Add user to event
+    </button>
+    <button
+      data-theme="light"
+      class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+      (click)="fetchEventByUserId()"
+    >
+      fetch event by user id
     </button>
   </div>
 </div>
