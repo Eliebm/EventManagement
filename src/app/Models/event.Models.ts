@@ -3,6 +3,7 @@ import { EventBaseClass } from './baseClass.Models';
 import { User } from './user.Models';
 
 export class EventClass extends EventBaseClass {
+  type: string;
   startDate: Date;
   endDate: Date;
   location: string;
@@ -13,6 +14,7 @@ export class EventClass extends EventBaseClass {
     id: number,
     title: string,
     description: string,
+    type: string,
     startDate: Date,
     endDate: Date,
     location: string,
@@ -20,12 +22,11 @@ export class EventClass extends EventBaseClass {
     agendaList: Agenda[]
   ) {
     super(id, title, description);
+    this.type = type;
     this.startDate = startDate;
     this.endDate = endDate;
     this.location = location;
     this.userList = userList;
     this.agendaList = agendaList;
   }
-
-  addUser(pushUser: any) {}
 }
