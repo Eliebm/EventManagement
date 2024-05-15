@@ -26,6 +26,10 @@ export class EventClass extends EventBaseClass {
     this.userList = userList;
     this.agendaList = agendaList;
   }
+}
+export function addUser(pushUser: any, event: EventClass[]): void {
+  let oldlist = event[0].userList;
+  let eventinf = event;
 
-  addUser(pushUser: any) {}
+  eventinf[0].userList.push.apply(oldlist, pushUser);
 }
