@@ -1,0 +1,12 @@
+.toggle-theme {
+  font-size: large;
+}
+
+@media only screen and (min-width: 700px) {
+  .toggle_theme_tooltip {
+    margin-right: 15px;
+  }
+  .toggle-theme {
+    font-size: x-large;
+  }
+}
