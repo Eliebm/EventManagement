@@ -64,4 +64,5 @@ export class AccountService {
     this.user = this.user.filter((x: any) => x.id !== userId);
     console.log(this.user);
   }
+
 }

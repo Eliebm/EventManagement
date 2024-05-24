@@ -29,4 +29,5 @@ export class EventClass extends EventBaseClass {
     this.userList = userList;
     this.agendaList = agendaList;
   }
+
 }
