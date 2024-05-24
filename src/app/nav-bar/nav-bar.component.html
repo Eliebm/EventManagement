@@ -1,0 +1,165 @@
+<div
+  class="navbar  {{ themeVal === 'light' ? 'bg-blue-500' : 'bg-slate-950' }}"
+  [attr.data-theme]="themeVal"
+>
+  <div class="navbar-start">
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h8m-8 6h16"
+          />
+        </svg>
+      </div>
+      <ul
+        tabindex="0"
+        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-lg w-56 {{
+          themeVal === 'light' ? 'text-primary' : 'text-info'
+        }}"
+      >
+        <li>
+          <a class="font-bold text-lg flex flex-row"
+            ><span><i class="fa-solid fa-home"></i></span>Home</a
+          >
+        </li>
+        <li>
+          <a class="font-bold text-lg flex flex-row"
+            ><span><i class="fa-solid far fa-object-ungroup"></i></span>
+            Groups</a
+          >
+        </li>
+
+        <li>
+          <a class="font-bold text-lg flex flex-row"
+            ><span><i class="fa-solid far fa-calendar-week"></i></span>Events</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- navbar list for large screen -->
+
+    <a class="btn btn-ghost text-xl text-white">Event Management</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      <li>
+        <div
+          class="{{
+            themeVal === 'light'
+              ? 'lg:tooltip lg:tooltip-bottom lg:tooltip-primary'
+              : 'lg:tooltip lg:tooltip-bottom lg:tooltip-warning'
+          }}"
+          data-tip="Home"
+        >
+          <a class="text-blue-50 text-lg"
+            ><span><i class="fa fa-home"></i></span
+          ></a>
+        </div>
+      </li>
+      <li>
+        <div
+          class="lg:tooltip lg:tooltip-bottom lg:{{
+            themeVal === 'light' ? 'tooltip-primary' : 'tooltip-warning'
+          }}"
+          data-tip="Groups"
+        >
+          <a class="text-blue-50 text-lg"
+            ><span><i class="fa-solid fa-object-ungroup"></i></span
+          ></a>
+        </div>
+      </li>
+      <li>
+        <div
+          class="lg:tooltip lg:tooltip-bottom lg:tooltip-{{
+            themeVal === 'light' ? 'primary' : 'warning'
+          }}"
+          data-tip="Events"
+        >
+          <a class="text-blue-50 text-lg"
+            ><span><i class="fa-solid fa-calendar-week"></i></span
+          ></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <!-- change mode icon -->
+
+    <div
+      class="toggle_theme_tooltip lg:tooltip lg:tooltip-bottom lg:{{
+        themeVal === 'light' ? 'tooltip-primary' : 'tooltip-warning'
+      }}"
+      [attr.data-tip]="themeVal === 'light' ? 'Dark Mode' : 'Light Mode'"
+    >
+      <button
+        class="toggle-theme"
+        [ngStyle]="{ color: themeVal === 'light' ? 'black' : 'yellow' }"
+        (click)="changeTheme(!isToggledTheme)"
+      >
+        <span
+          ><i
+            class="fa-solid fa-{{ themeVal === 'light' ? 'moon' : 'sun' }}"
+          ></i
+        ></span>
+      </button>
+    </div>
+
+    <!-- log in button -->
+    <button
+      class="btn btn-xs {{
+        themeVal === 'light' ? ' btn-primary' : 'btn-warning'
+      }} sm:btm-sm lg:btn-md md:btn-md ml-3"
+      *ngIf="!isUserLoggedIn"
+    >
+      <span><i class="fa-solid fa-right-to-bracket"></i></span>
+      LogIn
+    </button>
+
+    <!-- Profile picture and profile dropdown-->
+    <div
+      class=" dropdown dropdown-end mr-4 ml-4 lg:tooltip lg:tooltip-left  {{
+        themeVal === 'light' ? 'lg:tooltip-primary' : 'lg:tooltip-warning'
+      }}"
+      *ngIf="isUserLoggedIn"
+      data-tip="Account"
+    >
+      <div tabindex="0" role="button" class="btn btn-ghost btn-square">
+        <div class="text-4xl text-white rounded-full w-80">
+          <span><i class="fa-solid fa-image-portrait"></i></span>
+        </div>
+      </div>
+      <ul
+        tabindex="0"
+        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-lg w-52 {{
+          themeVal === 'light' ? 'text-primary' : 'text-info'
+        }}"
+      >
+        <li>
+          <a class="font-bold text-lg" routerLink=""
+            ><i class="fa-solid fa-id-card"></i> Profile
+          </a>
+        </li>
+        <li>
+          <a class="font-bold text-lg" routerLink=""
+            ><i class="fa-solid fa-list"></i>My Events</a
+          >
+        </li>
+        <li>
+          <a class="font-bold text-lg" routerLink=""
+            ><i class="fa-solid fa-right-from-bracket"></i>LogOut</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
