@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { BaseService } from '../Service/baseService/base.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,16 +15,17 @@ export class NavBarComponent implements OnInit {
   themeVal: any;
 
   isToggledTheme: any;
-  isUserLoggedIn: boolean = true;
+  isUserLoggedIn: boolean = false;
 
-  constructor(private titleservice: Title) {}
+  constructor(
+    private titleService: Title,
+    private baseService: BaseService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     let retrievedMode = localStorage.getItem(this.StorageKey);
-    console.log(retrievedMode);
-    if (retrievedMode === null) {
-      retrievedMode = 'light';
-    }
+
     if (retrievedMode === 'light') {
       this.isToggledTheme = true;
     } else {
@@ -41,5 +44,9 @@ export class NavBarComponent implements OnInit {
     localStorage.setItem(this.StorageKey, this.themeVal);
     this.selectedTheme.emit('true');
     this.isToggledTheme = !this.isToggledTheme;
+  }
+
+  login(): void {
+    this.router.navigate(['/Login']);
   }
 }
