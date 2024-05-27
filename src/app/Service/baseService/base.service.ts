@@ -22,10 +22,10 @@ export class BaseService {
   }
 
   setTheme(): void {
-    let storageKey = 'DarkMode';
-    let theme = localStorage.getItem(storageKey);
+    let themeStorageKey = 'DarkMode';
+    let theme = localStorage.getItem(themeStorageKey);
     if (theme === null) {
-      localStorage.setItem(storageKey, 'light');
+      localStorage.setItem(themeStorageKey, 'light');
     }
   }
 }
