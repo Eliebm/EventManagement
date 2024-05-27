@@ -4,12 +4,17 @@
   }} flex justify-center pt-20 sm:pt-24 md:pt-30 lg:pt-36 "
   [attr.data-theme]="themeVal"
 >
+  <div>
+    <div class="toast toast-top toast-center" *ngIf="showToastMessage">
+      <div class="alert alert-error">Invalid Email Or Password</div>
+    </div>
+  </div>
   <div
     class="form-control {{
       themeVal === 'light'
         ? 'bg-gradient-to-b from-white to-blue-400'
         : 'bg-gradient-to-b from-gray-900 to-gray-600'
-    }} p-5 flex items-center h-[470px] sm:w-[300px] md:w-[400px] lg:w-[420px]"
+    }} p-5 flex items-center h-[450px] w-[335px] sm:w-[360px] md:w-[400px] lg:w-[420px]"
     [attr.data-theme]="themeVal"
   >
     <label
@@ -19,11 +24,11 @@
       [attr.data-theme]="themeVal"
       >Log In</label
     >
-    <div class="input-form-group mt-9 flex flex-col gap-3">
+    <div class="input-form-group mt-9 flex flex-col gap-4">
       <label
         class="input input-md input-bordered flex items-center gap-2 {{
           themeVal === 'light' ? 'input-primary' : 'input-warning'
-        }}"
+        }} {{ hideEmailExclamation === false ? 'border-error' : '' }}"
       >
         <span
           class="{{ themeVal === 'light' ? 'text-primary' : 'text-warning' }}"
@@ -35,12 +40,27 @@
             themeVal === 'light' ? 'text-primary' : 'text-warning'
           }}"
           placeholder="Email"
+          (focus)="removeEmailWarning()"
+          [(ngModel)]="emailInput"
         />
+
+        <span class="text-error" [hidden]="hideEmailExclamation"
+          ><i class="fa-solid fa-exclamation-circle"></i
+        ></span>
+        <div
+          class="validation-message tooltip tooltip-top {{
+            showEmailTooltip
+          }} tooltip-error"
+          data-tip="Email is required"
+        ></div>
       </label>
+
+      <!-- Password input-->
+
       <label
-        class="input input-md input-bordered flex items-center gap-2 {{
+        class="input input-md input-bordered flex items-center gap-2  {{
           themeVal === 'light' ? 'input-primary' : 'input-warning'
-        }}"
+        }} {{ hidePasswordExclamation === false ? 'border-error' : '' }}"
       >
         <span
           class="{{ themeVal === 'light' ? 'text-primary' : 'text-warning' }}"
@@ -52,23 +72,34 @@
             themeVal === 'light' ? 'text-primary' : 'text-warning'
           }}"
           placeholder="Password"
+          (focus)="removePasswordWarning()"
+          [(ngModel)]="passwordInput"
         />
         <i
-          class="toggle-pass fa-solid {{ eyeType }}"
+          class="toggle-pass fa-solid {{ eyeType }} {{
+            hidePasswordExclamation === false ? 'text-error' : 'text-primary'
+          }}"
           id="togglePasswordVisibility"
         ></i>
+        <div
+          class="validation-message tooltip tooltip-top {{
+            showPasswordTooltip
+          }} tooltip-error"
+          data-tip="Password is required"
+        ></div>
       </label>
       <button
-        class="btn font-bold mt-10  {{
+        class="btn font-bold mt-7  {{
           themeVal === 'light'
             ? 'btn-primary text-white'
             : 'btn-warning text-black'
         }}"
+        (click)="checkValidation()"
       >
         <span><i class="fa-solid fa-right-to-bracket"></i></span>Log In
       </button>
       <a class="link-primary text-center mt-2">Forget Password?</a>
-      <span class="mt-12 text-center font-bold"
+      <span class="mt-6 text-center font-bold"
         >Don't have an account ?
         <a class="link-error" routerLink="/Home">Sign up</a></span
       >

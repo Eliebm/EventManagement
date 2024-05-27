@@ -11,7 +11,7 @@ import { BaseService } from '../Service/baseService/base.service';
 export class NavBarComponent implements OnInit {
   @Output() selectedTheme = new EventEmitter<string>();
 
-  StorageKey: string = 'DarkMode';
+  themeStorageKey: string = 'DarkMode';
   themeVal: any;
 
   isToggledTheme: any;
@@ -24,7 +24,7 @@ export class NavBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let retrievedMode = localStorage.getItem(this.StorageKey);
+    let retrievedMode = localStorage.getItem(this.themeStorageKey);
 
     if (retrievedMode === 'light') {
       this.isToggledTheme = true;
@@ -33,6 +33,12 @@ export class NavBarComponent implements OnInit {
     }
     this.themeVal = retrievedMode;
     console.log(this.themeVal);
+
+    if (localStorage.getItem('loggedInUser')?.length) {
+      this.isUserLoggedIn = true;
+    } else {
+      this.isUserLoggedIn = false;
+    }
   }
 
   changeTheme(value: boolean): void {
@@ -41,7 +47,7 @@ export class NavBarComponent implements OnInit {
     } else {
       this.themeVal = 'dark';
     }
-    localStorage.setItem(this.StorageKey, this.themeVal);
+    localStorage.setItem(this.themeStorageKey, this.themeVal);
     this.selectedTheme.emit('true');
     this.isToggledTheme = !this.isToggledTheme;
   }

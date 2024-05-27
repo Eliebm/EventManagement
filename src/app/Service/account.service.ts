@@ -30,11 +30,6 @@ export class AccountService {
 
   constructor(private baseService: BaseService) {
     this.storageKey = 'USERS';
-
-    let data = localStorage.getItem(this.storageKey);
-    if (data) {
-      this.user = JSON.parse(data);
-    }
   }
 
   setStaticData(): void {
@@ -65,4 +60,30 @@ export class AccountService {
     console.log(this.user);
   }
 
+  loginUser(userEmail: string, userPassword: string): boolean {
+    let email = userEmail.toLowerCase();
+    let password = userPassword.toLocaleLowerCase();
+    let valid;
+    let data = localStorage.getItem(this.storageKey);
+    if (data?.length) {
+      this.user = JSON.parse(data);
+    }
+
+    let loginUser = this.user.filter(
+      (x) => x.email === email && x.password === password
+    );
+
+    if (loginUser.length) {
+      this.saveUserInfo(loginUser);
+      valid = true;
+    } else {
+      valid = false;
+    }
+
+    return valid;
+  }
+  saveUserInfo(userInfo: any): void {
+    let localStorageKey = 'loggedInUser';
+    localStorage.setItem(localStorageKey, JSON.stringify(userInfo));
+  }
 }
