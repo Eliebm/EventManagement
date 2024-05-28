@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { BaseService } from '../Service/baseService/base.service';
+import { AccountService } from '../Service/account.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -20,6 +21,7 @@ export class NavBarComponent implements OnInit {
   constructor(
     private titleService: Title,
     private baseService: BaseService,
+    private accountService: AccountService,
     private router: Router
   ) {}
 
@@ -32,7 +34,6 @@ export class NavBarComponent implements OnInit {
       this.isToggledTheme = false;
     }
     this.themeVal = retrievedMode;
-    console.log(this.themeVal);
 
     if (localStorage.getItem('loggedInUser')?.length) {
       this.isUserLoggedIn = true;
@@ -54,5 +55,10 @@ export class NavBarComponent implements OnInit {
 
   login(): void {
     this.router.navigate(['/Login']);
+  }
+
+  userLogOut(): void {
+    this.accountService.DeleteLoggedInUser();
+    location.reload();
   }
 }
