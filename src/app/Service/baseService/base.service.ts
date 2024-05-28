@@ -20,4 +20,12 @@ export class BaseService {
       return newId;
     }
   }
+
+  setTheme(): void {
+    let themeStorageKey = 'DarkMode';
+    let theme = localStorage.getItem(themeStorageKey);
+    if (theme === null) {
+      localStorage.setItem(themeStorageKey, 'light');
+    }
+  }
 }

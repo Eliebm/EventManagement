@@ -11,9 +11,13 @@ import { Router } from '@angular/router';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(
+    private accountService: AccountService,
+    private baseService: BaseService
+  ) {}
 
   ngOnInit(): void {
+    this.baseService.setTheme();
     this.accountService.setStaticData();
   }
 }

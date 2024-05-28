@@ -120,6 +120,7 @@
         themeVal === 'light' ? ' btn-primary' : 'btn-warning'
       }} sm:btm-sm lg:btn-md md:btn-md ml-3"
       *ngIf="!isUserLoggedIn"
+      (click)="login()"
     >
       <span><i class="fa-solid fa-right-to-bracket"></i></span>
       LogIn
