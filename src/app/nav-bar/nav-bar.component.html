@@ -118,7 +118,7 @@
     <button
       class="btn btn-xs {{
         themeVal === 'light' ? ' btn-primary' : 'btn-warning'
-      }} sm:btm-sm lg:btn-md md:btn-md ml-3"
+      }} sm:btm-sm lg:btn-md md:btn-md ml-3 font-extrabold"
       *ngIf="!isUserLoggedIn"
       (click)="login()"
     >
@@ -156,7 +156,7 @@
           >
         </li>
         <li>
-          <a class="font-bold text-lg" routerLink=""
+          <a class="font-bold text-lg" (click)="userLogOut()"
             ><i class="fa-solid fa-right-from-bracket"></i>LogOut</a
           >
         </li>
