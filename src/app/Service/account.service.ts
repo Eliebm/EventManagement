@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../Models/user.Models';
 import { BaseService } from './baseService/base.service';
+import { Route, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class AccountService {
   user: User[] = [];
   private storageKey: any;
 
-  constructor(private baseService: BaseService) {
+  constructor(private baseService: BaseService, private router: Router) {
     this.storageKey = 'USERS';
   }
 
@@ -82,8 +83,14 @@ export class AccountService {
 
     return valid;
   }
+
   saveUserInfo(userInfo: any): void {
     let localStorageKey = 'loggedInUser';
     localStorage.setItem(localStorageKey, JSON.stringify(userInfo));
+  }
+
+  DeleteLoggedInUser(): void {
+    let localStorageKey = 'loggedInUser';
+    localStorage.removeItem(localStorageKey);
   }
 }

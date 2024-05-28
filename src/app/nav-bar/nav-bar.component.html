@@ -118,7 +118,7 @@
     <button
       class="btn btn-xs {{
         themeVal === 'light' ? ' btn-primary' : 'btn-warning'
-      }} sm:btm-sm lg:btn-md md:btn-md ml-3"
+      }} sm:btm-sm lg:btn-md md:btn-md ml-3 font-extrabold"
       *ngIf="!isUserLoggedIn"
       (click)="login()"
     >
@@ -135,8 +135,8 @@
       data-tip="Account"
     >
       <div tabindex="0" role="button" class="btn btn-ghost btn-square">
-        <div class="text-4xl text-white rounded-full w-80">
-          <span><i class="fa-solid fa-image-portrait"></i></span>
+        <div class="bg-info text-3xl text-white rounded w-80">
+          <span>{{ avatarCharName }}</span>
         </div>
       </div>
       <ul
@@ -145,6 +145,7 @@
           themeVal === 'light' ? 'text-primary' : 'text-info'
         }}"
       >
+        <li class="text-secondary">{{ avatarName }}</li>
         <li>
           <a class="font-bold text-lg" routerLink=""
             ><i class="fa-solid fa-id-card"></i> Profile
@@ -156,7 +157,7 @@
           >
         </li>
         <li>
-          <a class="font-bold text-lg" routerLink=""
+          <a class="font-bold text-lg" (click)="userLogOut()"
             ><i class="fa-solid fa-right-from-bracket"></i>LogOut</a
           >
         </li>
