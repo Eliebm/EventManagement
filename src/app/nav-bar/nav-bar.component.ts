@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { BaseService } from '../Service/baseService/base.service';
 import { AccountService } from '../Service/account.service';
+import { User } from '../Models/user.Models';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,9 +15,11 @@ export class NavBarComponent implements OnInit {
 
   themeStorageKey: string = 'DarkMode';
   themeVal: any;
-
+  user: User[] = [];
   isToggledTheme: any;
   isUserLoggedIn: boolean = false;
+  avatarName: string = '';
+  avatarCharName: string = '';
 
   constructor(
     private titleService: Title,
@@ -40,6 +43,8 @@ export class NavBarComponent implements OnInit {
     } else {
       this.isUserLoggedIn = false;
     }
+
+    this.setAvatarName();
   }
 
   changeTheme(value: boolean): void {
@@ -60,5 +65,17 @@ export class NavBarComponent implements OnInit {
   userLogOut(): void {
     this.accountService.DeleteLoggedInUser();
     location.reload();
+  }
+
+  setAvatarName(): void {
+    let data = localStorage.getItem('loggedInUser');
+    if (data?.length) {
+      this.user = JSON.parse(data);
+
+      let fname = this.user[0].firstName;
+      let lname = this.user[0].lastName;
+      this.avatarName = fname + ' ' + lname;
+      this.avatarCharName = fname.charAt(0).toUpperCase() + lname.charAt(0);
+    }
   }
 }
