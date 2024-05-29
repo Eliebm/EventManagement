@@ -2,29 +2,13 @@ import { Injectable } from '@angular/core';
 import { User } from '../Models/user.Models';
 import { BaseService } from './baseService/base.service';
 import { Route, Router } from '@angular/router';
+import { staticUser } from '../Models/staticData.Models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
-  staticUser: User[] = [
-    {
-      id: 1,
-      firstName: 'elie',
-      lastName: 'lastname1',
-      email: 'elie@hotmail.com',
-      password: '123',
-      location: '',
-    },
-    {
-      id: 2,
-      firstName: 'user2',
-      lastName: 'lastname2',
-      email: 'user2@hotmail.com',
-      password: '123',
-      location: '',
-    },
-  ];
+  staticUser: User[] = staticUser;
 
   user: User[] = [];
   private storageKey: any;
