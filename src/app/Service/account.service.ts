@@ -18,26 +18,34 @@ export class AccountService {
   }
 
   setStaticData(): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.staticUser));
+    if (!localStorage.getItem(this.storageKey)?.length) {
+      localStorage.setItem(this.storageKey, JSON.stringify(this.staticUser));
+    }
   }
 
-  private saveUsers(): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.user));
+  private saveUsers(data: any): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(data));
   }
+  // add new user
+  generateUser(data: any): boolean {
+    let fetchedUser = localStorage.getItem(this.storageKey);
 
-  generateUser(): void {
-    let newId = this.baseService.generateAutoIncrementId(this.user);
-    console.log(newId);
-    this.user.push({
-      id: newId,
-      firstName: 'elie',
-      lastName: 'dadas',
-      email: '',
-      password: '',
-      location: '',
-    });
-    console.log(this.user);
-    this.saveUsers();
+    if (fetchedUser?.length) {
+      this.user = JSON.parse(fetchedUser);
+    }
+
+    if (this.user.filter((x) => x.email === data.email).length) {
+      return false;
+    } else {
+      let newId = this.baseService.generateAutoIncrementId(this.user);
+
+      data.id = newId;
+
+      this.user.push(data);
+
+      this.saveUsers(this.user);
+      return true;
+    }
   }
 
   deleteUser(userId: number): void {
