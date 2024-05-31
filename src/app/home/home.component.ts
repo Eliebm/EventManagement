@@ -17,10 +17,6 @@ export class HomeComponent implements OnInit {
     this.retrievedMode = localStorage.getItem(this.StorageKey);
   }
 
-  addUser(): void {
-    this.accountService.generateUser();
-  }
-
   SelectedTheme(data: any) {
     this.retrievedMode = localStorage.getItem(this.StorageKey);
   }

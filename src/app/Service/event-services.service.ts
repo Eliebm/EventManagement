@@ -1,69 +1,12 @@
 import { Injectable } from '@angular/core';
 import { EventClass } from '../Models/event.Models';
+import { staticEvent } from '../Models/staticData.Models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventServicesService {
-  event: EventClass[] = [
-    {
-      id: 1,
-      title: 'event 1',
-      description: 'asdasd',
-      type: '',
-      startDate: new Date(),
-      endDate: new Date(),
-      location: '',
-      userList: [
-        {
-          id: 1,
-          firstName: 'elie',
-          lastName: '',
-          email: '',
-          password: '',
-          location: '',
-        },
-        {
-          id: 2,
-          firstName: 'pierre',
-          lastName: '',
-          email: '',
-          password: '',
-          location: '',
-        },
-      ],
-      agendaList: [],
-    },
-    {
-      id: 2,
-      title: 'event 2',
-      description: 'asdasd',
-      type: '',
-      startDate: new Date(),
-      endDate: new Date(),
-      location: '',
-      userList: [
-        {
-          id: 3,
-          firstName: 'elie',
-          lastName: '',
-          email: '',
-          password: '',
-          location: '',
-        },
-        {
-          id: 2,
-          firstName: 'elie',
-          lastName: '',
-          email: '',
-          password: '',
-          location: '',
-        },
-      ],
-
-      agendaList: [],
-    },
-  ];
+  event: EventClass[] = staticEvent;
 
   user: any[] = [];
 

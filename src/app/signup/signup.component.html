@@ -1,9 +1,31 @@
 <div
-  class="container max-w-screen-2xl min-h-screen bg-gray-400 flex justify-center pt-10 sm:pt-20 md:pt-24 lg:pt-30"
+  class="container max-w-screen-2xl min-h-screen bg-gray-400 flex justify-center pt-20 sm:pt-20 md:pt-24 lg:pt-30"
 >
+  <div>
+    <div class="toast toast-top toast-center" *ngIf="showToastMessage">
+      <div class="alert {{ toastType }}">
+        {{ alertMessage }}
+      </div>
+    </div>
+  </div>
   <div
-    class="middle-container bg-gradient-to-r from-black to-slate-600 rounded-xl shadow-2xl shadow-blue-400 flex h-[570px] w-[335px] sm:w-[360px] sm:h-[550px] flex-col md:w-[550px] md:h-[570px] lg:w-[800px] lg:flex-row lg:h-[500px]"
+    class="middle-container rounded-2xl bg-gradient-to-r from-black to-slate-600 shadow-2xl shadow-blue-400 flex h-[570px] w-[335px] sm:w-[360px] sm:h-[550px] flex-col md:w-[550px] md:h-[570px] lg:w-[800px] lg:flex-row lg:h-[500px]"
   >
+    <!--login and exit button -->
+    <div class="button-row">
+      <div class="join">
+        <div class="tooltip tooltip-bottom tooltip-primary" data-tip="Login">
+          <span class="join-item btn btn-xs btn-success"
+            ><i class="fa-solid fa-right-to-bracket" routerLink="/Login"></i
+          ></span>
+        </div>
+        <div class="tooltip tooltip-bottom tooltip-primary" data-tip="Exit">
+          <span class="join-item btn btn-xs btn-error"
+            ><i class="fa-solid fa-rectangle-xmark" routerLink="/Home"></i
+          ></span>
+        </div>
+      </div>
+    </div>
     <div
       class="left-div sm:w[360px] md:w-[550px] lg:w-[300px] flex flex-col justify-top items-center shadow-xl-black pt-3"
     >
@@ -18,9 +40,9 @@
     </div>
     <!-- right side for signup form  -->
     <div
-      class="right-div flex flex-col items-center sm:w-[360px] pt-4 md:w-[550px] lg:w-[500px]"
+      class="right-div flex flex-col items-center sm:w-[360px] md:w-[550px] lg:w-[500px]"
     >
-      <p class="text-white text-2xl md:text-4xl">Register</p>
+      <p class="text-white text-2xl md:text-4xl pt-3">Register</p>
       <p class="sm:text-sm md:text-base font-bold text-info lg:mt-2">
         IT's completely Free
       </p>
@@ -37,13 +59,25 @@
             class="input input-sm lg:input-md input-bordered flex items-center gap-2"
           >
             <span><i class="fa-solid fa-user-tie"></i></span>
-            <input type="text" class="grow" placeholder="Name" />
+            <input
+              type="text"
+              class="grow"
+              placeholder="Name"
+              [(ngModel)]="firstName"
+              (focus)="removeValidationError()"
+            />
           </label>
           <label
             class="input input-sm lg:input-md input-bordered flex items-center gap-2"
           >
             <span><i class="fa-solid fa-user"></i></span>
-            <input type="text" class="grow" placeholder="Last name" />
+            <input
+              type="text"
+              class="grow"
+              placeholder="Last name"
+              [(ngModel)]="LastName"
+              (focus)="removeValidationError()"
+            />
           </label>
         </div>
         <!-- second input row -->
@@ -51,10 +85,20 @@
           class="row-one flex flex-col md:flex-row lg:flex-row md:gap-2 gap-2"
         >
           <label
-            class="input input-sm lg:input-md input-bordered flex items-center gap-2"
+            class="input input-sm lg:input-md input-bordered flex items-center gap-6"
           >
-            <span><i class="fa-solid fa-location-dot"></i></span>
-            <input type="text" class="grow" placeholder="Location" />
+            <span><i class="fa-solid fa-map-location-dot"></i></span>
+
+            <select
+              class="select select-sm md:select-sm lg:select-md"
+              [(ngModel)]="location"
+              (focus)="removeValidationError()"
+            >
+              <option disabled selected>Select Location</option>
+              <option *ngFor="let locList of locationList" [value]="locList">
+                {{ locList }}
+              </option>
+            </select>
           </label>
         </div>
         <div class="divider divider-accent text-white">
@@ -68,13 +112,25 @@
             class="input input-sm lg:input-md input-bordered flex items-center gap-2"
           >
             <span><i class="fa-solid fa-envelope"></i></span>
-            <input type="text" class="grow" placeholder="Email" />
+            <input
+              type="text"
+              class="grow"
+              placeholder="Email@example.com"
+              [(ngModel)]="email"
+              (focus)="removeValidationError()"
+            />
           </label>
           <label
             class="input input-sm lg:input-md input-bordered flex items-center gap-2"
           >
             <span><i class="fa-solid fa-lock"></i></span>
-            <input type="password" class="grow" placeholder="Password" />
+            <input
+              type="password"
+              class="grow"
+              placeholder="Password"
+              [(ngModel)]="Password"
+              (focus)="removeValidationError()"
+            />
           </label>
         </div>
         <!-- fourth row-->
@@ -85,17 +141,32 @@
             class="input input-sm lg:input-md input-bordered flex items-center gap-2"
           >
             <span><i class="fa-solid fa-key"></i></span>
-            <input type="text" class="grow" placeholder="Confirm Password" />
+            <input
+              type="password"
+              class="grow"
+              placeholder="Confirm Password"
+              [(ngModel)]="confPassword"
+              (focus)="removeValidationError()"
+            />
           </label>
         </div>
         <!-- Submit button-->
+
         <div class="row-one flex flex-row gap-3 md:gap-5 mt-2">
-          <button class="btn btn-xs sm:btn-sm md:btn-md btn-error">
-            <span><i class="fa-solid fa-xmark"></i></span>Cancel
-          </button>
-          <button class="btn btn-xs sm:btn-sm md:btn-md btn-success">
-            <span><i class="fa-solid fa-check"></i></span>Signup
-          </button>
+          <div class="join">
+            <button
+              class="btn join-item btn-xs sm:btn-sm md:btn-md btn-error"
+              (click)="clearInputs()"
+            >
+              <span><i class="fa-solid fa-xmark"></i></span>Cancel
+            </button>
+            <button
+              class="btn join-item btn-xs sm:btn-sm md:btn-md btn-success"
+              (click)="checkInputsValidation()"
+            >
+              <span><i class="fa-solid fa-check"></i></span>Signup
+            </button>
+          </div>
         </div>
       </div>
     </div>
