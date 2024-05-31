@@ -28,12 +28,15 @@ export class AccountService {
   }
   // add new user
   generateUser(data: any): boolean {
-    try {
-      let fetchedUser = localStorage.getItem(this.storageKey);
-      if (fetchedUser?.length) {
-        this.user = JSON.parse(fetchedUser);
-      }
+    let fetchedUser = localStorage.getItem(this.storageKey);
 
+    if (fetchedUser?.length) {
+      this.user = JSON.parse(fetchedUser);
+    }
+
+    if (this.user.filter((x) => x.email === data.email).length) {
+      return false;
+    } else {
       let newId = this.baseService.generateAutoIncrementId(this.user);
 
       data.id = newId;
@@ -42,9 +45,6 @@ export class AccountService {
 
       this.saveUsers(this.user);
       return true;
-    } catch (error) {
-      console.log(error);
-      return false;
     }
   }
 

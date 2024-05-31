@@ -82,14 +82,14 @@ export class SignupComponent implements OnInit {
       this.toastType = 'alert-success';
       this.showToastMessage = true;
       this.alertMessage = 'Registration for the account was successful.';
-
+      this.clearInputs();
       setTimeout(() => {
         this.showToastMessage = false;
       }, 3000);
     } else {
       this.toastType = 'alert-error';
       this.showToastMessage = true;
-      this.alertMessage = 'Unable to create your account.';
+      this.alertMessage = 'An email with that address already exists.';
     }
   }
 
