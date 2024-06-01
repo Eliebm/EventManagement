@@ -1,0 +1,30 @@
+<div class="flex flex-col md:flex-row gap-3 scroll-auto">
+  <div
+    class="card w-90 sm:w-80 sm:h-[260px] sm:mb-0 bg-base-100 shadow-xl image-full hover:border-2 hover:scale-105"
+    *ngFor="let group of showedGroups"
+  >
+    <figure>
+      <img
+        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jp"
+        alt="{{ group.title }} image"
+      />
+    </figure>
+    <div class="card-body">
+      <h2 class="card-title">{{ group.title }}</h2>
+
+      <p class="max-h-36 overflow-hidden">
+        {{ group.description.substring(0, 40) + "..." }}
+      </p>
+      <div class="card-actions justify-between items-baseline">
+        <div class="indicator">
+          <span class="indicator-item badge badge-primary">{{
+            group.eventList?.length
+          }}</span>
+          <button class="btn btn-sm">Event</button>
+        </div>
+
+        <button class="btn btn-primary">Details</button>
+      </div>
+    </div>
+  </div>
+</div>

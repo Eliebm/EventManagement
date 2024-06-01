@@ -195,7 +195,8 @@ export const staticGroupEvent = [
   {
     id: 1,
     title: 'groupe one title',
-    description: 'group one description',
+    description:
+      'group one description group one description group one description group one description ',
     category: 'food',
     adminList: [],
     eventList: [],
