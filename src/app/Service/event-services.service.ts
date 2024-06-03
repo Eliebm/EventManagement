@@ -6,15 +6,24 @@ import { staticEvent } from '../Models/staticData.Models';
   providedIn: 'root',
 })
 export class EventServicesService {
-  event: EventClass[] = staticEvent;
+  private storageKey!: string;
+  staticEventData: EventClass[] = staticEvent;
 
   user: any[] = [];
 
   constructor() {}
-
+  setStaticData(): void {
+    this.storageKey = 'All-Events';
+    if (!localStorage.getItem(this.storageKey)?.length) {
+      localStorage.setItem(
+        this.storageKey,
+        JSON.stringify(this.staticEventData)
+      );
+    }
+  }
   addUserToEvent(): void {
     let xid = 3;
-    let fetchedEvent = this.event.filter((x) => x.id === 1);
+    let fetchedEvent = this.staticEventData.filter((x) => x.id === 1);
     let fetchedUser = this.user.filter((x) => x.id === xid);
     let isUserJoined = fetchedEvent[0].userList;
 
@@ -39,7 +48,7 @@ export class EventServicesService {
     let id = 3;
     console.log('user id :' + id);
     let fetchedList: any = [];
-    this.event.forEach((item) => {
+    this.staticEventData.forEach((item) => {
       if (item.userList.find((u2) => u2.id === id)) {
         fetchedList.push(item);
       }

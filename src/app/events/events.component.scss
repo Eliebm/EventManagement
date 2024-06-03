@@ -1,0 +1,14 @@
+.right-corner-badge {
+  position: absolute;
+
+  right: 0px;
+}
+.top-image {
+  border-radius: 15px 10px 0 0;
+}
+
+.card:hover {
+  .card-title {
+    text-decoration: underline;
+  }
+}

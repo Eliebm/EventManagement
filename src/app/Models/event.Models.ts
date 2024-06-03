@@ -4,12 +4,15 @@ import { Rating } from './rating.Models';
 import { User } from './user.Models';
 
 export class EventClass extends EventBaseClass {
+  admin: string;
   type: string;
   startDate: Date;
   endDate: Date;
+  image: string;
   location: string;
   presentationType: string;
   userList: Array<User>;
+  hostList: User[];
   agendaList: Agenda[];
   rating: Rating[];
   totalRating: number;
@@ -18,23 +21,29 @@ export class EventClass extends EventBaseClass {
     id: number,
     title: string,
     description: string,
+    admin: string,
     type: string,
     startDate: Date,
     endDate: Date,
+    image: string,
     location: string,
     presentationType: string,
     userList: Array<User>,
+    hostList: User[],
     agendaList: Agenda[],
     rating: Rating[],
     totalRating: number
   ) {
     super(id, title, description);
+    this.admin = admin;
     this.type = type;
     this.startDate = startDate;
     this.endDate = endDate;
+    this.image = image;
     this.location = location;
     this.presentationType = presentationType;
     this.userList = userList;
+    this.hostList = hostList;
     this.agendaList = agendaList;
     this.rating = rating;
     this.totalRating = totalRating;
