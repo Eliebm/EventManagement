@@ -4,6 +4,7 @@ import { User } from './user.Models';
 
 export class EventGroup extends EventBaseClass {
   category: string;
+  image: string;
   adminList: User[];
   eventList: EventClass[];
 
@@ -12,12 +13,14 @@ export class EventGroup extends EventBaseClass {
     title: string,
     description: string,
     category: string,
+    image: string,
     adminList: User[],
     eventList: EventClass[]
   ) {
     super(id, title, description);
 
     this.category = category;
+    this.image = image;
     this.adminList = adminList;
     this.eventList = eventList;
   }

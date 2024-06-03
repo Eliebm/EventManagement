@@ -1,6 +1,40 @@
-<app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
-<div [attr.data-theme]="retrievedMode"><br /></div>
+<div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
+  <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
 
-<div [attr.data-theme]="retrievedMode">
-  <h1>adadasdadasd</h1>
+  <div class="container p-5">
+    <div class="text-center">
+      <span
+        class="loading loading-infinity loading-lg text-primary"
+        *ngIf="!EventGroups?.length"
+      ></span>
+    </div>
+    <!--groups of event section-->
+    <div class="divider divider-primary font-bold">Event Groups</div>
+
+    <div class="bg-transparent" [attr.data-theme]="retrievedMode">
+      <div class="text-primary text-right font-bold mb-2 mr-4 md:mr-0">
+        <button class="btn btn-sm">
+          All Groups<i class="fa-solid fa-angles-right"></i>
+        </button>
+      </div>
+      <app-event-groups [groups]="EventGroups"></app-event-groups>
+    </div>
+
+    <!-- Events Section-->
+    <div class="divider divider-primary mt-10 font-bold">Events</div>
+    <div class="text-center">
+      <span
+        class="loading loading-dots loading-lg text-primary"
+        *ngIf="!allEvents?.length"
+      ></span>
+    </div>
+    <div class="bg-transparent" [attr.data-theme]="retrievedMode">
+      <div class="text-primary text-right font-bold mb-2 mr-4 md:mr-0">
+        <button class="btn btn-sm">
+          All Events<i class="fa-solid fa-angles-right"></i>
+        </button>
+      </div>
+      <app-events [fetchedEvents]="allEvents"></app-events>
+    </div>
+  </div>
 </div>
