@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { EventGroup } from '../Models/eventGroup.Models';
+import { EventGroup } from '../../Models/eventGroup.Models';
 
 @Component({
   selector: 'app-event-groups',

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { BaseService } from '../Service/baseService/base.service';
-import { AccountService } from '../Service/account.service';
-import { User } from '../Models/user.Models';
+import { BaseService } from '../../Service/baseService/base.service';
+import { AccountService } from '../../Service/account.service';
+import { User } from '../../Models/user.Models';
 
 @Component({
   selector: 'app-nav-bar',
