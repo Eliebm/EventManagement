@@ -1,0 +1,12 @@
+<div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
+  <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
+  <div class="grid container pt-5">
+    <div class="text-sm breadcrumbs ml-5">
+      <ul>
+        <li *ngFor="let Ar of activeRoute">
+          {{ Ar }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -2,8 +2,9 @@ import { Component, HostBinding, OnInit, effect, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../Service/account.service';
 import { EventGroup } from '../Models/eventGroup.Models';
-import { EventBaseClass } from '../Models/baseClass.Models';
+
 import { EventClass } from '../Models/event.Models';
+import { BaseService } from '../Service/baseService/base.service';
 
 @Component({
   selector: 'app-home',
@@ -17,10 +18,15 @@ export class HomeComponent implements OnInit {
   EventGroups: EventGroup[] = [];
   allEvents: EventClass[] = [];
 
-  constructor(private router: Router, private accountService: AccountService) {}
+  constructor(
+    private router: Router,
+    private baseService: BaseService,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
+    this.baseService.setActiveRoute();
     this.fetchEventGroups();
     this.fetchedAllEvents();
   }

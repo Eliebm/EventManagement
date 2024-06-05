@@ -1,9 +1,9 @@
 <div
-  class="navbar  {{ themeVal === 'light' ? 'bg-blue-500' : 'bg-slate-950' }}"
+  class="navbar {{ themeVal === 'light' ? 'bg-blue-500' : 'bg-slate-950' }}"
   [attr.data-theme]="themeVal"
 >
   <div class="navbar-start">
-    <div class="dropdown">
+    <div class="dropdown z-20">
       <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -27,19 +27,19 @@
         }}"
       >
         <li>
-          <a class="font-bold text-lg flex flex-row"
+          <a class="font-bold text-lg flex flex-row" [routerLink]="'/Home'"
             ><span><i class="fa-solid fa-home"></i></span>Home</a
           >
         </li>
         <li>
-          <a class="font-bold text-lg flex flex-row"
+          <a class="font-bold text-lg flex flex-row" [routerLink]="'/Groups'"
             ><span><i class="fa-solid far fa-object-ungroup"></i></span>
             Groups</a
           >
         </li>
 
         <li>
-          <a class="font-bold text-lg flex flex-row"
+          <a class="font-bold text-lg flex flex-row" [routerLink]="'/Events'"
             ><span><i class="fa-solid far fa-calendar-week"></i></span>Events</a
           >
         </li>
@@ -48,7 +48,9 @@
 
     <!-- navbar list for large screen -->
 
-    <a class="btn btn-ghost text-xl text-white">Event Management</a>
+    <a class="btn btn-ghost text-xl text-white" [routerLink]="'/Home'"
+      >Event Management</a
+    >
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
@@ -61,7 +63,7 @@
           }}"
           data-tip="Home"
         >
-          <a class="text-blue-50 text-lg"
+          <a class="text-blue-50 text-lg" [routerLink]="'/Home'"
             ><span><i class="fa fa-home"></i></span
           ></a>
         </div>
@@ -73,7 +75,7 @@
           }}"
           data-tip="Groups"
         >
-          <a class="text-blue-50 text-lg"
+          <a class="text-blue-50 text-lg" [routerLink]="'/Groups'"
             ><span><i class="fa-solid fa-object-ungroup"></i></span
           ></a>
         </div>
@@ -85,7 +87,7 @@
           }}"
           data-tip="Events"
         >
-          <a class="text-blue-50 text-lg"
+          <a class="text-blue-50 text-lg" [routerLink]="'/Events'"
             ><span><i class="fa-solid fa-calendar-week"></i></span
           ></a>
         </div>
@@ -130,7 +132,7 @@
     <div
       class=" dropdown dropdown-end mr-4 ml-4 lg:tooltip lg:tooltip-left  {{
         themeVal === 'light' ? 'lg:tooltip-primary' : 'lg:tooltip-warning'
-      }}"
+      }} z-20"
       *ngIf="isUserLoggedIn"
       data-tip="Account"
     >

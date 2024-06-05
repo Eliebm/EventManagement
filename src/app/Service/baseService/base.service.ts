@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BaseService {
-  constructor() {}
+  constructor(private router: Router) {}
 
   generateAutoIncrementId(obj: any): number {
     let newId;
@@ -27,5 +28,15 @@ export class BaseService {
     if (theme === null) {
       localStorage.setItem(themeStorageKey, 'light');
     }
+  }
+
+  setActiveRoute(): void {
+    let StorageKey = 'A.R';
+    localStorage.setItem(StorageKey, this.router.url);
+  }
+
+  getRecentActiveRoute(): string {
+    let StorageKey = 'A.R';
+    return JSON.stringify(localStorage.getItem(StorageKey));
   }
 }

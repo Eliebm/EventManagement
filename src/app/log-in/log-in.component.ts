@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { BaseService } from '../Service/baseService/base.service';
 import { DOCUMENT } from '@angular/common';
-import { User } from '../Models/user.Models';
 import { AccountService } from '../Service/account.service';
 import { Router } from '@angular/router';
 
@@ -25,6 +24,7 @@ export class LogInComponent implements OnInit {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
+    private baseService: BaseService,
     private accountService: AccountService,
     private router: Router
   ) {}
@@ -69,7 +69,11 @@ export class LogInComponent implements OnInit {
     if (valid === false) {
       this.showToastMessage = true;
     } else {
-      this.router.navigate(['/Home']);
+      let RecentActiveRoute = JSON.parse(
+        this.baseService.getRecentActiveRoute()
+      );
+
+      this.router.navigate([RecentActiveRoute]);
     }
   }
   removePasswordWarning(): void {
