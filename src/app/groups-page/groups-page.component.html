@@ -1,12 +1,20 @@
 <div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
   <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
-  <div class="grid container pt-5">
-    <div class="text-sm breadcrumbs ml-5">
-      <ul>
-        <li *ngFor="let Ar of activeRoute">
-          {{ Ar }}
-        </li>
-      </ul>
+  <div class="container flex flex-col p-5">
+    <app-chip-button
+      (selectedCategory)="sortByCategory($event)"
+      [categories]="categoryList"
+    ></app-chip-button>
+
+    <!-- loading Spinner-->
+    <div class="text-center">
+      <span
+        class="loading loading-infinity loading-lg text-primary"
+        *ngIf="!showedAllGroups?.length"
+      ></span>
     </div>
+    <div class="mb-5"></div>
+    <!-- display all Groups-->
+    <app-event-groups [groupsData]="showedAllGroups"></app-event-groups>
   </div>
 </div>

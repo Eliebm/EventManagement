@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
 })
 export class EventGroupsService {
   protected staticEventGroups: EventGroup[] = staticGroupEvent;
-
-  user: User[] = [];
   private storageKey: any;
+  user: User[] = [];
+  eventGroups!: EventGroup[];
 
   constructor(private baseService: BaseService, private router: Router) {
     this.storageKey = 'Groups-Of-Events';
@@ -25,5 +25,15 @@ export class EventGroupsService {
         JSON.stringify(this.staticEventGroups)
       );
     }
+  }
+
+  getEventGroups(): EventGroup[] {
+    this.storageKey = 'Groups-Of-Events';
+    let data = localStorage.getItem(this.storageKey);
+
+    if (data) {
+      this.eventGroups = JSON.parse(data);
+    }
+    return this.eventGroups;
   }
 }

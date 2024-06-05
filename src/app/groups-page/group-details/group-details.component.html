@@ -1,10 +1,14 @@
 <div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
   <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
-  <div class="grid container pt-5">
+  <div class="container flex pt-1 justify-center">
     <div class="text-sm breadcrumbs ml-5">
       <ul>
-        <li *ngFor="let Ar of activeRoute">
-          <a>{{ Ar }}</a>
+        <li
+          class="cursor-pointer"
+          *ngFor="let Ar of activeRoute"
+          routerLink="/{{ Ar }}"
+        >
+          <span><i class="fa-solid fa-folder mr-1"></i></span>{{ Ar }}
         </li>
       </ul>
     </div>

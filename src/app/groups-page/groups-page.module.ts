@@ -6,9 +6,10 @@ import { GroupsPageComponent } from './groups-page.component';
 
 import { GroupDetailsComponent } from './group-details/group-details.component';
 import { SharedComponentsModule } from '../Shared-Components/shared-components.module';
+import { ChipButtonComponent } from './chip-button/chip-button.component';
 
 @NgModule({
-  declarations: [GroupsPageComponent, GroupDetailsComponent],
+  declarations: [GroupsPageComponent, GroupDetailsComponent, ChipButtonComponent],
   imports: [CommonModule, GroupsPageRoutingModule, SharedComponentsModule],
 })
 export class GroupsPageModule {}

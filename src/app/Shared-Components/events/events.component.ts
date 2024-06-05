@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EventClass } from '../../Models/event.Models';
+import { BaseService } from '../../Service/baseService/base.service';
 
 @Component({
   selector: 'app-events',
@@ -9,9 +10,10 @@ import { EventClass } from '../../Models/event.Models';
 export class EventsComponent implements OnInit {
   @Input() fetchedEvents!: EventClass[];
   showedEvents!: EventClass[];
+  constructor(private baseService: BaseService) {}
 
   ngOnInit(): void {
-    this.showedEvents = this.shuffleArray(this.fetchedEvents);
+    this.displayGroupsByRoute();
   }
 
   shuffleArray<T>(array: T[]): T[] {
@@ -20,5 +22,16 @@ export class EventsComponent implements OnInit {
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+  }
+
+  displayGroupsByRoute(): void {
+    let active_route;
+    active_route = this.baseService.getRecentActiveRoute();
+
+    if (active_route.includes('Home')) {
+      this.showedEvents = this.shuffleArray(this.fetchedEvents).slice(0, 8);
+    } else {
+      this.showedEvents = this.shuffleArray(this.fetchedEvents);
+    }
   }
 }

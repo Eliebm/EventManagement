@@ -26,7 +26,14 @@
       <p class="max-h-32 overflow-hidden">
         {{ group.description.substring(0, 40) + "..." }}
       </p>
+
       <div class="card-actions justify-between items-baseline">
+        <div>
+          <span
+            ><i class="fa-solid fa-icons mr-2 mb-2 text-info"></i
+            >{{ group.category.toUpperCase() }}</span
+          >
+        </div>
         <div class="indicator">
           <span class="indicator-item badge badge-primary">{{
             group.eventList?.length

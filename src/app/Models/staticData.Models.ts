@@ -13,6 +13,16 @@ export enum locationList {
   Beijing = 'Beijing',
   Dubai = 'Dubai',
 }
+export enum Categories {
+  all = 'all',
+  food = 'food',
+  sport = 'sport',
+  fitness = 'fitness',
+  adventure = 'adventure',
+  education = 'education',
+  technology = 'technology',
+  travel = 'travel',
+}
 
 export const staticUser = [
   {

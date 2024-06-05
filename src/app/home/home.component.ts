@@ -5,6 +5,8 @@ import { EventGroup } from '../Models/eventGroup.Models';
 
 import { EventClass } from '../Models/event.Models';
 import { BaseService } from '../Service/baseService/base.service';
+import { EventGroupsService } from '../Service/event-groups.service';
+import { EventServicesService } from '../Service/event-services.service';
 
 @Component({
   selector: 'app-home',
@@ -19,16 +21,16 @@ export class HomeComponent implements OnInit {
   allEvents: EventClass[] = [];
 
   constructor(
-    private router: Router,
     private baseService: BaseService,
-    private accountService: AccountService
+    private eventGroupService: EventGroupsService,
+    private eventService: EventServicesService
   ) {}
 
   ngOnInit(): void {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
     this.baseService.setActiveRoute();
     this.fetchEventGroups();
-    this.fetchedAllEvents();
+    this.fetchAllEvents();
   }
 
   SelectedTheme(data: any) {
@@ -36,18 +38,10 @@ export class HomeComponent implements OnInit {
   }
 
   fetchEventGroups(): void {
-    this.StorageKey = 'Groups-Of-Events';
-    let data = localStorage.getItem(this.StorageKey);
-    if (data?.length) {
-      this.EventGroups = JSON.parse(data);
-    }
+    this.EventGroups = this.eventGroupService.getEventGroups();
   }
 
-  fetchedAllEvents(): void {
-    this.StorageKey = 'All-Events';
-    let data = localStorage.getItem(this.StorageKey);
-    if (data?.length) {
-      this.allEvents = JSON.parse(data);
-    }
+  fetchAllEvents(): void {
+    this.allEvents = this.eventService.getAllEvents();
   }
 }

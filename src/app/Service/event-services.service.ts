@@ -7,11 +7,13 @@ import { staticEvent } from '../Models/staticData.Models';
 })
 export class EventServicesService {
   private storageKey!: string;
+  events!: Array<EventClass>;
   staticEventData: EventClass[] = staticEvent;
 
   user: any[] = [];
 
   constructor() {}
+
   setStaticData(): void {
     this.storageKey = 'All-Events';
     if (!localStorage.getItem(this.storageKey)?.length) {
@@ -21,6 +23,16 @@ export class EventServicesService {
       );
     }
   }
+
+  getAllEvents(): EventClass[] {
+    this.storageKey = 'All-Events';
+    let data = localStorage.getItem(this.storageKey);
+    if (data) {
+      this.events = JSON.parse(data);
+    }
+    return this.events;
+  }
+
   addUserToEvent(): void {
     let xid = 3;
     let fetchedEvent = this.staticEventData.filter((x) => x.id === 1);
@@ -28,7 +40,7 @@ export class EventServicesService {
     let isUserJoined = fetchedEvent[0].userList;
 
     if (fetchedUser.length === 0) {
-      alert('User Does not exisit !');
+      alert('User Does not exist !');
     } else if (isUserJoined.filter((x) => x.id === xid).length !== 0) {
       console.log('user already joined this event');
     } else {
@@ -38,10 +50,10 @@ export class EventServicesService {
   }
 
   addUser(pushUser: any, event: EventClass[]): void {
-    let oldlist = event[0].userList;
-    let eventinf = event;
-    event[0].userList = [...oldlist, ...pushUser];
-    // eventinf[0].userList.push.apply(oldlist, pushUser);
+    let oldList = event[0].userList;
+    let eventInfo = event;
+    event[0].userList = [...oldList, ...pushUser];
+    // eventInfo[0].userList.push.apply(oldList, pushUser);
   }
 
   fetchEventByUserId(): void {

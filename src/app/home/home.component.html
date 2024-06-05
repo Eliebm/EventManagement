@@ -2,22 +2,22 @@
   <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
 
   <div class="container p-5">
+    <!--groups of event section-->
+    <div class="divider divider-primary font-bold">Event Groups</div>
     <div class="text-center">
       <span
         class="loading loading-infinity loading-lg text-primary"
         *ngIf="!EventGroups?.length"
       ></span>
     </div>
-    <!--groups of event section-->
-    <div class="divider divider-primary font-bold">Event Groups</div>
 
     <div class="bg-transparent" [attr.data-theme]="retrievedMode">
       <div class="text-primary text-right font-bold mb-2 mr-4 md:mr-0">
-        <button class="btn btn-sm">
+        <button class="btn btn-sm" [routerLink]="['/Groups']">
           All Groups<i class="fa-solid fa-angles-right"></i>
         </button>
       </div>
-      <app-event-groups [groups]="EventGroups"></app-event-groups>
+      <app-event-groups [groupsData]="EventGroups"></app-event-groups>
     </div>
 
     <!-- Events Section-->

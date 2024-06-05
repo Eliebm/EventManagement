@@ -1,0 +1,19 @@
+<div
+  class="chips flex flex-row items-center justify-start sm:justify-center overflow-auto min-h-10"
+>
+  <div class="items-center space-x-2" *ngFor="let category of categories">
+    <input
+      type="radio"
+      [id]="category"
+      name="radio-group"
+      [value]="category"
+      class="hidden"
+      (click)="sendSelection($event.target)"
+    />
+    <label
+      [for]="category"
+      class="cursor-pointer px-3 py-1 rounded-full border border-primary text-primary hover:bg-gray-100"
+      >{{ category.toUpperCase() }}</label
+    >
+  </div>
+</div>
