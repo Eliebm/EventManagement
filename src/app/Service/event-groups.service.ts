@@ -36,4 +36,9 @@ export class EventGroupsService {
     }
     return this.eventGroups;
   }
+
+  fetchEventGroupById(groupId: number): EventGroup[] {
+    let data = this.getEventGroups();
+    return data.filter((x) => x.id == groupId);
+  }
 }

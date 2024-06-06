@@ -1,16 +1,37 @@
-<div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
+<div class="max-w-screen-2xl h-screen" [attr.data-theme]="retrievedMode">
   <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
-  <div class="container flex pt-1 justify-center">
-    <div class="text-sm breadcrumbs ml-5">
-      <ul>
-        <li
-          class="cursor-pointer"
-          *ngFor="let Ar of activeRoute"
-          routerLink="/{{ Ar }}"
-        >
-          <span><i class="fa-solid fa-folder mr-1"></i></span>{{ Ar }}
-        </li>
-      </ul>
+
+  <div class="container pt-5 flex flex-col">
+    <div class="hero lg:min-h-[300px] bg-base-100 ml-0 md:ml-1 lg:ml-0">
+      <div class="hero-content flex-col lg:flex-row">
+        <img
+          src="../../../assets/image/{{ groupInfos[0].image }}"
+          class="w-80 md:max-w-sm rounded-lg shadow-2xl"
+        />
+        <div class="row">
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold">
+            {{ groupInfos[0].title }}
+          </h1>
+          <p class="py-6 max-w-[700px] lg:max-w-[800px]">
+            Join us for an encouraging couples counseling session designed to
+            help partners strengthen their bond, improve communication and
+            resolve conflicts through faith-based guidance and support. Whether
+            you’re facing specific challenges or simply looking to deepen your
+            connection, our mentors will help you navigate challenges with
+            biblical principles. Our counsel is rooted in Christian values and
+            will provide you with tools and insights to foster a loving and
+            enduring partnership.The session is designed to be a safe and
+            confidential space where both partners can explore and grow their
+            relationship in alignment with their faith.
+          </p>
+          <span class="text-primary font-bold"
+            ><i class="fa-solid fa-icons mr-3 font-bold text-primary"></i
+            >{{ groupInfos[0].category.toUpperCase() }}</span
+          >
+        </div>
+      </div>
     </div>
+    <!-- Admins List-->
+    <app-admin-list [admins]="groupInfos[0].adminList"></app-admin-list>
   </div>
 </div>

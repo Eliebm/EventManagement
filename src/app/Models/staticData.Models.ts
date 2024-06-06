@@ -300,6 +300,14 @@ export const staticGroupEvent = [
         password: 'password123',
         location: 'new york',
       },
+      {
+        id: 1,
+        firstName: 'elie',
+        lastName: 'lastname1',
+        email: 'elie@hotmail.com',
+        password: '123',
+        location: '',
+      },
     ],
     eventList: [
       {

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BaseService } from '../../Service/baseService/base.service';
+import { EventGroupsService } from '../../Service/event-groups.service';
+import { EventGroup } from '../../Models/eventGroup.Models';
+import { AdminListComponent } from './admin-list/admin-list.component';
 
 @Component({
   selector: 'app-group-details',
@@ -11,21 +14,28 @@ export class GroupDetailsComponent implements OnInit {
   themeStorageKey: string = 'DarkMode';
   StorageKey!: string;
   retrievedMode: any;
-  activeRoute: any;
-  constructor(private router: Router, private baseService: BaseService) {}
+  groupId: any;
+  groupInfos!: EventGroup[];
+
+  constructor(
+    private _eventGroupsService: EventGroupsService,
+    private _route: ActivatedRoute
+  ) {}
+
   ngOnInit(): void {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
-    this.baseService.setActiveRoute();
-    let array = this.baseService.getRecentActiveRoute().split('/');
-
-    for (let i = 0; i < array.length; i++) {
-      array[i] = array[i].replace(/"/g, '');
-    }
-    this.activeRoute = array.filter((x) => x !== '');
-    console.log(this.activeRoute);
+    this.groupId = this._route.snapshot.paramMap.get('id');
+    this.fetchGroupInfos();
+    console.log(this.groupInfos);
   }
 
   SelectedTheme(data: any) {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
+  }
+
+  fetchGroupInfos(): void {
+    this.groupInfos = this._eventGroupsService.fetchEventGroupById(
+      this.groupId
+    );
   }
 }
