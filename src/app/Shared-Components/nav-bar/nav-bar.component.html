@@ -132,7 +132,7 @@
     <div
       class=" dropdown dropdown-end mr-4 ml-4 lg:tooltip lg:tooltip-left  {{
         themeVal === 'light' ? 'lg:tooltip-primary' : 'lg:tooltip-warning'
-      }} z-20"
+      }} z-50"
       *ngIf="isUserLoggedIn"
       data-tip="Account"
     >
@@ -145,7 +145,7 @@
         tabindex="0"
         class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-lg w-52 {{
           themeVal === 'light' ? 'text-primary' : 'text-info'
-        }}"
+        }} "
       >
         <li class="text-secondary">{{ avatarName }}</li>
         <li>

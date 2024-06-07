@@ -9,6 +9,8 @@ import { SharedComponentsModule } from '../Shared-Components/shared-components.m
 import { ChipButtonComponent } from './chip-button/chip-button.component';
 import { AdminListComponent } from './group-details/admin-list/admin-list.component';
 import { AddAdminModalComponent } from './group-details/add-admin-modal/add-admin-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,12 @@ import { AddAdminModalComponent } from './group-details/add-admin-modal/add-admi
     AdminListComponent,
     AddAdminModalComponent,
   ],
-  imports: [CommonModule, GroupsPageRoutingModule, SharedComponentsModule],
+  imports: [
+    CommonModule,
+    GroupsPageRoutingModule,
+    SharedComponentsModule,
+    MatDialogModule,
+    FormsModule,
+  ],
 })
 export class GroupsPageModule {}

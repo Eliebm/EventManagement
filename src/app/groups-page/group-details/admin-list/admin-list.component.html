@@ -1,8 +1,11 @@
 <div class="flex flex-col justify-center items-center">
-  <div class="flex flex-row gap-20">
+  <div class="flex flex-row gap-20 justify-center items-start">
     <h2 class="mb-5 text-primary font-bold">Administrators</h2>
-    <button class="btn btn-sm btn-circle btn-outline btn-primary">
-      <app-add-admin-modal></app-add-admin-modal>
+    <button
+      class="btn btn-sm btn-outline btn-primary"
+      (click)="openAddDeviceDialog()"
+      *ngIf="isAdministrator"
+    >
       <span><i class="fa fa-user-plus"></i></span>
     </button>
   </div>
@@ -15,7 +18,10 @@
   <div
     class="admin-list-row flex flex-row overflow-auto gap-10 max-w-80 md:max-w-[900px]"
   >
-    <div class="avatar placeholder flex-col" *ngFor="let admin of admins">
+    <div
+      class="avatar placeholder flex-col items-center"
+      *ngFor="let admin of ShowedAdmins"
+    >
       <div class="bg-neutral text-neutral-content rounded-full w-14">
         <span class="text-3xl"
           >{{ admin.firstName.toUpperCase().slice(0, 1)

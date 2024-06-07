@@ -1,12 +1,38 @@
-<dialog id="my_modal_1" class="modal">
-  <div class="modal-box">
-    <h3 class="font-bold text-lg">Hello!</h3>
-    <p class="py-4">Press ESC key or click the button below to close</p>
-    <div class="modal-action">
-      <form method="dialog">
-        <!-- if there is a button in form, it will close the modal -->
-        <button class="btn">Close</button>
-      </form>
+<div
+  class="container min-h-[200px] flex flex-col justify-center items-center"
+  [attr.data-theme]="themeVal"
+>
+  <h2 class="text-primary text-center text-2xl pt-4 font-bold">
+    New Administrator
+  </h2>
+  <mat-dialog-content>
+    <h3 class="text-error text-center" [hidden]="emailErrorMessage">
+      Invalid email format. Please try again
+    </h3>
+    <p class="{{ themeVal === 'light' ? 'text-black' : 'text-white' }} pb-3">
+      Insert the user's email to grant administrator privileges.
+    </p>
+    <label class="input input-bordered text-primary flex items-center gap-2">
+      Email
+      <input
+        type="text"
+        class="grow text-primary"
+        placeholder="email@example.com"
+        [(ngModel)]="emailInput"
+      />
+    </label>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="join">
+      <button
+        class="btn join-item btn-sm btn-outline btn-error"
+        (click)="closeModal()"
+      >
+        Close
+      </button>
+      <button class="btn join-item btn-sm btn-success" (click)="confirm()">
+        Submit
+      </button>
     </div>
-  </div>
-</dialog>
+  </mat-dialog-actions>
+</div>

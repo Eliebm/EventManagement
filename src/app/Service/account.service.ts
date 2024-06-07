@@ -47,6 +47,16 @@ export class AccountService {
       return true;
     }
   }
+  fetchUsers(): User[] {
+    this.storageKey = 'USERS';
+
+    let data = localStorage.getItem(this.storageKey);
+
+    if (data) {
+      this.user = JSON.parse(data);
+    }
+    return this.user;
+  }
 
   deleteUser(userId: number): void {
     this.user = this.user.filter((x: any) => x.id !== userId);

@@ -268,19 +268,38 @@ export const staticGroupEvent = [
     id: 1,
     title: 'groupe one title',
     description:
-      'group one description group one description group one description group one description ',
+      'Join us for an encouraging couples counseling session designed to help partners strengthen their bond, improve communication andresolve conflicts through faith-based guidance and support. Whether you’re facing specific challenges or simply looking to deepen you connection, our mentors will help you navigate challenges with biblical principles. Our counsel is rooted in Christian values and will provide you with tools and insights to foster a loving and',
     category: 'food',
-    image: 'food.jpg',
-    adminList: [],
+    image: 'travel.jpg',
+    adminList: [
+      {
+        id: 6,
+        firstName: 'david',
+        lastName: 'williams',
+        email: 'david.williams@example.com',
+        password: 'securepassword',
+        location: 'beirut',
+      },
+    ],
     eventList: [],
   },
   {
     id: 2,
     title: 'groupe two title',
-    description: 'group two description',
+    description:
+      'group two description group two description group two description group two description ',
     category: 'sport',
     image: 'sport.jpg',
-    adminList: [],
+    adminList: [
+      {
+        id: 4,
+        firstName: 'alice',
+        lastName: 'smith',
+        email: 'alice.smith@example.com',
+        password: 'qwerty456',
+        location: 'los angeles, USA',
+      },
+    ],
     eventList: [],
   },
   {
