@@ -26,7 +26,7 @@
       <img
         class="top-image h-[220px] w-96 sm:w-80 md:h-[150px]"
         src="../../assets/image/{{ events.image }}"
-        alt="Shoes"
+        alt="{{ events.image }}"
       />
     </figure>
     <div class="card-body">
@@ -55,17 +55,17 @@
       <div class="flex flex-row justify-between">
         <label
           ><span><i class="fa-solid fa-calendar mr-1 text-info"></i></span
-          >{{ events.startDate | date : "short" }}</label
+          >{{ events.startDate | date : "dd/MMMM/YYYY" }}</label
         ><label class="w-[100px]"
-          ><span><i class="fa-solid fa-clock mr-1 text-info"></i></span>12:00
-          pm</label
+          ><span><i class="fa-solid fa-clock mr-1 text-info"></i></span
+          >{{ events.startDate | date : "shortTime" }}</label
         >
       </div>
       <div class="card-actions justify-between items-baseline mt-2">
         <div class="indicator">
-          <span class="indicator-item badge badge-primary">{{
-            events.userList.length
-          }}</span>
+          <span class="indicator-item badge badge-primary w-9">
+            {{ events.userList.length < 100 ? events.userList.length : "99+" }}
+          </span>
           <div class="grid w-9 h-9 place-items-start font-bold">
             <span><i class="fa-solid fa-users"></i></span>
           </div>

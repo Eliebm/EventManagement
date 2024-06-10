@@ -211,7 +211,16 @@ export const staticEvent = [
     image: 'food.jpg',
     location: 'Lebanon',
     presentationType: 'On site',
-    userList: [],
+    userList: [
+      {
+        id: 3,
+        firstName: 'john',
+        lastName: 'doe',
+        email: 'john.doe@example.com',
+        password: 'password123',
+        location: 'new york',
+      },
+    ],
     hostList: [
       {
         id: 3,
@@ -238,7 +247,24 @@ export const staticEvent = [
     image: 'food.jpg',
     location: 'Lebanon',
     presentationType: 'Online',
-    userList: [],
+    userList: [
+      {
+        id: 3,
+        firstName: 'john',
+        lastName: 'doe',
+        email: 'john.doe@example.com',
+        password: 'password123',
+        location: 'new york',
+      },
+      {
+        id: 6,
+        firstName: 'david',
+        lastName: 'williams',
+        email: 'david.williams@example.com',
+        password: 'securepassword',
+        location: 'Tripoli',
+      },
+    ],
     hostList: [
       {
         id: 3,
@@ -281,6 +307,16 @@ export const staticGroupEvent = [
         location: 'beirut',
       },
     ],
+    members: [
+      {
+        id: 6,
+        firstName: 'david',
+        lastName: 'williams',
+        email: 'david.williams@example.com',
+        password: 'securepassword',
+        location: 'beirut',
+      },
+    ],
     eventList: [],
   },
   {
@@ -299,8 +335,79 @@ export const staticGroupEvent = [
         password: 'qwerty456',
         location: 'los angeles, USA',
       },
+      {
+        id: 2,
+        firstName: 'user2',
+        lastName: 'lastname2',
+        email: 'user2@hotmail.com',
+        password: '123',
+        location: '',
+      },
     ],
-    eventList: [],
+    members: [
+      {
+        id: 4,
+        firstName: 'alice',
+        lastName: 'smith',
+        email: 'alice.smith@example.com',
+        password: 'qwerty456',
+        location: 'los angeles, USA',
+      },
+      {
+        id: 2,
+        firstName: 'user2',
+        lastName: 'lastname2',
+        email: 'user2@hotmail.com',
+        password: '123',
+        location: '',
+      },
+    ],
+    eventList: [
+      {
+        id: 2,
+        title: 'event 2',
+        description: 'asdasd',
+        admin: 'user2',
+        type: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        image: 'people.jpg',
+        location: 'france',
+        userList: [
+          {
+            id: 1,
+            firstName: 'elie',
+            lastName: '',
+            email: '',
+            password: '',
+            location: '',
+          },
+          {
+            id: 2,
+            firstName: 'user2',
+            lastName: 'lastname2',
+            email: 'user2@hotmail.com',
+            password: '123',
+            location: '',
+          },
+        ],
+        hostList: [
+          {
+            id: 2,
+            firstName: 'user2',
+            lastName: 'lastname2',
+            email: 'user2@hotmail.com',
+            password: '123',
+            location: '',
+          },
+        ],
+
+        agendaList: [],
+        rating: [],
+        presentationType: 'on site',
+        totalRating: 0,
+      },
+    ],
   },
   {
     id: 3,
@@ -311,6 +418,24 @@ export const staticGroupEvent = [
     category: 'food',
     image: 'food.jpg',
     adminList: [
+      {
+        id: 3,
+        firstName: 'john',
+        lastName: 'doe',
+        email: 'john.doe@example.com',
+        password: 'password123',
+        location: 'new york',
+      },
+      {
+        id: 1,
+        firstName: 'elie',
+        lastName: 'lastname1',
+        email: 'elie@hotmail.com',
+        password: '123',
+        location: '',
+      },
+    ],
+    members: [
       {
         id: 3,
         firstName: 'john',
@@ -341,7 +466,16 @@ export const staticGroupEvent = [
         image: 'food.jpg',
         location: 'Beirut',
         presentationType: 'On site',
-        userList: [],
+        userList: [
+          {
+            id: 3,
+            firstName: 'john',
+            lastName: 'doe',
+            email: 'john.doe@example.com',
+            password: 'password123',
+            location: 'new york, USA',
+          },
+        ],
         hostList: [
           {
             id: 3,
@@ -354,7 +488,7 @@ export const staticGroupEvent = [
         ],
         agendaList: [],
         rating: [],
-        totalRating: 0,
+        totalRating: 5,
       },
       {
         id: 6,
@@ -368,7 +502,24 @@ export const staticGroupEvent = [
         image: 'food.jpg',
         location: 'Lebanon',
         presentationType: 'Online',
-        userList: [],
+        userList: [
+          {
+            id: 3,
+            firstName: 'john',
+            lastName: 'doe',
+            email: 'john.doe@example.com',
+            password: 'password123',
+            location: 'new york',
+          },
+          {
+            id: 6,
+            firstName: 'david',
+            lastName: 'williams',
+            email: 'david.williams@example.com',
+            password: 'securepassword',
+            location: 'Tripoli',
+          },
+        ],
         hostList: [
           {
             id: 3,
@@ -389,7 +540,7 @@ export const staticGroupEvent = [
         ],
         agendaList: [],
         rating: [],
-        totalRating: 0,
+        totalRating: 2,
       },
     ],
   },

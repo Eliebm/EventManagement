@@ -7,6 +7,8 @@ import { AdminListComponent } from './admin-list/admin-list.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AddAdminModalComponent } from './add-admin-modal/add-admin-modal.component';
 import { User } from '../../Models/user.Models';
+import { EventClass } from '../../Models/event.Models';
+import { EventServicesService } from '../../Service/event-services.service';
 
 @Component({
   selector: 'app-group-details',
@@ -22,15 +24,18 @@ export class GroupDetailsComponent implements OnInit {
   groupId: any;
   UserInfo: User[] = [];
   groupInfos!: EventGroup[];
+  allEvents?: EventClass[];
   showToastMessage: boolean = false;
   toastMessage!: string;
   toastType!: string;
+  isJoined: string = 'Join';
 
   constructor(
     private _eventGroupsService: EventGroupsService,
     private _route: ActivatedRoute,
     private dialog: MatDialog,
-    private baseService: BaseService
+    private baseService: BaseService,
+    private eventService: EventServicesService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +45,7 @@ export class GroupDetailsComponent implements OnInit {
     this.fetchGroupInfos();
     this.isUserOnline();
     this.IsUserAnAdmin();
+    this.fetchListOfEventsByGroupId();
   }
 
   isUserOnline() {
@@ -74,9 +80,10 @@ export class GroupDetailsComponent implements OnInit {
               res.data
             ) === 'true'
           ) {
-            this.showToastMessage = true;
-            this.toastMessage = 'Admin Added Successfully.';
-            this.toastType = 'alert-success';
+            this.displayToastMessage(
+              'alert-success',
+              'Admin Added Successfully.'
+            );
             this.fetchGroupInfos();
           } else if (
             this._eventGroupsService.addAdministratorToEventGroup(
@@ -84,18 +91,18 @@ export class GroupDetailsComponent implements OnInit {
               res.data
             ) === 'error'
           ) {
-            this.showToastMessage = true;
-            this.toastMessage = 'Error: User Credentials Do Not Exist.';
-            this.toastType = 'alert-error';
+            this.displayToastMessage(
+              'alert-error',
+              'Error: User Credentials Do Not Exist.'
+            );
           } else {
-            this.showToastMessage = true;
-            this.toastMessage = 'Error: Admin Already Exists.';
-            this.toastType = 'alert-error';
+            this.displayToastMessage(
+              'alert-error',
+              'Error: Admin Already Exists.'
+            );
           }
-          setTimeout(() => {
-            this.showToastMessage = false;
-          }, 3000);
         }
+        this.closeToastMessage();
       });
   }
 
@@ -107,8 +114,100 @@ export class GroupDetailsComponent implements OnInit {
         this.groupId,
         userId
       );
+      this.checkIfUserHasJoinedGroup();
     } else {
       this.isAnAdministrator = false;
     }
+  }
+
+  async fetchListOfEventsByGroupId() {
+    try {
+      this.allEvents = await this._eventGroupsService.fetchEventByGroupId(
+        this.groupId
+      );
+    } catch (error) {
+      this.displayToastMessage('alert-error', 'Error fetching local data:');
+      this.closeToastMessage();
+    }
+  }
+
+  AttendAnEvent(eventId: any): void {
+    let userId = this.UserInfo[0].id;
+    let msg;
+
+    msg = this.eventService.addUserToEvent(this.groupId, eventId, userId);
+    if (msg === 'error_1') {
+      this.displayToastMessage('alert-error', 'The user does not exist!');
+    } else if (msg === 'error_2') {
+      this.displayToastMessage(
+        'alert-warning',
+        'You have already joined this event'
+      );
+    } else {
+      this.displayToastMessage(
+        'alert-success',
+        'You have successfully joined the event.'
+      );
+
+      this.fetchListOfEventsByGroupId();
+    }
+    this.closeToastMessage();
+  }
+
+  checkIfUserHasJoinedGroup(): void {
+    let userId = this.UserInfo[0].id;
+    if (
+      this._eventGroupsService.checkIfUserIsAMember(this.groupId, userId) ===
+      true
+    ) {
+      this.isJoined = 'Joined';
+    }
+  }
+
+  joinTheGroup(): void {
+    if (this.isUserLoggedIn === true) {
+      let userId = this.UserInfo[0].id;
+      if (
+        this._eventGroupsService.checkIfUserIsAMember(this.groupId, userId) ===
+        true
+      ) {
+        this.displayToastMessage(
+          'alert-warning',
+          'You have already joined this Group'
+        );
+      } else {
+        if (
+          this._eventGroupsService.addUserToMembers(
+            this.groupId,
+            this.UserInfo
+          ) === true
+        ) {
+          this.displayToastMessage(
+            'alert-success',
+            'You have successfully joined this Group'
+          );
+          this.isJoined = 'Joined';
+          this.fetchGroupInfos();
+        }
+      }
+    } else {
+      this.displayToastMessage(
+        'alert-error',
+        'you should login first to join the group'
+      );
+    }
+    this.closeToastMessage();
+  }
+
+  displayToastMessage(type: string, msg: string): void {
+    this.showToastMessage = true;
+    this.toastType = type;
+    this.toastMessage = msg;
+  }
+
+  closeToastMessage(): void {
+    setTimeout(() => {
+      this.showToastMessage = false;
+    }, 3000);
   }
 }

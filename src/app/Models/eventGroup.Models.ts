@@ -6,6 +6,7 @@ export class EventGroup extends EventBaseClass {
   category: string;
   image: string;
   adminList: User[];
+  members: User[];
   eventList: EventClass[];
 
   constructor(
@@ -15,6 +16,7 @@ export class EventGroup extends EventBaseClass {
     category: string,
     image: string,
     adminList: User[],
+    members: User[],
     eventList: EventClass[]
   ) {
     super(id, title, description);
@@ -22,6 +24,7 @@ export class EventGroup extends EventBaseClass {
     this.category = category;
     this.image = image;
     this.adminList = adminList;
+    this.members = members;
     this.eventList = eventList;
   }
 }

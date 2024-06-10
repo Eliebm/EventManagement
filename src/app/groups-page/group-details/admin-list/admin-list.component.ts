@@ -20,7 +20,7 @@ export class AdminListComponent implements OnInit, OnChanges {
   @Input() isAdministrator?: boolean;
   @Output() openAddModal = new EventEmitter<void>();
 
-  ShowedAdmins: User[] = [];
+  ShowAdmins: User[] = [];
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -28,7 +28,7 @@ export class AdminListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: any) {
-    this.ShowedAdmins = this.admins;
+    this.ShowAdmins = this.admins;
   }
 
   openAddDeviceDialog(): void {
@@ -36,6 +36,6 @@ export class AdminListComponent implements OnInit, OnChanges {
   }
 
   fetchList(): void {
-    this.ShowedAdmins = this.admins;
+    this.ShowAdmins = this.admins;
   }
 }

@@ -11,6 +11,7 @@ import { AdminListComponent } from './group-details/admin-list/admin-list.compon
 import { AddAdminModalComponent } from './group-details/add-admin-modal/add-admin-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { GroupEventListComponent } from './group-details/group-event-list/group-event-list.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     ChipButtonComponent,
     AdminListComponent,
     AddAdminModalComponent,
+    GroupEventListComponent,
   ],
   imports: [
     CommonModule,

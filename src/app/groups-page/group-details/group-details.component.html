@@ -1,4 +1,4 @@
-<div class="max-w-screen-2xl h-screen" [attr.data-theme]="retrievedMode">
+<div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
   <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
 
   <div class="container pt-5 flex flex-col">
@@ -25,10 +25,34 @@
           <p class="py-6 max-w-[700px] lg:max-w-[800px]">
             {{ groupInfos[0].description }}
           </p>
-          <span class="text-primary font-bold"
-            ><i class="fa-solid fa-icons mr-3 font-bold text-primary"></i
-            >{{ groupInfos[0].category.toUpperCase() }}</span
-          >
+          <div class="flex justify-between items-baseline">
+            <span class="text-primary font-bold"
+              ><i class="fa-solid fa-icons mr-3 font-bold text-primary"></i
+              >{{ groupInfos[0].category.toUpperCase() }}</span
+            >
+            <div class="indicator">
+              <span class="indicator-item badge badge-primary w-9">
+                {{
+                  groupInfos[0].members.length < 100
+                    ? groupInfos[0].members.length
+                    : "99+"
+                }}
+              </span>
+              <div class="grid w-9 h-9 place-items-start font-bold">
+                <span
+                  class="tooltip tooltip-bottom"
+                  [attr.data-tip]="groupInfos[0].members.length + ' Member(s)'"
+                  ><i class="fa-solid fa-users text-primary"></i
+                ></span>
+              </div>
+            </div>
+            <button
+              class="btn btn-sm md:btn-md btn-primary"
+              (click)="joinTheGroup()"
+            >
+              {{ isJoined }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -38,5 +62,14 @@
       [isAdministrator]="isAnAdministrator"
       (openAddModal)="openAddDialog()"
     ></app-admin-list>
+    <div></div>
+
+    <!--Group Event List-->
+    <app-group-event-list
+      [allEvents]="allEvents"
+      [isAdministrator]="isAnAdministrator"
+      [isUserSignedIn]="isUserLoggedIn"
+      (AttendEvent)="AttendAnEvent($event)"
+    ></app-group-event-list>
   </div>
 </div>

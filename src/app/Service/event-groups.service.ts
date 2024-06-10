@@ -5,6 +5,7 @@ import { User } from '../Models/user.Models';
 import { BaseService } from './baseService/base.service';
 import { Router } from '@angular/router';
 import { AccountService } from './account.service';
+import { EventClass } from '../Models/event.Models';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,7 @@ export class EventGroupsService {
       );
     }
   }
-  private saveEventGroup(data: any): void {
+  saveEventGroup(data: any): void {
     localStorage.setItem(this.storageKey, JSON.stringify(data));
   }
 
@@ -72,9 +73,9 @@ export class EventGroupsService {
     }
   }
 
-  isUserAdministrator(eventID: number, userId: number): boolean {
+  isUserAdministrator(groupID: number, userId: number): boolean {
     let groupsList = this.getEventGroups();
-    let group = groupsList.filter((x) => x.id == eventID);
+    let group = groupsList.filter((x) => x.id == groupID);
     let admin = group[0].adminList;
 
     if (admin.filter((x) => x.id === userId)?.length) {
@@ -82,5 +83,48 @@ export class EventGroupsService {
     } else {
       return false;
     }
+  }
+
+  async fetchEventByGroupId(groupID: number): Promise<EventClass[]> {
+    return new Promise<EventClass[]>((resolve) => {
+      let groupsList = this.getEventGroups();
+      let group = groupsList.filter((x) => x.id == groupID);
+      let events = group[0].eventList;
+      resolve(events);
+    });
+  }
+
+  updateEventsOfEventGroup(groupId: number, data: any): void {
+    let group = this.fetchEventGroupById(groupId);
+    let eventList = group[0].eventList;
+    eventList = eventList.filter((x) => x.id !== data[0].id);
+
+    let newEventList = [...eventList, ...data];
+
+    group[0].eventList = newEventList.sort((a, b) => a.id - b.id);
+    this.saveEventGroup(this.eventGroups);
+  }
+
+  addUserToMembers(groupID: number, user: User[]): boolean {
+    try {
+      let group = this.fetchEventGroupById(groupID);
+      let oldMemberList = group[0].members;
+      group[0].members = [...oldMemberList, ...user];
+      this.saveEventGroup(this.eventGroups);
+    } catch (error) {
+      return false;
+    }
+
+    return true;
+  }
+
+  checkIfUserIsAMember(groupId: number, userId: number): boolean {
+    let groupInfo = this.eventGroups.filter((x) => x.id == groupId);
+    let isJoin = groupInfo[0].members.filter((x) => x.id === userId);
+
+    if (isJoin.length) {
+      return true;
+    }
+    return false;
   }
 }

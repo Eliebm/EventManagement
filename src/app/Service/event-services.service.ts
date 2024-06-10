@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { EventClass } from '../Models/event.Models';
 import { staticEvent } from '../Models/staticData.Models';
+import { User } from '../Models/user.Models';
+import { AccountService } from './account.service';
+import { EventGroupsService } from './event-groups.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +15,10 @@ export class EventServicesService {
 
   user: any[] = [];
 
-  constructor() {}
+  constructor(
+    private _accountService: AccountService,
+    private eventGroupService: EventGroupsService
+  ) {}
 
   setStaticData(): void {
     this.storageKey = 'All-Events';
@@ -22,6 +28,10 @@ export class EventServicesService {
         JSON.stringify(this.staticEventData)
       );
     }
+  }
+  saveEventInfo(eventInfo: any): void {
+    this.storageKey = 'All-Events';
+    localStorage.setItem(this.storageKey, JSON.stringify(eventInfo));
   }
 
   getAllEvents(): EventClass[] {
@@ -33,27 +43,41 @@ export class EventServicesService {
     return this.events;
   }
 
-  addUserToEvent(): void {
-    let xid = 3;
-    let fetchedEvent = this.staticEventData.filter((x) => x.id === 1);
-    let fetchedUser = this.user.filter((x) => x.id === xid);
-    let isUserJoined = fetchedEvent[0].userList;
+  addUserToEvent(groupId: number, eventId: number, userId: number): String {
+    let usId = userId;
+    this.user = this._accountService.fetchUsers();
+    let fetchedEvent = this.getAllEvents().filter((x) => x.id === eventId);
+    let fetchedUser = this.user.filter((x) => x.id === usId);
 
+    let isUserJoined = fetchedEvent[0].userList;
+    let msg = '';
     if (fetchedUser.length === 0) {
-      alert('User Does not exist !');
-    } else if (isUserJoined.filter((x) => x.id === xid).length !== 0) {
-      console.log('user already joined this event');
+      msg = 'error_1';
+    } else if (isUserJoined.filter((x) => x.id == usId).length !== 0) {
+      msg = 'error_2';
     } else {
-      this.addUser(fetchedUser, fetchedEvent);
-      console.log(fetchedEvent);
+      this.addUser(groupId, fetchedUser, eventId, fetchedEvent);
+
+      msg = 'success';
     }
+    return msg;
   }
 
-  addUser(pushUser: any, event: EventClass[]): void {
-    let oldList = event[0].userList;
-    let eventInfo = event;
-    event[0].userList = [...oldList, ...pushUser];
-    // eventInfo[0].userList.push.apply(oldList, pushUser);
+  private addUser(
+    groupId: number,
+    pushUser: any,
+    eventId: any,
+    event: EventClass[]
+  ): void {
+    //add user to userList in event data
+    let oldUserList = event[0].userList;
+    event[0].userList = [...oldUserList, ...pushUser];
+    this.saveEventInfo(this.events);
+
+    //update group eventList with new user in the event
+    // refetch the event after saved it with the new user to add it to the event group
+    let fetchedNewEvent = this.getAllEvents().filter((x) => x.id === eventId);
+    this.eventGroupService.updateEventsOfEventGroup(groupId, fetchedNewEvent);
   }
 
   fetchEventByUserId(): void {
