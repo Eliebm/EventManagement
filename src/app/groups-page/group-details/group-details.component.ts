@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../Service/baseService/base.service';
 import { EventGroupsService } from '../../Service/event-groups.service';
 import { EventGroup } from '../../Models/eventGroup.Models';
@@ -9,6 +9,7 @@ import { AddAdminModalComponent } from './add-admin-modal/add-admin-modal.compon
 import { User } from '../../Models/user.Models';
 import { EventClass } from '../../Models/event.Models';
 import { EventServicesService } from '../../Service/event-services.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-group-details',
@@ -28,14 +29,15 @@ export class GroupDetailsComponent implements OnInit {
   showToastMessage: boolean = false;
   toastMessage!: string;
   toastType!: string;
-  isJoined: string = 'Join';
+  isJoined: boolean = false;
 
   constructor(
     private _eventGroupsService: EventGroupsService,
     private _route: ActivatedRoute,
     private dialog: MatDialog,
     private baseService: BaseService,
-    private eventService: EventServicesService
+    private eventService: EventServicesService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +59,7 @@ export class GroupDetailsComponent implements OnInit {
       this.isUserLoggedIn = false;
     }
   }
+
   SelectedTheme(data: any) {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
   }
@@ -160,7 +163,7 @@ export class GroupDetailsComponent implements OnInit {
       this._eventGroupsService.checkIfUserIsAMember(this.groupId, userId) ===
       true
     ) {
-      this.isJoined = 'Joined';
+      this.isJoined = true;
     }
   }
 
@@ -186,17 +189,38 @@ export class GroupDetailsComponent implements OnInit {
             'alert-success',
             'You have successfully joined this Group'
           );
-          this.isJoined = 'Joined';
+          this.isJoined = true;
           this.fetchGroupInfos();
         }
       }
     } else {
       this.displayToastMessage(
         'alert-error',
-        'you should login first to join the group'
+        'You need to log in before you can join the group.'
       );
     }
     this.closeToastMessage();
+  }
+
+  leaveTheGroup(): void {
+    let userID = this.UserInfo[0].id;
+    let response = this._eventGroupsService.deleteMember(this.groupId, userID);
+    if (response == true) {
+      this.displayToastMessage('alert-warning', "You've left the group.");
+      this.closeToastMessage();
+      this.isJoined = false;
+    }
+    this.fetchGroupInfos();
+  }
+
+  showMoreMember(): void {
+    if (this.isUserLoggedIn === true) {
+      this.router.navigate([`/Groups/${this.groupId}/members`], {
+        queryParams: { param1: this.groupId, param2: this.isAnAdministrator },
+      });
+    } else {
+      this.router.navigate(['/Login']);
+    }
   }
 
   displayToastMessage(type: string, msg: string): void {

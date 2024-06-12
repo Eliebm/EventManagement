@@ -12,6 +12,9 @@ import { AddAdminModalComponent } from './group-details/add-admin-modal/add-admi
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { GroupEventListComponent } from './group-details/group-event-list/group-event-list.component';
+import { AllMembersComponent } from './all-members/all-members.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,7 @@ import { GroupEventListComponent } from './group-details/group-event-list/group-
     AdminListComponent,
     AddAdminModalComponent,
     GroupEventListComponent,
+    AllMembersComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +32,8 @@ import { GroupEventListComponent } from './group-details/group-event-list/group-
     SharedComponentsModule,
     MatDialogModule,
     FormsModule,
+    MatPaginatorModule,
+    MatTableModule,
   ],
 })
 export class GroupsPageModule {}

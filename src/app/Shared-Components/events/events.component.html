@@ -67,7 +67,11 @@
             {{ events.userList.length < 100 ? events.userList.length : "99+" }}
           </span>
           <div class="grid w-9 h-9 place-items-start font-bold">
-            <span><i class="fa-solid fa-users"></i></span>
+            <span
+              class="tooltip tooltip-bottom tooltip-primary"
+              [attr.data-tip]="events.userList.length + ' going'"
+              ><i class="fa-solid fa-users"></i
+            ></span>
           </div>
         </div>
 

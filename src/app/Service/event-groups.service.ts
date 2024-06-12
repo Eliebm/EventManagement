@@ -127,4 +127,22 @@ export class EventGroupsService {
     }
     return false;
   }
+
+  fetchAllMembersByGroupId(groupId: number): any {
+    let groupInfo = this.fetchEventGroupById(groupId);
+    return groupInfo[0].members;
+  }
+
+  deleteMember(groupId: number, memberId: number): boolean {
+    let groupInfo = this.fetchEventGroupById(groupId);
+
+    try {
+      let member = groupInfo[0].members;
+      groupInfo[0].members = member.filter((x) => x.id !== memberId);
+      this.saveEventGroup(this.eventGroups);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

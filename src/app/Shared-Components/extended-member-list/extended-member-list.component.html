@@ -1,0 +1,63 @@
+<div class="mat-elevation-z9 min-w-72" *ngIf="memberList?.length">
+  <table mat-table [dataSource]="dataSource">
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.firstName }} {{ element.lastName }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>email</th>
+      <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Delete</th>
+      <td mat-cell *matCellDef="let item">
+        <button
+          class="{{
+            isAdmin === 'true'
+              ? 'btn btn-sm btn-error btn-outline'
+              : 'btn btn-sm btn-disabled'
+          }}"
+          (click)="delete(item.id)"
+        >
+          <span><i class="fas fa-trash"></i></span>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    class="min-w-80"
+    [pageSizeOptions]="[5, 10, 15]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
+</div>
+<div
+  class="flex flex-col text-center text-error items-center"
+  *ngIf="!memberList.length"
+>
+  <h2>No Data</h2>
+  <div class="flex flex-col gap-4 w-52 mt-5">
+    <div class="flex gap-4 items-center">
+      <div class="skeleton w-16 h-16 rounded-full shrink-0"></div>
+      <div class="flex flex-col gap-4">
+        <div class="skeleton h-4 w-20"></div>
+        <div class="skeleton h-4 w-28"></div>
+      </div>
+    </div>
+    <div class="skeleton h-32 w-full"></div>
+  </div>
+</div>

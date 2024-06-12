@@ -47,22 +47,39 @@
               </div>
             </div>
             <button
+              class="btn btn-sm md:btn-md btn-error"
+              *ngIf="isJoined === true"
+              (click)="leaveTheGroup()"
+            >
+              Leave
+            </button>
+            <button
               class="btn btn-sm md:btn-md btn-primary"
+              *ngIf="isJoined === false"
               (click)="joinTheGroup()"
             >
-              {{ isJoined }}
+              Join
             </button>
           </div>
         </div>
       </div>
     </div>
     <!-- Admins List-->
+
     <app-admin-list
       [admins]="groupInfos[0].adminList"
       [isAdministrator]="isAnAdministrator"
       (openAddModal)="openAddDialog()"
     ></app-admin-list>
-    <div></div>
+
+    <!--Member List and event list section-->
+
+    <app-member-list
+      [members]="groupInfos[0].members"
+      (ShowMore)="showMoreMember()"
+    ></app-member-list>
+
+    <div class="divider"></div>
 
     <!--Group Event List-->
     <app-group-event-list

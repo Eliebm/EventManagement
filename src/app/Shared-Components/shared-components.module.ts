@@ -7,6 +7,10 @@ import { EventsComponent } from './events/events.component';
 import { EventGroupsComponent } from './event-groups/event-groups.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { RouteBreadCrumbsComponent } from './route-bread-crumbs/route-bread-crumbs.component';
+import { MemberListComponent } from './member-list/member-list.component';
+import { ExtendedMemberListComponent } from './extended-member-list/extended-member-list.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -15,6 +19,8 @@ import { RouteBreadCrumbsComponent } from './route-bread-crumbs/route-bread-crum
     EventGroupsComponent,
     SearchBarComponent,
     RouteBreadCrumbsComponent,
+    MemberListComponent,
+    ExtendedMemberListComponent,
   ],
   exports: [
     NavBarComponent,
@@ -22,7 +28,9 @@ import { RouteBreadCrumbsComponent } from './route-bread-crumbs/route-bread-crum
     EventGroupsComponent,
     SearchBarComponent,
     RouteBreadCrumbsComponent,
+    MemberListComponent,
+    ExtendedMemberListComponent,
   ],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatPaginatorModule, MatTableModule],
 })
 export class SharedComponentsModule {}
