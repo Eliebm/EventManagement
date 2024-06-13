@@ -5,6 +5,7 @@ import {
   OnChanges,
   OnInit,
   Output,
+  output,
 } from '@angular/core';
 import { User } from '../../../Models/user.Models';
 import { AddAdminModalComponent } from '../add-admin-modal/add-admin-modal.component';
@@ -19,6 +20,7 @@ export class AdminListComponent implements OnInit, OnChanges {
   @Input() admins: User[] = [];
   @Input() isAdministrator?: boolean;
   @Output() openAddModal = new EventEmitter<void>();
+  @Output() ShowAdminsList = new EventEmitter<void>();
 
   ShowAdmins: User[] = [];
   constructor(private dialog: MatDialog) {}
@@ -28,14 +30,17 @@ export class AdminListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: any) {
-    this.ShowAdmins = this.admins;
+    this.fetchList();
   }
 
-  openAddDeviceDialog(): void {
+  openAddAdministratorDialog(): void {
     this.openAddModal.emit();
+  }
+  showAdministratorsList(): void {
+    this.ShowAdminsList.emit();
   }
 
   fetchList(): void {
-    this.ShowAdmins = this.admins;
+    this.ShowAdmins = this.admins.slice(0, 2);
   }
 }

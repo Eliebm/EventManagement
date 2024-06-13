@@ -1,0 +1,23 @@
+<div
+  class="container min-h-[150px] flex flex-col justify-center items-center"
+  [attr.data-theme]="themeVal"
+>
+  <h2 class="text-primary text-center text-2xl pt-4 font-bold">
+    {{ data.title }}
+  </h2>
+  <mat-dialog-content>
+    <p class="{{ themeVal === 'light' ? 'text-black' : 'text-white' }} pb-3">
+      {{ data.description }}
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="flex flex-row gap-5">
+      <button class="btn btn-sm btn-outline btn-error" (click)="closeModal()">
+        Close
+      </button>
+      <button class="btn btn-sm btn-success" (click)="confirm()">
+        {{ data.buttonTitle }}
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

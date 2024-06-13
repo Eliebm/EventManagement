@@ -1,14 +1,27 @@
 <div class="flex flex-col justify-center items-center mb-3">
-  <div class="flex flex-row gap-20 justify-center items-start">
-    <h2 class="mb-5 text-primary font-bold">Administrators</h2>
-    <button
-      class="btn btn-sm btn-outline btn-primary tooltip tooltip-top"
-      data-tip="New Admin"
-      (click)="openAddDeviceDialog()"
-      *ngIf="isAdministrator"
-    >
-      <span><i class="fa fa-user-plus"></i></span>
-    </button>
+  <div class="flex flex-row gap-10 items-baseline">
+    <label class="mb-5 text-primary font-bold">Administrators</label>
+    <div class="join">
+      <button
+        class="btn join-item btn-sm btn-outline btn-success tooltip tooltip-top"
+        data-tip="New Admin"
+        (click)="openAddAdministratorDialog()"
+        *ngIf="isAdministrator"
+      >
+        <span><i class="fa fa-user-plus"></i></span>
+      </button>
+      <button
+        class="join-item  {{
+          isAdministrator === true
+            ? 'btn btn-sm btn-outline btn-primary'
+            : 'btn btn-sm btn-disabled'
+        }} tooltip tooltip-top"
+        data-tip="See More"
+        (click)="showAdministratorsList()"
+      >
+        <span><i class="fas fa-angles-right"></i></span>
+      </button>
+    </div>
   </div>
   <div class="avatar" *ngIf="!admins?.length">
     <div class="w-12">
@@ -32,6 +45,16 @@
       <label class="text-primary"
         >{{ admin.firstName }} {{ admin.lastName }}</label
       >
+    </div>
+    <div
+      class="avatar placeholder flex-col items-center"
+      *ngIf="admins.length > 2"
+    >
+      <div class="bg-neutral text-neutral-content rounded-full w-12">
+        <span class="text-md md:text-xl text-info"
+          >+{{ admins.length - ShowAdmins.length }}</span
+        >
+      </div>
     </div>
   </div>
 </div>

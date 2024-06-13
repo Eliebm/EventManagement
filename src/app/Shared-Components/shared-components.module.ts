@@ -11,6 +11,8 @@ import { MemberListComponent } from './member-list/member-list.component';
 import { ExtendedMemberListComponent } from './extended-member-list/extended-member-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DeleteMemberModalComponent } from './delete-member-modal/delete-member-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     RouteBreadCrumbsComponent,
     MemberListComponent,
     ExtendedMemberListComponent,
+    DeleteMemberModalComponent,
   ],
   exports: [
     NavBarComponent,
@@ -30,7 +33,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     RouteBreadCrumbsComponent,
     MemberListComponent,
     ExtendedMemberListComponent,
+    DeleteMemberModalComponent,
   ],
-  imports: [CommonModule, RouterModule, MatPaginatorModule, MatTableModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatDialogModule,
+  ],
 })
 export class SharedComponentsModule {}

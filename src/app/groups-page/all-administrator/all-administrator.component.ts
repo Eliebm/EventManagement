@@ -1,26 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../Service/baseService/base.service';
-import { User } from '../../Models/user.Models';
 import { EventGroupsService } from '../../Service/event-groups.service';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../Models/user.Models';
 import { DeleteMemberModalComponent } from '../../Shared-Components/delete-member-modal/delete-member-modal.component';
 
 @Component({
-  selector: 'app-all-members',
-  templateUrl: './all-members.component.html',
-  styleUrl: './all-members.component.scss',
+  selector: 'app-all-administrator',
+  templateUrl: './all-administrator.component.html',
+  styleUrl: './all-administrator.component.scss',
 })
-export class AllMembersComponent implements OnInit {
+export class AllAdministratorComponent implements OnInit, OnChanges {
   retrievedMode: any;
   themeStorageKey: string = 'DarkMode';
   showToastMessage: boolean = false;
   toastMessage!: string;
   toastType!: string;
   groupId: any;
-  isAdmin!: string;
-  members!: User[];
+  isAdmin: string = 'true';
+  admins!: User[];
   isUserLoggedIn: boolean = false;
+  listTitle: string = 'Administrative Staff ';
 
   constructor(
     private route: ActivatedRoute,
@@ -31,29 +32,14 @@ export class AllMembersComponent implements OnInit {
   ) {
     this.route.queryParams.subscribe((params) => {
       this.groupId = params['param1'];
-      this.isAdmin = params['param2'];
     });
   }
 
   ngOnInit(): void {
-    this.baseService.setActiveRoute();
-    this.retrievedMode = localStorage.getItem(this.themeStorageKey);
-    this.fetchAllMembers();
-    this.isUserOnline();
+    this.fetchAllAdmins();
   }
 
-  isUserOnline() {
-    let data = localStorage.getItem('loggedInUser');
-    if (data?.length) {
-      this.isUserLoggedIn = true;
-    } else {
-      this.isUserLoggedIn = false;
-      this.returnBack();
-    }
-  }
-  SelectedTheme(data: any) {
-    this.retrievedMode = localStorage.getItem(this.themeStorageKey);
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   displayToastMessage(type: string, msg: string): void {
     this.showToastMessage = true;
@@ -67,20 +53,20 @@ export class AllMembersComponent implements OnInit {
     }, 3000);
   }
 
+  fetchAllAdmins(): void {
+    this.admins = this.groupService.fetchAllAdminsByGroupId(this.groupId);
+  }
+
   returnBack(): void {
     this.router.navigate(['/Groups/' + this.groupId]);
   }
 
-  fetchAllMembers(): void {
-    this.members = this.groupService.fetchAllMembersByGroupId(this.groupId);
-  }
-
-  deleteMember(id: any): void {
+  deleteAdministrator(id: any): void {
     const dialogRef = this.dialog
       .open(DeleteMemberModalComponent, {
         data: {
-          title: 'Member Removal Request',
-          description: 'Are you sure about removing the member?',
+          title: 'Administrator Removal Request',
+          description: 'Are you sure about removing the Administrator?',
           buttonTitle: 'Delete',
         },
         position: { top: '50px' },
@@ -88,15 +74,24 @@ export class AllMembersComponent implements OnInit {
       .afterClosed()
       .subscribe((res) => {
         if (res.data !== null) {
-          let response = this.groupService.deleteMember(this.groupId, id);
+          let response = this.groupService.deleteAdministrator(
+            this.groupId,
+            id
+          );
           if (response == true) {
             this.displayToastMessage(
               'alert-warning',
-              'The member has been deleted.'
+              'The Administrator has been deleted.'
             );
             this.closeToastMessage();
 
-            this.fetchAllMembers();
+            this.fetchAllAdmins();
+          } else {
+            this.displayToastMessage(
+              'alert-error',
+              'the group can not be without any administrator '
+            );
+            this.closeToastMessage();
           }
         }
       });

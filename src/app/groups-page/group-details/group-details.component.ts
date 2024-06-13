@@ -10,6 +10,7 @@ import { User } from '../../Models/user.Models';
 import { EventClass } from '../../Models/event.Models';
 import { EventServicesService } from '../../Service/event-services.service';
 import { HttpParams } from '@angular/common/http';
+import { DeleteMemberModalComponent } from '../../Shared-Components/delete-member-modal/delete-member-modal.component';
 
 @Component({
   selector: 'app-group-details',
@@ -72,7 +73,7 @@ export class GroupDetailsComponent implements OnInit {
 
   openAddDialog(): void {
     const dialogRef = this.dialog
-      .open(AddAdminModalComponent, {})
+      .open(AddAdminModalComponent, { position: { top: '90px' } })
       .afterClosed()
       .subscribe((res) => {
         if (res.data === null) {
@@ -203,14 +204,30 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   leaveTheGroup(): void {
-    let userID = this.UserInfo[0].id;
-    let response = this._eventGroupsService.deleteMember(this.groupId, userID);
-    if (response == true) {
-      this.displayToastMessage('alert-warning', "You've left the group.");
-      this.closeToastMessage();
-      this.isJoined = false;
-    }
-    this.fetchGroupInfos();
+    const dialogRef = this.dialog
+      .open(DeleteMemberModalComponent, {
+        data: {
+          title: 'Leave Group',
+          description: 'Are you sure you want to leave the group?',
+          buttonTitle: 'Leave',
+        },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res.data !== null) {
+          let userID = this.UserInfo[0].id;
+          let response = this._eventGroupsService.deleteMember(
+            this.groupId,
+            userID
+          );
+          if (response == true) {
+            this.displayToastMessage('alert-warning', "You've left the group.");
+            this.closeToastMessage();
+            this.isJoined = false;
+            this.fetchGroupInfos();
+          }
+        }
+      });
   }
 
   showMoreMember(): void {
@@ -222,7 +239,11 @@ export class GroupDetailsComponent implements OnInit {
       this.router.navigate(['/Login']);
     }
   }
-
+  showAllAdministrators(): void {
+    this.router.navigate(['/Groups/' + this.groupId + '/admins'], {
+      queryParams: { param1: this.groupId },
+    });
+  }
   displayToastMessage(type: string, msg: string): void {
     this.showToastMessage = true;
     this.toastType = type;

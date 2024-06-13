@@ -3,10 +3,7 @@
 
   <div class="container pt-5 flex flex-col">
     <div>
-      <div
-        class="toast toast-top toast-center top-16 z-50"
-        *ngIf="showToastMessage"
-      >
+      <div class="toast toast-top toast-center z-50" *ngIf="showToastMessage">
         <div class="alert {{ toastType }}">
           {{ toastMessage }}
         </div>
@@ -70,6 +67,7 @@
       [admins]="groupInfos[0].adminList"
       [isAdministrator]="isAnAdministrator"
       (openAddModal)="openAddDialog()"
+      (ShowAdminsList)="showAllAdministrators()"
     ></app-admin-list>
 
     <!--Member List and event list section-->

@@ -145,4 +145,25 @@ export class EventGroupsService {
       return false;
     }
   }
+
+  fetchAllAdminsByGroupId(groupId: number): any {
+    let groupInfo = this.fetchEventGroupById(groupId);
+    return groupInfo[0].adminList;
+  }
+
+  deleteAdministrator(groupId: number, id: number): boolean {
+    let groupInfo = this.fetchEventGroupById(groupId);
+
+    try {
+      let admins = groupInfo[0].adminList;
+      if (admins.length === 1) {
+        return false;
+      }
+      groupInfo[0].adminList = admins.filter((x) => x.id !== id);
+      this.saveEventGroup(this.eventGroups);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

@@ -15,9 +15,10 @@
     </button>
 
     <app-extended-member-list
-      [memberList]="members"
+      [memberList]="admins"
       [isAdmin]="isAdmin"
-      (deleteMember)="deleteMember($event)"
+      [title]="listTitle"
+      (deleteMember)="deleteAdministrator($event)"
     ></app-extended-member-list>
   </div>
 </div>

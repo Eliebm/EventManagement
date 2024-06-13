@@ -23,6 +23,7 @@ export class ExtendedMemberListComponent
 {
   @Input() isAdmin!: string;
   @Input() memberList!: User[];
+  @Input() title: string = 'Members';
   @Output() deleteMember = new EventEmitter<number>();
 
   dataSource!: MatTableDataSource<any>;

@@ -15,6 +15,7 @@ import { GroupEventListComponent } from './group-details/group-event-list/group-
 import { AllMembersComponent } from './all-members/all-members.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { AllAdministratorComponent } from './all-administrator/all-administrator.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatTableModule } from '@angular/material/table';
     AddAdminModalComponent,
     GroupEventListComponent,
     AllMembersComponent,
+    AllAdministratorComponent,
   ],
   imports: [
     CommonModule,
