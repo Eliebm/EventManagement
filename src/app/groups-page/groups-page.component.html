@@ -5,7 +5,14 @@
       (selectedCategory)="sortByCategory($event)"
       [categories]="categoryList"
     ></app-chip-button>
-
+    <div class="text-center m-5" *ngIf="isUserLoggedIn">
+      <button
+        class="btn btn-outline btn-primary"
+        [routerLink]="['createNewGroup']"
+      >
+        <span><i class="fa-solid fa-plus"></i></span>New Group
+      </button>
+    </div>
     <!-- loading Spinner-->
     <div class="text-center">
       <span

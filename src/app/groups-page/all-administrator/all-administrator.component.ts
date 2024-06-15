@@ -11,7 +11,7 @@ import { DeleteMemberModalComponent } from '../../Shared-Components/delete-membe
   templateUrl: './all-administrator.component.html',
   styleUrl: './all-administrator.component.scss',
 })
-export class AllAdministratorComponent implements OnInit, OnChanges {
+export class AllAdministratorComponent implements OnInit {
   retrievedMode: any;
   themeStorageKey: string = 'DarkMode';
   showToastMessage: boolean = false;
@@ -38,8 +38,6 @@ export class AllAdministratorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.fetchAllAdmins();
   }
-
-  ngOnChanges(changes: SimpleChanges): void {}
 
   displayToastMessage(type: string, msg: string): void {
     this.showToastMessage = true;

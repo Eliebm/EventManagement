@@ -4,6 +4,8 @@ import { BaseService } from '../Service/baseService/base.service';
 import { EventGroup } from '../Models/eventGroup.Models';
 import { EventGroupsService } from '../Service/event-groups.service';
 import { Categories } from '../Models/staticData.Models';
+import { User } from '../Models/user.Models';
+import { AccountService } from '../Service/account.service';
 
 @Component({
   selector: 'app-groups-page',
@@ -17,11 +19,14 @@ export class GroupsPageComponent implements OnInit {
   allGroups: EventGroup[] = [];
   categoryList!: Categories[];
   showedAllGroups: EventGroup[] = [];
+  isUserLoggedIn: boolean = false;
+  UserInfo!: User[];
 
   constructor(
     private router: Router,
     private baseService: BaseService,
-    private eventGroupsService: EventGroupsService
+    private eventGroupsService: EventGroupsService,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
@@ -30,11 +35,21 @@ export class GroupsPageComponent implements OnInit {
 
     let categories: Categories[] = [...Object.values(Categories)];
     this.categoryList = categories;
+    this.isUserOnline();
     this.fetchAllGroups();
   }
 
   SelectedTheme(data: any) {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
+  }
+
+  isUserOnline() {
+    if (this.accountService.fetchSignedInUserInfo()?.length) {
+      this.UserInfo = this.accountService.fetchSignedInUserInfo();
+      this.isUserLoggedIn = true;
+    } else {
+      this.isUserLoggedIn = false;
+    }
   }
 
   sortByCategory(data: any): void {

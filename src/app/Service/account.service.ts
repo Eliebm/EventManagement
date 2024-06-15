@@ -30,9 +30,7 @@ export class AccountService {
   generateUser(data: any): boolean {
     let fetchedUser = localStorage.getItem(this.storageKey);
 
-    if (fetchedUser?.length) {
-      this.user = JSON.parse(fetchedUser);
-    }
+    this.user = this.fetchUsers();
 
     if (this.user.filter((x) => x.email === data.email).length) {
       return false;
@@ -47,11 +45,20 @@ export class AccountService {
       return true;
     }
   }
+
   fetchUsers(): User[] {
     this.storageKey = 'USERS';
 
     let data = localStorage.getItem(this.storageKey);
 
+    if (data) {
+      this.user = JSON.parse(data);
+    }
+    return this.user;
+  }
+
+  fetchSignedInUserInfo(): User[] {
+    let data = localStorage.getItem('loggedInUser');
     if (data) {
       this.user = JSON.parse(data);
     }

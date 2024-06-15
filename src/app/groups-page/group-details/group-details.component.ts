@@ -9,7 +9,7 @@ import { AddAdminModalComponent } from './add-admin-modal/add-admin-modal.compon
 import { User } from '../../Models/user.Models';
 import { EventClass } from '../../Models/event.Models';
 import { EventServicesService } from '../../Service/event-services.service';
-import { HttpParams } from '@angular/common/http';
+
 import { DeleteMemberModalComponent } from '../../Shared-Components/delete-member-modal/delete-member-modal.component';
 
 @Component({
@@ -108,6 +108,10 @@ export class GroupDetailsComponent implements OnInit {
         }
         this.closeToastMessage();
       });
+  }
+
+  editGroup(): void {
+    this.router.navigate(['/Groups/' + this.groupId + '/editGroup']);
   }
 
   IsUserAnAdmin(): void {
@@ -211,6 +215,7 @@ export class GroupDetailsComponent implements OnInit {
           description: 'Are you sure you want to leave the group?',
           buttonTitle: 'Leave',
         },
+        position: { top: '90px' },
       })
       .afterClosed()
       .subscribe((res) => {

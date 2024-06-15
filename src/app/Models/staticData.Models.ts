@@ -22,7 +22,21 @@ export enum Categories {
   education = 'education',
   technology = 'technology',
   travel = 'travel',
+  camping = 'camping',
 }
+
+export const Images = [
+  { name: 'default', val: 'picture1.jpg' },
+  { name: 'adventure', val: 'adventure.jpg' },
+  { name: 'camping', val: 'camping.jpg' },
+  { name: 'education', val: 'education.jpg' },
+  { name: 'food', val: 'food.jpg' },
+  { name: 'people', val: 'people.jpg' },
+  { name: 'sport', val: 'sport.jpg' },
+  { name: 'technology', val: 'technology.jpg' },
+  { name: 'travel', val: 'travel.jpg' },
+  { name: 'fitness', val: 'fitness.jpg' },
+];
 
 export const staticUser = [
   {

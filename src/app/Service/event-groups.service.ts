@@ -46,6 +46,44 @@ export class EventGroupsService {
     return this.eventGroups;
   }
 
+  addNewGroup(receivedGroupData: any): boolean {
+    let groups = this.getEventGroups();
+    let newId = this.baseService.generateAutoIncrementId(groups);
+    let newGroup: EventGroup;
+    try {
+      newGroup = {
+        id: newId,
+        title: receivedGroupData.title,
+        description: receivedGroupData.description,
+        category: receivedGroupData.cat,
+        image: receivedGroupData.img,
+        adminList: receivedGroupData.admin,
+        eventList: [],
+        members: receivedGroupData.admin,
+      };
+      groups.push(newGroup);
+      this.saveEventGroup(groups);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  editGroupInfoByGroupId(groupId: number, data: any): boolean {
+    let groupInfo = this.fetchEventGroupById(groupId);
+    try {
+      groupInfo[0].title = data.title;
+      groupInfo[0].description = data.description;
+      groupInfo[0].category = data.cat;
+      groupInfo[0].image = data.img;
+
+      this.saveEventGroup(this.eventGroups);
+    } catch (error) {
+      return false;
+    }
+    return true;
+  }
+
   fetchEventGroupById(groupId: number): EventGroup[] {
     let data = this.getEventGroups();
     return data.filter((x) => x.id == groupId);

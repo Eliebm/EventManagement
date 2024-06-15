@@ -22,11 +22,22 @@
           <p class="py-6 max-w-[700px] lg:max-w-[800px]">
             {{ groupInfos[0].description }}
           </p>
-          <div class="flex justify-between items-baseline">
+          <div class="flex justify-between items-baseline min-w-80">
             <span class="text-primary font-bold"
               ><i class="fa-solid fa-icons mr-3 font-bold text-primary"></i
               >{{ groupInfos[0].category.toUpperCase() }}</span
             >
+            <!-- edit button-->
+            <button
+              class="tooltip tooltip-bottom"
+              data-tip="Edit"
+              *ngIf="isAnAdministrator"
+              (click)="editGroup()"
+            >
+              <span class="text-primary"
+                ><i class="fa-solid fa-file-pen"></i
+              ></span>
+            </button>
             <div class="indicator">
               <span class="indicator-item badge badge-primary w-9">
                 {{
@@ -35,6 +46,7 @@
                     : "99+"
                 }}
               </span>
+
               <div class="grid w-9 h-9 place-items-start font-bold">
                 <span
                   class="tooltip tooltip-bottom"
@@ -43,6 +55,7 @@
                 ></span>
               </div>
             </div>
+
             <button
               class="btn btn-sm md:btn-md btn-error"
               *ngIf="isJoined === true"

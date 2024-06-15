@@ -16,6 +16,9 @@ import { AllMembersComponent } from './all-members/all-members.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { AllAdministratorComponent } from './all-administrator/all-administrator.component';
+import { CreateNewGroupComponent } from './create-new-group/create-new-group.component';
+import { GroupFormFieldComponent } from './create-new-group/group-form-field/group-form-field.component';
+import { EditGroupComponent } from './edit-group/edit-group.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { AllAdministratorComponent } from './all-administrator/all-administrator
     GroupEventListComponent,
     AllMembersComponent,
     AllAdministratorComponent,
+    CreateNewGroupComponent,
+    GroupFormFieldComponent,
+    EditGroupComponent,
   ],
   imports: [
     CommonModule,
