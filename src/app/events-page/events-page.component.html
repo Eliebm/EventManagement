@@ -1,0 +1,31 @@
+<div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
+  <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
+  <div class="container flex flex-col p-5">
+    <!--search bar-->
+    <div class="join my-5 flex flex-row justify-center items-center">
+      <app-search-bar
+        class="join-item"
+        (CallSearchFunction)="submitSearch($event)"
+      ></app-search-bar>
+      <button
+        class="join-item btn btn-md btn-primary tooltip tooltip-bottom"
+        data-tip="New Event"
+        *ngIf="isUserLoggedIn"
+      >
+        <span><i class="fa-solid fa-plus"></i></span>
+      </button>
+    </div>
+
+    <!-- loading Spinner-->
+    <div class="text-center">
+      <span
+        class="loading loading-infinity loading-lg text-primary"
+        *ngIf="!showedAllEvents?.length"
+      ></span>
+    </div>
+    <div class="mb-5"></div>
+
+    <!-- display all Groups-->
+    <app-events [fetchedEvents]="showedAllEvents"></app-events>
+  </div>
+</div>

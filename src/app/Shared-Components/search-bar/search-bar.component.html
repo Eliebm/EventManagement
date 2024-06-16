@@ -1,1 +1,18 @@
-<p>search-bar works!</p>
+<div class="join">
+  <input
+    type="text"
+    class="w-[245px] sm:w-80 md:w-96 input-md join-item"
+    name="search"
+    id="searchinput"
+    placeholder="Search"
+    [(ngModel)]="searchText"
+    (change)="Search()"
+  />
+  <button
+    class="join-item btn btn-outline btn-info tooltip tooltip-bottom"
+    data-tip="Search"
+    (click)="Search()"
+  >
+    <span><i class="fa-solid fa-magnifying-glass"></i></span>
+  </button>
+</div>

@@ -27,6 +27,13 @@ const routes: Routes = [
         (m) => m.GroupsPageModule
       ),
   },
+  {
+    path: 'Events',
+    loadChildren: () =>
+      import('./events-page/events-page.module').then(
+        (m) => m.EventsPageModule
+      ),
+  },
 ];
 
 @NgModule({

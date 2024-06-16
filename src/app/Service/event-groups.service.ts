@@ -32,6 +32,7 @@ export class EventGroupsService {
       );
     }
   }
+
   saveEventGroup(data: any): void {
     localStorage.setItem(this.storageKey, JSON.stringify(data));
   }

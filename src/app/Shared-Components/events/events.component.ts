@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { EventClass } from '../../Models/event.Models';
 import { BaseService } from '../../Service/baseService/base.service';
 
@@ -7,13 +13,17 @@ import { BaseService } from '../../Service/baseService/base.service';
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss',
 })
-export class EventsComponent implements OnInit {
+export class EventsComponent implements OnInit, OnChanges {
   @Input() fetchedEvents!: EventClass[];
   showedEvents!: EventClass[];
   constructor(private baseService: BaseService) {}
 
   ngOnInit(): void {
-    this.displayGroupsByRoute();
+    this.displayEventsByRoute();
+  }
+
+  ngOnChanges(): void {
+    this.displayEventsByRoute();
   }
 
   shuffleArray<T>(array: T[]): T[] {
@@ -24,7 +34,7 @@ export class EventsComponent implements OnInit {
     return array;
   }
 
-  displayGroupsByRoute(): void {
+  displayEventsByRoute(): void {
     let active_route;
     active_route = this.baseService.getRecentActiveRoute();
 

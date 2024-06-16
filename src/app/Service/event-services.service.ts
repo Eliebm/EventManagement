@@ -29,6 +29,7 @@ export class EventServicesService {
       );
     }
   }
+
   saveEventInfo(eventInfo: any): void {
     this.storageKey = 'All-Events';
     localStorage.setItem(this.storageKey, JSON.stringify(eventInfo));

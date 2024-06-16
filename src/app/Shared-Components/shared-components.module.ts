@@ -12,6 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DeleteMemberModalComponent } from './delete-member-modal/delete-member-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     MatPaginatorModule,
     MatTableModule,
     MatDialogModule,
