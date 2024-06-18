@@ -98,6 +98,7 @@
       [isAdministrator]="isAnAdministrator"
       [isUserSignedIn]="isUserLoggedIn"
       (AttendEvent)="AttendAnEvent($event)"
+      (addNewEventButton)="addNewEventToGroup()"
     ></app-group-event-list>
   </div>
 </div>

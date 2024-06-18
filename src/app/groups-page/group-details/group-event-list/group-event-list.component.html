@@ -5,6 +5,7 @@
       class="btn btn-sm btn-outline btn-primary tooltip tooltip-bottom"
       data-tip="New Event"
       *ngIf="isAdministrator"
+      (click)="addNenEvent()"
     >
       <span><i class="fa fa-calendar-plus text-xl"></i></span>
     </button>
@@ -68,7 +69,7 @@
           >{{ event.startDate | date : "dd/MMMM/YYYY" }}</label
         ><label class="w-[100px]"
           ><span><i class="fa-solid fa-clock mr-1 text-info"></i></span
-          >{{ event.startDate | date : "shortTime" }}</label
+          >{{ event.startTime | date : "shortTime" }}</label
         >
       </div>
       <div class="card-actions justify-between items-baseline mt-2">

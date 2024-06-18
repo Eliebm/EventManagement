@@ -7,7 +7,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class TimePickerComponent implements OnInit {
   @Output() emitTimeSelected = new EventEmitter<any>();
-  Time = new Date();
   selectedTime: any;
 
   hours: number[] = Array.from({ length: 24 }, (_, i) => i); // Generate hours 0-23
@@ -22,10 +21,11 @@ export class TimePickerComponent implements OnInit {
     this.emitTimeSelected.emit('undefined');
   }
 
-  emitTime() {
-    this.Time.setHours(this.selectedHour);
-    this.Time.setMinutes(this.selectedMinute);
-    this.selectedTime = this.Time;
+  emitTime(): void {
+    this.selectedTime = new Date();
+    this.selectedTime.setHours(this.selectedHour);
+    this.selectedTime.setMinutes(this.selectedMinute);
+
     this.emitTimeSelected.emit(this.selectedTime);
   }
 }

@@ -114,6 +114,10 @@ export class GroupDetailsComponent implements OnInit {
     this.router.navigate(['/Groups/' + this.groupId + '/editGroup']);
   }
 
+  addNewEventToGroup(): void {
+    this.router.navigate(['/Groups/' + this.groupId + '/newEvent']);
+  }
+
   IsUserAnAdmin(): void {
     if (this.isUserLoggedIn === true) {
       let userId = this.UserInfo[0].id;

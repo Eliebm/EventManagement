@@ -18,6 +18,8 @@ export class GroupEventListComponent implements OnInit, OnChanges {
   @Input() isAdministrator: boolean = false;
   @Input() isUserSignedIn: boolean = false;
   @Output() AttendEvent = new EventEmitter<number>();
+  @Output() addNewEventButton = new EventEmitter<any>();
+
   showEvents?: EventClass[];
   ngOnInit(): void {
     this.fetchList();
@@ -30,5 +32,8 @@ export class GroupEventListComponent implements OnInit, OnChanges {
   }
   fetchList(): void {
     this.showEvents = this.allEvents;
+  }
+  addNenEvent(): void {
+    this.addNewEventButton.emit();
   }
 }

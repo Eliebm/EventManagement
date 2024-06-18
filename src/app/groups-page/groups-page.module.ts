@@ -19,6 +19,7 @@ import { AllAdministratorComponent } from './all-administrator/all-administrator
 import { CreateNewGroupComponent } from './create-new-group/create-new-group.component';
 import { GroupFormFieldComponent } from './create-new-group/group-form-field/group-form-field.component';
 import { EditGroupComponent } from './edit-group/edit-group.component';
+import { NewEventComponent } from './new-event/new-event.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { EditGroupComponent } from './edit-group/edit-group.component';
     CreateNewGroupComponent,
     GroupFormFieldComponent,
     EditGroupComponent,
+    NewEventComponent,
   ],
   imports: [
     CommonModule,

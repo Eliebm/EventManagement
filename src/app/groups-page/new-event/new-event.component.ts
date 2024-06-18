@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from '../../Models/user.Models';
-import { Router } from '@angular/router';
-import { EventGroupsService } from '../../Service/event-groups.service';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../Service/account.service';
+import { EventGroupsService } from '../../Service/event-groups.service';
+import { User } from '../../Models/user.Models';
 import { EventServicesService } from '../../Service/event-services.service';
 
 @Component({
-  selector: 'app-create-new-event',
-  templateUrl: './create-new-event.component.html',
-  styleUrl: './create-new-event.component.scss',
+  selector: 'app-new-event',
+  templateUrl: './new-event.component.html',
+  styleUrl: './new-event.component.scss',
 })
-export class CreateNewEventComponent implements OnInit {
+export class NewEventComponent {
   themeStorageKey: string = 'DarkMode';
   userInfo: User[] = [];
   retrievedMode: any;
@@ -18,14 +18,19 @@ export class CreateNewEventComponent implements OnInit {
   toastMessage!: string;
   toastType!: string;
   loadingInProgress: boolean = false;
+  groupId: any;
 
   constructor(
+    private _route: ActivatedRoute,
     private router: Router,
-    private eventService: EventServicesService,
-    private accountService: AccountService
+    private groupService: EventGroupsService,
+    private accountService: AccountService,
+    private eventService: EventServicesService
   ) {}
 
   ngOnInit(): void {
+    this.groupId = this._route.snapshot.paramMap.get('id');
+    console.log(this.groupId);
     this.SelectedTheme();
     this.fetchLoginUserInfo();
   }
@@ -41,7 +46,7 @@ export class CreateNewEventComponent implements OnInit {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
   }
   returnBack(): void {
-    this.router.navigate(['/Events/']);
+    this.router.navigate(['/Groups/' + this.groupId]);
   }
 
   displayToastMessage(type: string, msg: string): void {
@@ -95,10 +100,13 @@ export class CreateNewEventComponent implements OnInit {
     this.loadingInProgress = true;
     let response = this.eventService.addNewEvent(data);
     if (response.flag == true) {
-      this.displayToastMessage(
-        'alert-success',
-        'The event has been successfully created.'
-      );
+      let eventInfo = this.eventService.fetchEventInfoById(response.id);
+      if (this.groupService.addNewEventToAGRoup(this.groupId, eventInfo)) {
+        this.displayToastMessage(
+          'alert-success',
+          'The event has been successfully created and Added '
+        );
+      }
 
       setTimeout(() => {
         this.loadingInProgress = false;

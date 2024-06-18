@@ -6,6 +6,7 @@ import { AllMembersComponent } from './all-members/all-members.component';
 import { AllAdministratorComponent } from './all-administrator/all-administrator.component';
 import { CreateNewGroupComponent } from './create-new-group/create-new-group.component';
 import { EditGroupComponent } from './edit-group/edit-group.component';
+import { NewEventComponent } from './new-event/new-event.component';
 
 const routes: Routes = [
   { path: '', component: GroupsPageComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: ':id/members', component: AllMembersComponent },
   { path: ':id/admins', component: AllAdministratorComponent },
   { path: ':id/editGroup', component: EditGroupComponent },
+  { path: ':id/newEvent', component: NewEventComponent },
 ];
 
 @NgModule({

@@ -6,6 +6,7 @@ import { BaseService } from './baseService/base.service';
 import { Router } from '@angular/router';
 import { AccountService } from './account.service';
 import { EventClass } from '../Models/event.Models';
+import { EventServicesService } from './event-services.service';
 
 @Injectable({
   providedIn: 'root',
@@ -200,6 +201,21 @@ export class EventGroupsService {
       }
       groupInfo[0].adminList = admins.filter((x) => x.id !== id);
       this.saveEventGroup(this.eventGroups);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  addNewEventToAGRoup(groupId: number, newEventInfo: any): boolean {
+    try {
+      let group = this.fetchEventGroupById(groupId);
+      let oldEventList = group[0].eventList;
+      console.log(newEventInfo);
+
+      group[0].eventList = [...oldEventList, ...newEventInfo];
+      this.saveEventGroup(this.eventGroups);
+      console.log(group);
       return true;
     } catch (error) {
       return false;

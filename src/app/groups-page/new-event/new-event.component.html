@@ -1,0 +1,27 @@
+<div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
+  <div class="flex flex-col items-center md:items-start">
+    <div>
+      <div class="toast toast-top toast-center z-50" *ngIf="showToastMessage">
+        <div class="alert {{ toastType }}">
+          {{ toastMessage }}
+        </div>
+      </div>
+    </div>
+    <button
+      class="btn btn-md btn-error my-4 w-80 md:w-24 md:ml-5"
+      (click)="returnBack()"
+    >
+      <span><i class="fa fas fa-arrow-left"></i> Back</span>
+    </button>
+    <div class="w-full text-center">
+      <span
+        class="loading loading-spinner loading-lg text-primary"
+        *ngIf="loadingInProgress"
+      ></span>
+    </div>
+    <app-create-event-form
+      (submitForm)="checkFormValidation($event)"
+      *ngIf="!loadingInProgress"
+    ></app-create-event-form>
+  </div>
+</div>

@@ -46,6 +46,11 @@ export class EventServicesService {
     return this.events;
   }
 
+  fetchEventInfoById(eventId: number): EventClass[] {
+    let data = this.getAllEvents();
+    return data.filter((x) => x.id == eventId);
+  }
+
   addNewEvent(eventData: any): any {
     type returnObject = {
       id: number;
