@@ -7,7 +7,7 @@ export class EventClass extends EventBaseClass {
   admin: string;
   type: string;
   startDate: Date;
-  endDate: Date;
+  startTime: Date;
   image: string;
   location: string;
   presentationType: string;
@@ -24,7 +24,7 @@ export class EventClass extends EventBaseClass {
     admin: string,
     type: string,
     startDate: Date,
-    endDate: Date,
+    startTime: Date,
     image: string,
     location: string,
     presentationType: string,
@@ -38,7 +38,7 @@ export class EventClass extends EventBaseClass {
     this.admin = admin;
     this.type = type;
     this.startDate = startDate;
-    this.endDate = endDate;
+    this.startTime = startTime;
     this.image = image;
     this.location = location;
     this.presentationType = presentationType;

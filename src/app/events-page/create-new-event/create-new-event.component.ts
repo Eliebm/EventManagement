@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../../Models/user.Models';
 import { Router } from '@angular/router';
 import { EventGroupsService } from '../../Service/event-groups.service';
 import { AccountService } from '../../Service/account.service';
-import { User } from '../../Models/user.Models';
+import { EventServicesService } from '../../Service/event-services.service';
 
 @Component({
-  selector: 'app-create-new-group',
-  templateUrl: './create-new-group.component.html',
-  styleUrl: './create-new-group.component.scss',
+  selector: 'app-create-new-event',
+  templateUrl: './create-new-event.component.html',
+  styleUrl: './create-new-event.component.scss',
 })
-export class CreateNewGroupComponent implements OnInit {
+export class CreateNewEventComponent implements OnInit {
   themeStorageKey: string = 'DarkMode';
   userInfo: User[] = [];
   retrievedMode: any;
@@ -20,7 +21,7 @@ export class CreateNewGroupComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private groupService: EventGroupsService,
+    private eventService: EventServicesService,
     private accountService: AccountService
   ) {}
 
@@ -32,7 +33,7 @@ export class CreateNewGroupComponent implements OnInit {
   fetchLoginUserInfo(): void {
     this.userInfo = this.accountService.fetchSignedInUserInfo();
     if (!this.userInfo.length) {
-      this.router.navigate(['/Groups']);
+      this.router.navigate(['/Events']);
     }
   }
 
@@ -40,7 +41,7 @@ export class CreateNewGroupComponent implements OnInit {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
   }
   returnBack(): void {
-    this.router.navigate(['/Groups/']);
+    this.router.navigate(['/Events/']);
   }
 
   displayToastMessage(type: string, msg: string): void {
@@ -56,38 +57,55 @@ export class CreateNewGroupComponent implements OnInit {
   }
 
   checkFormValidation(data: any): void {
+    let currentDate = new Date();
     if (
       data.title == '' ||
       data.description == '' ||
-      data.cat == 'undefined' ||
-      data.img == 'undefined'
+      data.eventType == 'undefined' ||
+      data.location == 'undefined' ||
+      data.img == 'undefined' ||
+      data.presentation == 'undefined'
     ) {
       this.displayToastMessage(
         'alert-error',
         'One or more fields are empty. Please check your inputs.'
       );
       this.closeToastMessage();
+    } else if (data.startTime == 'undefined') {
+      this.displayToastMessage(
+        'alert-warning',
+        'Please confirm your time selection with a checkbox'
+      );
+      this.closeToastMessage();
+    } else if (data.startDate.getDate() === currentDate.getDate()) {
+      this.displayToastMessage(
+        'alert-warning',
+        "Selected date must differ from today's date"
+      );
+      this.closeToastMessage();
     } else {
       data.admin = this.userInfo;
-      this.submitForm(data);
+      (data.adminName =
+        this.userInfo[0].firstName + ' ' + this.userInfo[0].lastName),
+        this.submitForm(data);
     }
   }
 
   submitForm(data: any): void {
     this.loadingInProgress = true;
-    let response = this.groupService.addNewGroup(data);
-    if (response == true) {
+    let response = this.eventService.addNewEvent(data);
+    if (response.flag == true) {
       this.displayToastMessage(
         'alert-success',
         'The group has been successfully created.'
       );
+
       setTimeout(() => {
         this.loadingInProgress = false;
       }, 3000);
     } else {
       this.displayToastMessage('alert-error', 'Unable to create the group');
     }
-
     this.closeToastMessage();
   }
 }

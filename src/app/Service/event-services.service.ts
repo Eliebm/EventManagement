@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { EventClass } from '../Models/event.Models';
 import { staticEvent } from '../Models/staticData.Models';
-import { User } from '../Models/user.Models';
+
 import { AccountService } from './account.service';
 import { EventGroupsService } from './event-groups.service';
+import { BaseService } from './baseService/base.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,8 @@ export class EventServicesService {
 
   constructor(
     private _accountService: AccountService,
-    private eventGroupService: EventGroupsService
+    private eventGroupService: EventGroupsService,
+    private baseService: BaseService
   ) {}
 
   setStaticData(): void {
@@ -42,6 +44,44 @@ export class EventServicesService {
       this.events = JSON.parse(data);
     }
     return this.events;
+  }
+
+  addNewEvent(eventData: any): any {
+    type returnObject = {
+      id: number;
+
+      flag: boolean;
+    };
+    let confirmationFlag: returnObject;
+
+    let events = this.getAllEvents();
+    let newId = this.baseService.generateAutoIncrementId(events);
+    let newEvent: EventClass;
+    try {
+      newEvent = {
+        id: newId,
+        title: eventData.title,
+        description: eventData.description,
+        admin: eventData.adminName,
+        type: eventData.eventType,
+        startDate: eventData.startDate,
+        startTime: eventData.startTime,
+        image: eventData.img,
+        location: eventData.location,
+        presentationType: eventData.presentation,
+        userList: eventData.admin,
+        hostList: eventData.admin,
+        agendaList: [],
+        rating: [],
+        totalRating: 0,
+      };
+      events.push(newEvent);
+      this.saveEventInfo(events);
+      confirmationFlag = { id: newId, flag: true };
+    } catch (error) {
+      confirmationFlag = { id: 0, flag: false };
+    }
+    return confirmationFlag;
   }
 
   addUserToEvent(groupId: number, eventId: number, userId: number): String {

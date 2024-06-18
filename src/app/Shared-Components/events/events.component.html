@@ -22,6 +22,12 @@
     >
       {{ events.presentationType }}
     </div>
+    <div
+      class="type-badge-left-bottom badge badge-accent mt-[70px] md:mt-0"
+      *ngIf="events.type"
+    >
+      {{ events.type }}
+    </div>
     <figure>
       <img
         class="top-image h-[220px] w-96 sm:w-80 md:h-[150px]"
@@ -58,7 +64,7 @@
           >{{ events.startDate | date : "dd/MMMM/YYYY" }}</label
         ><label class="w-[100px]"
           ><span><i class="fa-solid fa-clock mr-1 text-info"></i></span
-          >{{ events.startDate | date : "shortTime" }}</label
+          >{{ events.startTime | date : "shortTime" }}</label
         >
       </div>
       <div class="card-actions justify-between items-baseline mt-2">

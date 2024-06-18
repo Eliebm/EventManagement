@@ -13,6 +13,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { DeleteMemberModalComponent } from './delete-member-modal/delete-member-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { CreateEventFormComponent } from './create-event-form/create-event-form.component';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { TimePickerComponent } from './time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +30,8 @@ import { FormsModule } from '@angular/forms';
     MemberListComponent,
     ExtendedMemberListComponent,
     DeleteMemberModalComponent,
+    CreateEventFormComponent,
+    TimePickerComponent,
   ],
   exports: [
     NavBarComponent,
@@ -33,6 +41,7 @@ import { FormsModule } from '@angular/forms';
     MemberListComponent,
     ExtendedMemberListComponent,
     DeleteMemberModalComponent,
+    CreateEventFormComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +50,10 @@ import { FormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatTableModule,
     MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
   ],
+  providers: [provideNativeDateAdapter()],
 })
 export class SharedComponentsModule {}

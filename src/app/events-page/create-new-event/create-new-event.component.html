@@ -19,9 +19,9 @@
         *ngIf="loadingInProgress"
       ></span>
     </div>
-    <app-group-form-field
-      *ngIf="!loadingInProgress"
+    <app-create-event-form
       (submitForm)="checkFormValidation($event)"
-    ></app-group-form-field>
+      *ngIf="!loadingInProgress"
+    ></app-create-event-form>
   </div>
 </div>

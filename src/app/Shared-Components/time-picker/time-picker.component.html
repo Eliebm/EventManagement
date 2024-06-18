@@ -1,0 +1,28 @@
+<div class="time-picker join p-0 md:pt-1">
+  <label class="lablel join-item border border-primary px-2">
+    Time
+    <select class="join-item select select-md" [(ngModel)]="selectedHour">
+      <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
+    </select>
+    :
+    <select class="join-item select select-md" [(ngModel)]="selectedMinute">
+      <option *ngFor="let minute of minutes" [value]="minute">
+        {{ minute }}
+      </option>
+    </select>
+  </label>
+  <input
+    type="checkbox"
+    class="checkbox checkbox-primary join-item h-[50px] w-10"
+    id="timePickerCheckbox"
+    (click)="emitTime()"
+  />
+
+  <!-- Optional: Add seconds -->
+  <!--
+  :
+  <select [(ngModel)]="selectedSecond">
+    <option *ngFor="let second of seconds" [value]="second">{{ second }}</option>
+  </select>
+  -->
+</div>

@@ -13,10 +13,16 @@
     >
       <span><i class="fa fas fa-arrow-left"></i> Back</span>
     </button>
-
-    <app-group-form-field
-      (submitForm)="checkFormValidation($event)"
-      [groupData]="groupInfo"
-    ></app-group-form-field>
+    <div class="w-full text-center">
+      <span
+        class="loading loading-spinner loading-lg text-primary"
+        *ngIf="loadingInProgress"
+      ></span>
+      <app-group-form-field
+        (submitForm)="checkFormValidation($event)"
+        [groupData]="groupInfo"
+        *ngIf="!loadingInProgress"
+      ></app-group-form-field>
+    </div>
   </div>
 </div>

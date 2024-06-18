@@ -1,0 +1,108 @@
+<div
+  class="form-control flex flex-col w-full md:w-[800px] md:mx-2 lg:w-[1000px] xl:w-[1500px] xl:mx-2 items-center"
+>
+  <label
+    class="input input-bordered input-md input-primary w-80 md:w-[550px] lg:w-[750px] xl:w-[1200px] flex items-center gap-2"
+  >
+    Title
+    <input
+      type="text"
+      class="w-full"
+      placeholder="Title"
+      [(ngModel)]="title"
+      name="title"
+    />
+  </label>
+
+  <textarea
+    placeholder="description 'should be less than 200 words'"
+    class="textarea textarea-bordered textarea-primary textarea-md md:h-52 w-80 md:w-[550px] lg:w-[750px] xl:w-[1200px] mt-4"
+    name="descriptionField"
+    [(ngModel)]="description"
+  ></textarea>
+  <div class="row flex flex-col md:flex-row gap-4 mt-4">
+    <!-- location-->
+    <select
+      class="select select-primary w-80 md:w-[210px]"
+      name="location"
+      [(ngModel)]="selectedLocation"
+    >
+      <option disabled selected value="undefined">Location</option>
+      <option *ngFor="let location of locationList" value="{{ location }}">
+        {{ location }}
+      </option>
+    </select>
+
+    <!--Event Type-->
+    <select
+      class="select select-primary w-80 md:w-[210px]"
+      name="selectEventType"
+      [(ngModel)]="SelectedEventType"
+    >
+      <option disabled selected value="undefined">Select Type</option>
+      <option *ngFor="let eventType of typeList" [value]="eventType">
+        {{ eventType }}
+      </option>
+    </select>
+
+    <!--Presentation Type-->
+    <select
+      class="select select-primary w-80 md:w-[210px]"
+      name="presentation type"
+      [(ngModel)]="presentationType"
+    >
+      <option selected value="undefined">Presentation Type</option>
+      <option selected value="on site">On site</option>
+      <option value="online">Online</option>
+    </select>
+  </div>
+  <!-- start Date-->
+  <div class="mt-4 gap-0 flex flex-col md:flex-row md:gap-10">
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" />
+
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- time picker-->
+    <app-time-picker
+      (emitTimeSelected)="passSelectedTime($event)"
+    ></app-time-picker>
+  </div>
+
+  <!-- Select Image-->
+  <div class="flex flex-col mt-4 items-center">
+    <select
+      class="select select-bordered select-primary w-64 md:w-[210px]"
+      name="selectImage"
+      [(ngModel)]="SelectedImage"
+    >
+      <option disabled selected value="undefined">Select Image</option>
+      <option *ngFor="let imgs of imagesList" [value]="imgs.val">
+        {{ imgs.name }}
+      </option>
+    </select>
+    <h1 class="my-10 text-error font-bold" *ngIf="SelectedImage == 'undefined'">
+      Preview the image before choosing it.
+    </h1>
+    <figure class="80 md:w-[300px] my-4" *ngIf="SelectedImage != 'undefined'">
+      <img
+        src="../../../assets/image/{{ SelectedImage }}"
+        alt="preview of image selected"
+      />
+    </figure>
+  </div>
+  <div class="row flex flex-col md:flex-row my-5 gap-4">
+    <button class="btn btn-md btn-outline btn-error w-32" (click)="cancel()">
+      Cancel
+    </button>
+    <button class="btn btn-md btn-success w-32" (click)="sendFormData()">
+      Save
+    </button>
+  </div>
+</div>

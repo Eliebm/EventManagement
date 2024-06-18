@@ -17,6 +17,7 @@ export class EditGroupComponent implements OnInit {
   groupId: any;
   isAdmin: string = 'true';
   groupInfo!: EventGroup[];
+  loadingInProgress: boolean = false;
 
   isUserLoggedIn: boolean = false;
   listTitle: string = 'Administrative Staff ';
@@ -75,6 +76,7 @@ export class EditGroupComponent implements OnInit {
   }
 
   submitForm(data: any): void {
+    this.loadingInProgress = true;
     let response = this.groupService.editGroupInfoByGroupId(this.groupId, data);
     if (response == true) {
       this.displayToastMessage(
@@ -82,11 +84,12 @@ export class EditGroupComponent implements OnInit {
         'The group has been successfully Edited.'
       );
       setTimeout(() => {
-        this.router.navigate(['/Groups/' + this.groupId]);
-      }, 2000);
+        this.loadingInProgress = false;
+      }, 3000);
     } else {
       this.displayToastMessage('alert-error', 'Unable to edit the group');
     }
+
     this.closeToastMessage();
   }
 }
