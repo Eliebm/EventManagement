@@ -58,8 +58,10 @@ export class EventsPageComponent implements OnInit {
     if (data === '') {
       this.showedAllEvents = this.allEvents;
     } else {
-      this.showedAllEvents = this.allEvents.filter((x) =>
-        x.title.toLocaleLowerCase().includes(data)
+      this.showedAllEvents = this.allEvents.filter(
+        (x) =>
+          x.title.toLowerCase().includes(data.toLowerCase()) ||
+          x.location.toLowerCase().includes(data.toLowerCase())
       );
     }
   }

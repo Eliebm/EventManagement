@@ -5,9 +5,10 @@ import { EventsPageRoutingModule } from './events-page-routing.module';
 import { EventsPageComponent } from './events-page.component';
 import { SharedComponentsModule } from '../Shared-Components/shared-components.module';
 import { CreateNewEventComponent } from './create-new-event/create-new-event.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 @NgModule({
-  declarations: [EventsPageComponent, CreateNewEventComponent],
+  declarations: [EventsPageComponent, CreateNewEventComponent, EventDetailsComponent],
   imports: [CommonModule, EventsPageRoutingModule, SharedComponentsModule],
 })
 export class EventsPageModule {}

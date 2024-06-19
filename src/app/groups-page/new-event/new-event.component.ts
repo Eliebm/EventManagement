@@ -38,7 +38,7 @@ export class NewEventComponent {
   fetchLoginUserInfo(): void {
     this.userInfo = this.accountService.fetchSignedInUserInfo();
     if (!this.userInfo.length) {
-      this.router.navigate(['/Events']);
+      this.router.navigate(['/Groups/' + this.groupId]);
     }
   }
 

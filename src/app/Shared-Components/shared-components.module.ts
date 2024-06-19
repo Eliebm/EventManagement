@@ -19,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { TimePickerComponent } from './time-picker/time-picker.component';
+import { CountDownComponentComponent } from './count-down-component/count-down-component.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
     DeleteMemberModalComponent,
     CreateEventFormComponent,
     TimePickerComponent,
+    CountDownComponentComponent,
   ],
   exports: [
     NavBarComponent,
@@ -42,6 +44,7 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
     ExtendedMemberListComponent,
     DeleteMemberModalComponent,
     CreateEventFormComponent,
+    CountDownComponentComponent,
   ],
   imports: [
     CommonModule,

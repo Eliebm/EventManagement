@@ -1,0 +1,128 @@
+<div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
+  <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
+
+  <div class="container flex flex-col">
+    <div>
+      <div class="toast toast-top toast-center z-50" *ngIf="showToastMessage">
+        <div class="alert {{ toastType }}">
+          {{ toastMessage }}
+        </div>
+      </div>
+    </div>
+
+    <!-- hero section -->
+    <div>
+      <div
+        class="hero min-h-96"
+        [style.backgroundImage]="
+          'url(../../../assets/image/' + eventInfos[0].image + ')'
+        "
+      >
+        <div class="hero-overlay bg-opacity-75"></div>
+        <div class="hero-content text-start text-neutral-content">
+          <div class="text-start">
+            <div class="title-row flex flex-row mt-5">
+              <h1
+                class="mb-5 text-start text-2xl md:text-4xl md:text-center lg:text-5xl font-bold"
+              >
+                {{ eventInfos[0].title }}
+              </h1>
+              <span class="badge badge-lg badge-secondary" (click)="rateUS()"
+                >4.75</span
+              >
+            </div>
+            <div
+              class="flex flex-col-reverse justify-normal items-center md:items-start md:flex-row md:justify-between"
+            >
+              <label class="text-xl font mt-2 md:mt-0"
+                >Host : {{ eventInfos[0].admin }}</label
+              >
+              <div
+                class="right-corner-badge badge {{
+                  eventInfos[0].presentationType === 'Online'
+                    ? 'badge-secondary'
+                    : 'badge-primary'
+                }} text-white font-bold"
+              >
+                {{ eventInfos[0].presentationType }}
+              </div>
+              <div
+                class="type-badge-left-bottom badge badge-accent my-2 md:my-0"
+                *ngIf="eventInfos[0].type"
+              >
+                {{ eventInfos[0].type }}
+              </div>
+            </div>
+
+            <p
+              class="my-8 w-[340px] md:w-[730px] lg:w-[900px] xl:w-[1200px] text-lg text-white text-justify"
+            >
+              {{ eventInfos[0].description }}
+            </p>
+            <div
+              class="grid grid-cols-2 md:grid-cols-4 gap-x-10 ml-4 md:gap-20 lg:gap-20 xl:gap-32 mb-3"
+            >
+              <div class="indicator">
+                <span class="indicator-item badge badge-primary w-9">
+                  {{
+                    eventInfos[0].userList.length < 100
+                      ? eventInfos[0].userList.length
+                      : "99+"
+                  }}
+                </span>
+                <div class="grid w-9 h-9 place-items-start font-bold">
+                  <span
+                    class="tooltip tooltip-bottom tooltip-primary"
+                    [attr.data-tip]="eventInfos[0].userList.length + ' going'"
+                    ><i class="fa-solid fa-users"></i
+                  ></span>
+                </div>
+              </div>
+              <label
+                ><span
+                  ><i class="fa-solid fa-location-dot text-info mr-1"></i></span
+                >{{ eventInfos[0].location }}</label
+              >
+
+              <label
+                ><span><i class="fa-solid fa-calendar mr-1 text-info"></i></span
+                >{{ eventInfos[0].startDate | date : "dd/MMMM/YYYY" }}</label
+              ><label class="w-[100px]"
+                ><span><i class="fa-solid fa-clock mr-1 text-info"></i></span
+                >{{ eventInfos[0].startTime | date : "shortTime" }}</label
+              >
+            </div>
+            <!-- Countdown row-->
+            <div class="coutdown-row flex flex-col items-center">
+              <app-count-down-component
+                [eventDate]="eventInfos[0].startDate"
+                [eventTime]="eventInfos[0].startTime"
+              ></app-count-down-component>
+              <div class="button-row flex justify-center gap-2 mt-5">
+                <!-- edit button-->
+                <button
+                  class="btn btn-ghost tooltip tooltip-bottom"
+                  data-tip="Edit"
+                  *ngIf="isAnAdministrator"
+                >
+                  <span class="text-warning text-2xl"
+                    ><i class="fa-solid fa-file-pen"></i
+                  ></span>
+                </button>
+                <button class="btn btn-sm md:btn-md btn-error" *ngIf="isJoined">
+                  Leave
+                </button>
+                <button
+                  class="btn btn-sm md:btn-md btn-success"
+                  *ngIf="!isJoined"
+                >
+                  Attend
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
