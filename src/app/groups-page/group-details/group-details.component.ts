@@ -3,9 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../Service/baseService/base.service';
 import { EventGroupsService } from '../../Service/event-groups.service';
 import { EventGroup } from '../../Models/eventGroup.Models';
-import { AdminListComponent } from './admin-list/admin-list.component';
 import { MatDialog } from '@angular/material/dialog';
-import { AddAdminModalComponent } from './add-admin-modal/add-admin-modal.component';
+import { AddAdminModalComponent } from '../../Shared-Components/add-admin-modal/add-admin-modal.component';
 import { User } from '../../Models/user.Models';
 import { EventClass } from '../../Models/event.Models';
 import { EventServicesService } from '../../Service/event-services.service';
@@ -71,7 +70,7 @@ export class GroupDetailsComponent implements OnInit {
     );
   }
 
-  openAddDialog(): void {
+  openAddAdminDialog(): void {
     const dialogRef = this.dialog
       .open(AddAdminModalComponent, { position: { top: '90px' } })
       .afterClosed()
@@ -248,11 +247,13 @@ export class GroupDetailsComponent implements OnInit {
       this.router.navigate(['/Login']);
     }
   }
+
   showAllAdministrators(): void {
     this.router.navigate(['/Groups/' + this.groupId + '/admins'], {
       queryParams: { param1: this.groupId },
     });
   }
+
   displayToastMessage(type: string, msg: string): void {
     this.showToastMessage = true;
     this.toastType = type;

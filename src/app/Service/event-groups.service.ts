@@ -91,7 +91,7 @@ export class EventGroupsService {
     return data.filter((x) => x.id == groupId);
   }
 
-  addAdministratorToEventGroup(eventID: number, userEmail: string): string {
+  addAdministratorToEventGroup(groupID: number, userEmail: string): string {
     let users = this.accountService.fetchUsers();
     let user = users.filter((x) => x.email == userEmail);
     if (!user?.length) {
@@ -99,7 +99,7 @@ export class EventGroupsService {
     }
 
     let groupsList = this.getEventGroups();
-    let group = groupsList.filter((x) => x.id == eventID);
+    let group = groupsList.filter((x) => x.id == groupID);
 
     let oldAdminList = group[0].adminList;
 

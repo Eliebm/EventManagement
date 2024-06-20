@@ -7,8 +7,8 @@ import { GroupsPageComponent } from './groups-page.component';
 import { GroupDetailsComponent } from './group-details/group-details.component';
 import { SharedComponentsModule } from '../Shared-Components/shared-components.module';
 import { ChipButtonComponent } from './chip-button/chip-button.component';
-import { AdminListComponent } from './group-details/admin-list/admin-list.component';
-import { AddAdminModalComponent } from './group-details/add-admin-modal/add-admin-modal.component';
+
+import { AddAdminModalComponent } from '../Shared-Components/add-admin-modal/add-admin-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { GroupEventListComponent } from './group-details/group-event-list/group-event-list.component';
@@ -26,7 +26,6 @@ import { NewEventComponent } from './new-event/new-event.component';
     GroupsPageComponent,
     GroupDetailsComponent,
     ChipButtonComponent,
-    AdminListComponent,
     AddAdminModalComponent,
     GroupEventListComponent,
     AllMembersComponent,

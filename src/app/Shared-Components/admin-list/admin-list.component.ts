@@ -7,9 +7,9 @@ import {
   Output,
   output,
 } from '@angular/core';
-import { User } from '../../../Models/user.Models';
-import { AddAdminModalComponent } from '../add-admin-modal/add-admin-modal.component';
+
 import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../Models/user.Models';
 
 @Component({
   selector: 'app-admin-list',

@@ -89,6 +89,50 @@ export class EventServicesService {
     return confirmationFlag;
   }
 
+  isUserAdministrator(eventID: number, userId: number): boolean {
+    let eventsList = this.getAllEvents();
+    let event = eventsList.filter((x) => x.id == eventID);
+    let admin = event[0].hostList;
+
+    if (admin.filter((x) => x.id === userId)?.length) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  addAdministratorToEventGroup(eventID: number, userEmail: string): string {
+    let users = this._accountService.fetchUsers();
+    let user = users.filter((x) => x.email == userEmail);
+    if (!user?.length) {
+      return 'error';
+    }
+
+    let eventList = this.getAllEvents();
+    let event = eventList.filter((x) => x.id == eventID);
+
+    let oldHostList = event[0].hostList;
+
+    if (oldHostList.filter((x) => x.email == userEmail)?.length) {
+      return 'false';
+    } else {
+      event[0].hostList = [...oldHostList, ...user];
+
+      this.saveEventInfo(this.events);
+      return 'true';
+    }
+  }
+
+  checkIfUserIsAMember(eventId: number, userId: number): boolean {
+    let eventInfo = this.events.filter((x) => x.id == eventId);
+    let isJoin = eventInfo[0].userList.filter((x) => x.id === userId);
+
+    if (isJoin.length) {
+      return true;
+    }
+    return false;
+  }
+
   addUserToEvent(groupId: number, eventId: number, userId: number): String {
     let usId = userId;
     this.user = this._accountService.fetchUsers();

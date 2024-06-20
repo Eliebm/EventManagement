@@ -20,6 +20,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { CountDownComponentComponent } from './count-down-component/count-down-component.component';
+import { AdminListComponent } from './admin-list/admin-list.component';
+import { RatingModalComponent } from './rating-modal/rating-modal.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +29,14 @@ import { CountDownComponentComponent } from './count-down-component/count-down-c
     EventsComponent,
     EventGroupsComponent,
     SearchBarComponent,
-
+    AdminListComponent,
     MemberListComponent,
     ExtendedMemberListComponent,
     DeleteMemberModalComponent,
     CreateEventFormComponent,
     TimePickerComponent,
     CountDownComponentComponent,
+    RatingModalComponent,
   ],
   exports: [
     NavBarComponent,
@@ -45,6 +48,7 @@ import { CountDownComponentComponent } from './count-down-component/count-down-c
     DeleteMemberModalComponent,
     CreateEventFormComponent,
     CountDownComponentComponent,
+    AdminListComponent,
   ],
   imports: [
     CommonModule,
