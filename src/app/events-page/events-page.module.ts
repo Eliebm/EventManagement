@@ -9,6 +9,7 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 import { GroupsPageModule } from '../groups-page/groups-page.module';
 import { AllAdministratorComponent } from './all-administrator/all-administrator.component';
 import { AllMembersComponent } from './all-members/all-members.component';
+import { EditEventInfoComponent } from './edit-event-info/edit-event-info.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { AllMembersComponent } from './all-members/all-members.component';
     EventDetailsComponent,
     AllAdministratorComponent,
     AllMembersComponent,
+    EditEventInfoComponent,
   ],
   imports: [
     CommonModule,

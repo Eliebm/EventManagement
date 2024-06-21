@@ -98,6 +98,14 @@ export const staticUser = [
     password: 'securepassword',
     location: 'Tripoli, Lebanon',
   },
+  {
+    id: 7,
+    firstName: 'pierre',
+    lastName: 'Bm',
+    email: 'pierre@example.com',
+    password: 'p12',
+    location: 'Lebanon',
+  },
 ];
 
 export const staticEvent = [
@@ -131,12 +139,12 @@ export const staticEvent = [
     ],
     hostList: [
       {
-        id: 2,
+        id: 7,
         firstName: 'pierre',
-        lastName: '',
-        email: '',
-        password: '',
-        location: '',
+        lastName: 'Bm',
+        email: 'pierre@example.com',
+        password: 'p12',
+        location: 'Lebanon',
       },
     ],
     agendaList: [],

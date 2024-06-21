@@ -5,6 +5,7 @@ import { staticEvent } from '../Models/staticData.Models';
 import { AccountService } from './account.service';
 import { EventGroupsService } from './event-groups.service';
 import { BaseService } from './baseService/base.service';
+import { Rating } from '../Models/rating.Models';
 
 @Injectable({
   providedIn: 'root',
@@ -104,6 +105,7 @@ export class EventServicesService {
   addAdministratorToEventGroup(eventID: number, userEmail: string): string {
     let users = this._accountService.fetchUsers();
     let user = users.filter((x) => x.email == userEmail);
+    let gId = this.checkIfEventBelongsToGroup(eventID);
     if (!user?.length) {
       return 'error';
     }
@@ -119,6 +121,7 @@ export class EventServicesService {
       event[0].hostList = [...oldHostList, ...user];
 
       this.saveEventInfo(this.events);
+      this.updateEventInfoInGroup(gId, eventID);
       return 'true';
     }
   }
@@ -136,7 +139,7 @@ export class EventServicesService {
   addUserToEvent(groupId: number, eventId: number, userId: number): String {
     let usId = userId;
     this.user = this._accountService.fetchUsers();
-    let fetchedEvent = this.getAllEvents().filter((x) => x.id === eventId);
+    let fetchedEvent = this.getAllEvents().filter((x) => x.id == eventId);
     let fetchedUser = this.user.filter((x) => x.id === usId);
 
     let isUserJoined = fetchedEvent[0].userList;
@@ -163,11 +166,98 @@ export class EventServicesService {
     let oldUserList = event[0].userList;
     event[0].userList = [...oldUserList, ...pushUser];
     this.saveEventInfo(this.events);
+    this.updateEventInfoInGroup(groupId, eventId);
+  }
 
+  deleteMember(eveId: number, memberId: number): boolean {
+    let eventInfo = this.fetchEventInfoById(eveId);
+    let groupId = this.checkIfEventBelongsToGroup(eveId);
+
+    try {
+      let member = eventInfo[0].userList;
+      eventInfo[0].userList = member.filter((x) => x.id !== memberId);
+      this.saveEventInfo(this.events);
+      this.updateEventInfoInGroup(groupId, eveId);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  checkIfEventBelongsToGroup(eventID: number): number {
+    let groupId = 0;
+    let groups = this.eventGroupService.getEventGroups();
+
+    let group = groups.forEach((items) => {
+      if (items.eventList.find((x) => x.id == eventID)) {
+        groupId = items.id;
+      }
+    });
+
+    return groupId;
+  }
+
+  addRatingToEvent(
+    eventId: number,
+    receivedUserId: number,
+    rate: number
+  ): boolean {
+    let gId = this.checkIfEventBelongsToGroup(eventId);
+    let event = this.fetchEventInfoById(eventId);
+    let rateList = event[0].rating;
+    let newId = this.baseService.generateAutoIncrementId(rateList);
+    let checkUserRate = rateList.filter((x) => x.userId === receivedUserId);
+
+    try {
+      if (checkUserRate.length) {
+        checkUserRate[0].rates = rate;
+      } else {
+        let rating: Rating;
+        rating = { id: newId, userId: receivedUserId, rates: rate };
+        event[0].rating.push(rating);
+      }
+      let count = 0;
+      event[0].rating.map((x) => {
+        count += x.rates;
+      });
+      event[0].totalRating = count / event[0].rating.length;
+      this.saveEventInfo(this.events);
+
+      // update event with rating to groupEvent if this event belongs to a group
+      this.updateEventInfoInGroup(gId, eventId);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  updateEventInfoInGroup(gId: number, eventId: number): void {
     //update group eventList with new user in the event
     // refetch the event after saved it with the new user to add it to the event group
-    let fetchedNewEvent = this.getAllEvents().filter((x) => x.id === eventId);
-    this.eventGroupService.updateEventsOfEventGroup(groupId, fetchedNewEvent);
+    let fetchedNewEvent = this.getAllEvents().filter((x) => x.id == eventId);
+    if (gId != 0) {
+      this.eventGroupService.updateEventsOfEventGroup(gId, fetchedNewEvent);
+    }
+  }
+
+  deleteEvent(eveId: number): boolean {
+    try {
+      let events = this.getAllEvents();
+      let gid = this.checkIfEventBelongsToGroup(eveId);
+      this.events = events.filter((x) => x.id != eveId);
+      this.saveEventInfo(this.events);
+
+      if (gid != 0) {
+        let groups = this.eventGroupService.getEventGroups();
+        let group = groups.filter((x) => x.id == gid);
+        let oldEventList = group[0].eventList;
+        group[0].eventList = oldEventList.filter((x) => x.id != eveId);
+        this.eventGroupService.saveEventGroup(groups);
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   fetchEventByUserId(): void {

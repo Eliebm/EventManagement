@@ -38,7 +38,7 @@
     <div class="card-body">
       <div class="indicator">
         <span class="indicator-item badge badge-secondary">{{
-          events.totalRating
+          events.totalRating | number : "1.2-2"
         }}</span>
         <div class="grid h-9 font-bold mt-2">
           <h2 class="card-title">{{ events.title.substring(0, 29) + "." }}</h2>

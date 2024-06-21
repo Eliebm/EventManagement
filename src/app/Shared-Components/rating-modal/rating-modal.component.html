@@ -1,1 +1,18 @@
-<p>rating-modal works!</p>
+<div class="w-80 h-48 flex flex-col items-center">
+  <h1 class="text-xl text-primary">Rate Us</h1>
+  <p>select number of star to give us a rate</p>
+  <div class="rating my-4">
+    <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-500" />
+    <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-500" />
+    <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-500" />
+    <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-500" />
+    <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-500" />
+  </div>
+  <label for="">Rate: {{ checkedStars }}</label>
+  <div class="button-row flex gap-2 mt-4">
+    <button class="btn btn-sm btn-outline btn-error" (click)="closeModal()">
+      Cancel
+    </button>
+    <button class="btn btn-sm btn-success" (click)="submitRate()">Rate</button>
+  </div>
+</div>

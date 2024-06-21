@@ -42,7 +42,7 @@
             class="badge badge-warning tooltip tooltip-bottom mr-5"
             data-tip="rating"
           >
-            {{ event.totalRating }}
+            {{ event.totalRating | number : "1.2-2" }}
           </div>
           <div
             class="badge {{

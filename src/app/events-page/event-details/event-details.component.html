@@ -1,15 +1,19 @@
 <div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
   <app-nav-bar (selectedTheme)="SelectedTheme($event)"></app-nav-bar>
-
-  <div class="container flex flex-col">
-    <div>
-      <div class="toast toast-top toast-center z-50" *ngIf="showToastMessage">
-        <div class="alert {{ toastType }}">
-          {{ toastMessage }}
-        </div>
+  <div class="w-full text-center">
+    <span
+      class="loading loading-spinner loading-lg text-primary"
+      *ngIf="isLoading"
+    ></span>
+  </div>
+  <div>
+    <div class="toast toast-top toast-center z-50" *ngIf="showToastMessage">
+      <div class="alert {{ toastType }}">
+        {{ toastMessage }}
       </div>
     </div>
-
+  </div>
+  <div class="container flex flex-col" *ngIf="!isLoading">
     <!-- hero section -->
     <div>
       <div
@@ -27,7 +31,9 @@
               >
                 {{ eventInfos[0].title }}
               </h1>
-              <span class="badge badge-lg badge-secondary">4.75</span>
+              <span class="badge badge-lg badge-secondary ml-2">{{
+                eventInfos[0].totalRating | number : "1.2-2"
+              }}</span>
             </div>
             <div
               class="flex flex-col-reverse justify-normal items-center md:items-start md:flex-row md:justify-between"
@@ -121,15 +127,24 @@
                   class="btn btn-outline btn-error tooltip tooltip-bottom"
                   data-tip="Delete"
                   *ngIf="isAnAdministrator"
+                  (click)="deleteEvent(eventInfos[0].id)"
                 >
                   <span class="text-2xl"
                     ><i class="fa-solid fa-trash"></i
                   ></span>
                 </button>
-                <button class="btn btn-md btn-error" *ngIf="isJoined">
+                <button
+                  class="btn btn-md btn-error"
+                  *ngIf="isJoined"
+                  (click)="leaveEvent()"
+                >
                   Leave
                 </button>
-                <button class="btn btn-md btn-success" *ngIf="!isJoined">
+                <button
+                  class="btn btn-md btn-success"
+                  *ngIf="!isJoined"
+                  (click)="joinEvent()"
+                >
                   Attend
                 </button>
               </div>
@@ -138,24 +153,24 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="main-container ml-0 my-7 flex flex-col lg:flex-row md:ml-28">
-    <!-- Right Section-->
-    <div class-="right-section">
-      <app-admin-list
-        [isAdministrator]="isAnAdministrator"
-        [admins]="eventInfos[0].hostList"
-        (openAddModal)="openAddAdminDialog()"
-        (ShowAdminsList)="showAllAdministrators()"
-      ></app-admin-list>
-      <app-member-list
-        [members]="eventInfos[0].userList"
-        (ShowMore)="showAllMembers()"
-      ></app-member-list>
+    <div class="main-container ml-0 my-7 flex flex-col lg:flex-row md:ml-28">
+      <!-- Right Section-->
+      <div class-="right-section">
+        <app-admin-list
+          [isAdministrator]="isAnAdministrator"
+          [admins]="eventInfos[0].hostList"
+          (openAddModal)="openAddAdminDialog()"
+          (ShowAdminsList)="showAllAdministrators()"
+        ></app-admin-list>
+        <app-member-list
+          [members]="eventInfos[0].userList"
+          (ShowMore)="showAllMembers()"
+        ></app-member-list>
+      </div>
+
+      <!-- Left Section-->
+      <div class-="left-section "></div>
     </div>
-
-    <!-- Left Section-->
-    <div class-="left-section "></div>
   </div>
 </div>
