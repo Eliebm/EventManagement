@@ -1,11 +1,20 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-time-picker',
   templateUrl: './time-picker.component.html',
   styleUrl: './time-picker.component.scss',
 })
-export class TimePickerComponent implements OnInit {
+export class TimePickerComponent implements OnInit, OnChanges {
+  @Input() timeData!: Date;
   @Output() emitTimeSelected = new EventEmitter<any>();
   selectedTime: any;
 
@@ -18,7 +27,22 @@ export class TimePickerComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.emitTimeSelected.emit('undefined');
+    this.setTimeData();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setTimeData();
+  }
+
+  setTimeData(): void {
+    if (this.timeData) {
+      let time: Date = new Date(this.timeData);
+      this.selectedTime = time;
+      this.selectedHour = time.getHours();
+      this.selectedMinute = time.getMinutes();
+    } else {
+      this.emitTimeSelected.emit('undefined');
+    }
   }
 
   emitTime(): void {

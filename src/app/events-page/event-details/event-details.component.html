@@ -118,6 +118,7 @@
                   class="btn btn-outline btn-warning tooltip tooltip-bottom"
                   data-tip="Edit"
                   *ngIf="isAnAdministrator"
+                  (click)="EditEventInfos(eventInfos[0].id)"
                 >
                   <span class="text-2xl"
                     ><i class="fa-solid fa-file-pen"></i

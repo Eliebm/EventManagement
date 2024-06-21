@@ -26,7 +26,7 @@ export class GroupFormFieldComponent implements OnInit {
   }
 
   setEditData(): void {
-    if (this.groupData.length) {
+    if (this.groupData?.length) {
       this.title = this.groupData[0].title;
       this.description = this.groupData[0].description;
       this.SelectedCategory = this.groupData[0].category;

@@ -71,6 +71,7 @@
 
     <!-- time picker-->
     <app-time-picker
+      [timeData]="selectedTime"
       (emitTimeSelected)="passSelectedTime($event)"
     ></app-time-picker>
   </div>

@@ -1,9 +1,17 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   EventTypeList,
   Images,
   locationList,
 } from '../../Models/staticData.Models';
+import { EventClass } from '../../Models/event.Models';
 
 @Component({
   selector: 'app-create-event-form',
@@ -11,7 +19,7 @@ import {
   styleUrl: './create-event-form.component.scss',
 })
 export class CreateEventFormComponent implements OnInit {
-  @Input() editData: any;
+  @Input() editData: EventClass[] = [];
   @Output() submitForm = new EventEmitter<any>();
 
   title: string = '';
@@ -30,6 +38,20 @@ export class CreateEventFormComponent implements OnInit {
   ngOnInit(): void {
     let location: locationList[] = [...Object.values(locationList)];
     this.locationList = location;
+    this.setEditData();
+  }
+
+  setEditData(): void {
+    if (this.editData?.length) {
+      this.title = this.editData[0].title;
+      this.description = this.editData[0].description;
+      this.SelectedEventType = this.editData[0].type;
+      this.SelectedImage = this.editData[0].image;
+      this.selectedLocation = this.editData[0].location;
+      this.selectedDate = new Date(this.editData[0].startDate);
+      this.selectedTime = this.editData[0].startTime;
+      this.presentationType = this.editData[0].presentationType;
+    }
   }
 
   sendFormData(): void {

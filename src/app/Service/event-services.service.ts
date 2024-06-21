@@ -260,6 +260,30 @@ export class EventServicesService {
     }
   }
 
+  editEventInfoById(eveID: number, data: any): boolean {
+    let events = this.getAllEvents();
+    let eventInfo = this.events.filter((x) => x.id == eveID);
+    try {
+      eventInfo[0].title = data.title;
+      eventInfo[0].description = data.description;
+
+      eventInfo[0].type = data.eventType;
+      eventInfo[0].startDate = data.startDate;
+      eventInfo[0].startTime = data.startTime;
+      eventInfo[0].image = data.img;
+      eventInfo[0].location = data.location;
+      eventInfo[0].presentationType = data.presentation;
+      this.saveEventInfo(events);
+
+      let gid = this.checkIfEventBelongsToGroup(eveID);
+      this.updateEventInfoInGroup(gid, eveID);
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   fetchEventByUserId(): void {
     let id = 3;
     console.log('user id :' + id);

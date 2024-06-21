@@ -247,6 +247,10 @@ export class EventDetailsComponent implements OnInit {
     this.closeToastMessage();
   }
 
+  EditEventInfos(id: any): void {
+    this.router.navigate(['/Events/' + id + '/editEvent']);
+  }
+
   displayToastMessage(type: string, msg: string): void {
     this.showToastMessage = true;
     this.toastType = type;
