@@ -33,7 +33,7 @@ export class GroupEventListComponent implements OnInit, OnChanges {
   fetchList(): void {
     this.showEvents = this.allEvents;
   }
-  addNenEvent(): void {
+  addNewEvent(): void {
     this.addNewEventButton.emit();
   }
 }

@@ -30,7 +30,7 @@ export class NewEventComponent {
 
   ngOnInit(): void {
     this.groupId = this._route.snapshot.paramMap.get('id');
-    console.log(this.groupId);
+
     this.SelectedTheme();
     this.fetchLoginUserInfo();
   }

@@ -185,8 +185,12 @@ export class EventDetailsComponent implements OnInit {
   }
 
   joinEvent(): void {
+    let date = this.eventInfos[0].startDate;
+    let currentDate = new Date();
     if (this.isUserLoggedIn === false) {
       this.router.navigate(['/Login']);
+    } else if (new Date(date) < currentDate) {
+      this.displayToastMessage('alert-error', 'The event is finished.');
     } else {
       let groupId = this.eventService.checkIfEventBelongsToGroup(this.eventId);
       let response = this.eventService.addUserToEvent(

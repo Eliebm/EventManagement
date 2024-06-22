@@ -105,7 +105,7 @@ export class EditEventInfoComponent {
         'alert-success',
         'The event has been successfully edited.'
       );
-
+      this.fetchEventInfo();
       setTimeout(() => {
         this.loadingInProgress = false;
       }, 3000);

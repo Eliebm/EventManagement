@@ -146,21 +146,31 @@ export class GroupDetailsComponent implements OnInit {
     let userId = this.UserInfo[0].id;
     let msg;
 
-    msg = this.eventService.addUserToEvent(this.groupId, eventId, userId);
-    if (msg === 'error_1') {
-      this.displayToastMessage('alert-error', 'The user does not exist!');
-    } else if (msg === 'error_2') {
-      this.displayToastMessage(
-        'alert-warning',
-        'You have already joined this event'
-      );
-    } else {
-      this.displayToastMessage(
-        'alert-success',
-        'You have successfully joined the event.'
-      );
+    let groupEvent = this.groupInfos[0].eventList.filter(
+      (x) => x.id == eventId
+    );
+    let eventDate = groupEvent[0].startDate;
 
-      this.fetchListOfEventsByGroupId();
+    let currentDate = new Date();
+    if (new Date(eventDate) < currentDate) {
+      this.displayToastMessage('alert-error', 'The event is finished.');
+    } else {
+      msg = this.eventService.addUserToEvent(this.groupId, eventId, userId);
+      if (msg === 'error_1') {
+        this.displayToastMessage('alert-error', 'The user does not exist!');
+      } else if (msg === 'error_2') {
+        this.displayToastMessage(
+          'alert-warning',
+          'You have already joined this event'
+        );
+      } else {
+        this.displayToastMessage(
+          'alert-success',
+          'You have successfully joined the event.'
+        );
+
+        this.fetchListOfEventsByGroupId();
+      }
     }
     this.closeToastMessage();
   }

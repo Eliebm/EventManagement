@@ -284,6 +284,34 @@ export class EventServicesService {
     }
   }
 
+  deleteAdministrator(eveID: number, id: number): boolean {
+    let eveInfo = this.fetchEventInfoById(eveID);
+
+    try {
+      let admins = eveInfo[0].hostList;
+      if (admins.length === 1) {
+        return false;
+      }
+      eveInfo[0].hostList = admins.filter((x) => x.id !== id);
+      this.saveEventInfo(this.events);
+      let gid = this.checkIfEventBelongsToGroup(eveID);
+      this.updateEventInfoInGroup(gid, eveID);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  fetchAllAdminsByEventId(eveID: number): any {
+    let event = this.fetchEventInfoById(eveID);
+    return event[0].hostList;
+  }
+
+  fetchAllMembersByEventId(eveId: number): any {
+    let event = this.fetchEventInfoById(eveId);
+    return event[0].userList;
+  }
+
   fetchEventByUserId(): void {
     let id = 3;
     console.log('user id :' + id);

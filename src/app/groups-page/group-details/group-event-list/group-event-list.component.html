@@ -5,7 +5,7 @@
       class="btn btn-sm btn-outline btn-primary tooltip tooltip-bottom"
       data-tip="New Event"
       *ngIf="isAdministrator"
-      (click)="addNenEvent()"
+      (click)="addNewEvent()"
     >
       <span><i class="fa fa-calendar-plus text-xl"></i></span>
     </button>
@@ -29,7 +29,8 @@
       <img
         class="w-80 max-h-52 md:min-h-[220px]"
         src="../../../../assets/image/{{ event.image }}"
-        alt="{{ event.image }}"
+        alt="{{ event.image }} image"
+        loading="lazy"
       />
     </figure>
     <div class="card-body">

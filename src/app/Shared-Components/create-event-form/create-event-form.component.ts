@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
   SimpleChanges,
@@ -18,7 +19,7 @@ import { EventClass } from '../../Models/event.Models';
   templateUrl: './create-event-form.component.html',
   styleUrl: './create-event-form.component.scss',
 })
-export class CreateEventFormComponent implements OnInit {
+export class CreateEventFormComponent implements OnInit, OnChanges {
   @Input() editData: EventClass[] = [];
   @Output() submitForm = new EventEmitter<any>();
 
@@ -38,6 +39,10 @@ export class CreateEventFormComponent implements OnInit {
   ngOnInit(): void {
     let location: locationList[] = [...Object.values(locationList)];
     this.locationList = location;
+    this.setEditData();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.setEditData();
   }
 

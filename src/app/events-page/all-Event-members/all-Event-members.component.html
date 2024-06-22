@@ -1,0 +1,23 @@
+<div class="max-w-screen-2xl min-h-screen" [attr.data-theme]="retrievedMode">
+  <div class="p-5">
+    <div>
+      <div
+        class="toast toast-top toast-center top-1 z-50"
+        *ngIf="showToastMessage"
+      >
+        <div class="alert {{ toastType }}">
+          {{ toastMessage }}
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-md btn-error mb-4" (click)="returnBack()">
+      <span><i class="fa fas fa-arrow-left"></i> Back</span>
+    </button>
+
+    <app-extended-member-list
+      [memberList]="members"
+      [isAdmin]="isAdmin"
+      (deleteMember)="deleteMember($event)"
+    ></app-extended-member-list>
+  </div>
+</div>

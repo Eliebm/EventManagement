@@ -67,7 +67,6 @@ export class AccountService {
 
   deleteUser(userId: number): void {
     this.user = this.user.filter((x: any) => x.id !== userId);
-    console.log(this.user);
   }
 
   loginUser(userEmail: string, userPassword: string): boolean {

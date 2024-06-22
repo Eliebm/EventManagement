@@ -211,11 +211,10 @@ export class EventGroupsService {
     try {
       let group = this.fetchEventGroupById(groupId);
       let oldEventList = group[0].eventList;
-      console.log(newEventInfo);
 
       group[0].eventList = [...oldEventList, ...newEventInfo];
       this.saveEventGroup(this.eventGroups);
-      console.log(group);
+
       return true;
     } catch (error) {
       return false;
