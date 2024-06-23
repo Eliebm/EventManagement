@@ -10,6 +10,11 @@ import { GroupsPageModule } from '../groups-page/groups-page.module';
 import { EditEventInfoComponent } from './edit-event-info/edit-event-info.component';
 import { AllEventAdministratorComponent } from './all-Event-administrator/all-Event-administrator.component';
 import { AllEventMembersComponent } from './all-Event-members/all-Event-members.component';
+import { EventTimeLineComponent } from './event-details/event-time-line/event-time-line.component';
+import { TimelineModalComponent } from './event-details/event-time-line/timeline-modal/timeline-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { EvenOddPipe } from '../pipeFolder/even-odd.pipe';
 
 @NgModule({
   declarations: [
@@ -19,9 +24,14 @@ import { AllEventMembersComponent } from './all-Event-members/all-Event-members.
     AllEventAdministratorComponent,
     AllEventMembersComponent,
     EditEventInfoComponent,
+    EventTimeLineComponent,
+    TimelineModalComponent,
+    EvenOddPipe,
   ],
   imports: [
     CommonModule,
+    MatDialogModule,
+    FormsModule,
     EventsPageRoutingModule,
     SharedComponentsModule,
     GroupsPageModule,

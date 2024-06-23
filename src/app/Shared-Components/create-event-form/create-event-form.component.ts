@@ -56,6 +56,8 @@ export class CreateEventFormComponent implements OnInit, OnChanges {
       this.selectedDate = new Date(this.editData[0].startDate);
       this.selectedTime = this.editData[0].startTime;
       this.presentationType = this.editData[0].presentationType;
+    } else {
+      this.selectedTime = new Date().getTime();
     }
   }
 

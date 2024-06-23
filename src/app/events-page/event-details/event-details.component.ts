@@ -16,6 +16,7 @@ import { Subscription, interval } from 'rxjs';
 import { AddAdminModalComponent } from '../../Shared-Components/add-admin-modal/add-admin-modal.component';
 import { RatingModalComponent } from '../../Shared-Components/rating-modal/rating-modal.component';
 import { DeleteMemberModalComponent } from '../../Shared-Components/delete-member-modal/delete-member-modal.component';
+import { TimelineModalComponent } from './event-time-line/timeline-modal/timeline-modal.component';
 
 @Component({
   selector: 'app-event-details',
@@ -52,6 +53,39 @@ export class EventDetailsComponent implements OnInit {
     this.fetchEventInfo();
     this.isUserOnline();
     this.IsUserAnAdmin();
+  }
+
+  openAddTimeLineModal(): void {
+    let oldDate = new Date(this.eventInfos[0].startDate);
+
+    const dialogRef = this.dialog
+      .open(TimelineModalComponent, { position: { top: '90px' } })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res.data !== null) {
+          let response = res.data;
+          let oldTime = new Date(response.time);
+
+          oldDate.setHours(oldTime.getHours());
+          oldDate.setMinutes(oldTime.getMinutes());
+
+          response.time = oldDate;
+          let returnResponse = this.eventService.addTimeLineToEvent(
+            this.eventId,
+            response
+          );
+          if (returnResponse == true) {
+            this.displayToastMessage(
+              'alert-success',
+              'Timeline successfully added'
+            );
+            this.fetchEventInfo();
+          } else {
+            this.displayToastMessage('alert-error', 'Unable to add a Timeline');
+          }
+        }
+        this.closeToastMessage();
+      });
   }
 
   rateUS(): void {
@@ -185,11 +219,15 @@ export class EventDetailsComponent implements OnInit {
   }
 
   joinEvent(): void {
-    let date = this.eventInfos[0].startDate;
+    let eveDate = new Date(this.eventInfos[0].startDate);
+    let eveTime = new Date(this.eventInfos[0].startTime);
     let currentDate = new Date();
+    eveDate.setHours(eveTime.getHours());
+    eveDate.setMinutes(eveTime.getMinutes());
+
     if (this.isUserLoggedIn === false) {
       this.router.navigate(['/Login']);
-    } else if (new Date(date) < currentDate) {
+    } else if (eveDate < currentDate) {
       this.displayToastMessage('alert-error', 'The event is finished.');
     } else {
       let groupId = this.eventService.checkIfEventBelongsToGroup(this.eventId);
@@ -254,7 +292,19 @@ export class EventDetailsComponent implements OnInit {
   EditEventInfos(id: any): void {
     this.router.navigate(['/Events/' + id + '/editEvent']);
   }
-
+  deleteTimeLineById(timeId: number): void {
+    let response = this.eventService.deleteTimeLine(this.eventId, timeId);
+    if (response == true) {
+      this.displayToastMessage(
+        'alert-success',
+        'Timeline Successfully Deleted'
+      );
+      this.fetchEventInfo();
+    } else {
+      this.displayToastMessage('alert-error', 'Failed to delete the timeline');
+    }
+    this.closeToastMessage();
+  }
   displayToastMessage(type: string, msg: string): void {
     this.showToastMessage = true;
     this.toastType = type;

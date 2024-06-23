@@ -155,7 +155,9 @@
       </div>
     </div>
 
-    <div class="main-container ml-0 my-7 flex flex-col lg:flex-row md:ml-28">
+    <div
+      class="main-container ml-0 my-7 flex flex-col justify-center items-stretch lg:flex-row lg:ml-28 lg:justify-around"
+    >
       <!-- Right Section-->
       <div class-="right-section">
         <app-admin-list
@@ -171,7 +173,14 @@
       </div>
 
       <!-- Left Section-->
-      <div class-="left-section "></div>
+      <div class="left-section">
+        <app-event-time-line
+          [agenda]="eventInfos[0].agendaList"
+          [isAdmin]="isAnAdministrator"
+          (openTimeLineModal)="openAddTimeLineModal()"
+          (deleteTimeLine)="deleteTimeLineById($event)"
+        ></app-event-time-line>
+      </div>
     </div>
   </div>
 </div>

@@ -20,12 +20,6 @@
         </option>
       </select>
     </label>
-    <input
-      type="checkbox"
-      class="checkbox checkbox-primary join-item h-[50px] w-10"
-      id="timePickerCheckbox"
-      (click)="emitTime()"
-    />
   </div>
-  <label>{{ selectedTime | date : "shortTime" }}</label>
+  <label>Time: {{ selectedTime | date : "shortTime" }}</label>
 </div>

@@ -49,6 +49,7 @@ import { RatingModalComponent } from './rating-modal/rating-modal.component';
     CreateEventFormComponent,
     CountDownComponentComponent,
     AdminListComponent,
+    TimePickerComponent,
   ],
   imports: [
     CommonModule,

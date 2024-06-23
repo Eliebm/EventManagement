@@ -1,0 +1,42 @@
+<div
+  class="container min-h-[200px] flex flex-col justify-center items-center top-8"
+  [attr.data-theme]="themeVal"
+>
+  <h2 class="text-primary text-center text-2xl pt-4 font-bold">New TimeLine</h2>
+  <h1 class="font-bold text-md text-error mt-1" *ngIf="isError">
+    Error tittle or time can't be empty
+  </h1>
+  <mat-dialog-content>
+    <p class="{{ themeVal === 'light' ? 'text-black' : 'text-white' }} pb-3">
+      Insert the Timeline title and Time
+    </p>
+    <label
+      class="input input-bordered text-primary flex items-center gap-2 mb-3"
+    >
+      Title
+      <input
+        type="text"
+        class="grow text-primary"
+        placeholder="Timeline's title"
+        [(ngModel)]="titleInput"
+      />
+    </label>
+    <app-time-picker
+      [timeData]="currentDate"
+      (emitTimeSelected)="passSelectedTime($event)"
+    ></app-time-picker>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="join">
+      <button
+        class="btn join-item btn-sm btn-outline btn-error"
+        (click)="closeModal()"
+      >
+        Close
+      </button>
+      <button class="btn join-item btn-sm btn-success" (click)="confirm()">
+        Submit
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

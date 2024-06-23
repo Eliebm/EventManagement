@@ -5,7 +5,7 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 @Component({
@@ -13,8 +13,8 @@ import {
   templateUrl: './time-picker.component.html',
   styleUrl: './time-picker.component.scss',
 })
-export class TimePickerComponent implements OnInit, OnChanges {
-  @Input() timeData!: Date;
+export class TimePickerComponent implements OnInit {
+  @Input() timeData: any;
   @Output() emitTimeSelected = new EventEmitter<any>();
   selectedTime: any;
 
@@ -30,26 +30,18 @@ export class TimePickerComponent implements OnInit, OnChanges {
     this.setTimeData();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.setTimeData();
-  }
-
   setTimeData(): void {
-    if (this.timeData) {
-      let time: Date = new Date(this.timeData);
-      this.selectedTime = time;
-      this.selectedHour = time.getHours();
-      this.selectedMinute = time.getMinutes();
-    } else {
-      this.emitTimeSelected.emit('undefined');
-    }
+    let time = new Date(this.timeData);
+
+    this.selectedTime = time;
+    this.selectedHour = time.getHours();
+    this.selectedMinute = time.getMinutes();
   }
 
   emitTime(): void {
     this.selectedTime = new Date();
     this.selectedTime.setHours(this.selectedHour);
     this.selectedTime.setMinutes(this.selectedMinute);
-
     this.emitTimeSelected.emit(this.selectedTime);
   }
 }

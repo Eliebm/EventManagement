@@ -27,7 +27,7 @@ export class GroupEventListComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     this.fetchList();
   }
-  applyToAttend(eventId: any): void {
+  applyToAttend(eventId: number): void {
     this.AttendEvent.emit(eventId);
   }
   fetchList(): void {

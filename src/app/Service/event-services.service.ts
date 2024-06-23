@@ -6,6 +6,7 @@ import { AccountService } from './account.service';
 import { EventGroupsService } from './event-groups.service';
 import { BaseService } from './baseService/base.service';
 import { Rating } from '../Models/rating.Models';
+import { Agenda } from '../Models/agenda.Models';
 
 @Injectable({
   providedIn: 'root',
@@ -310,6 +311,40 @@ export class EventServicesService {
   fetchAllMembersByEventId(eveId: number): any {
     let event = this.fetchEventInfoById(eveId);
     return event[0].userList;
+  }
+
+  addTimeLineToEvent(eveId: number, data: any): boolean {
+    let event = this.fetchEventInfoById(eveId);
+    let timeLine = event[0].agendaList;
+    let newId = this.baseService.generateAutoIncrementId(timeLine);
+    try {
+      let agenda: Agenda[];
+      agenda = [
+        { id: newId, summary: data.title, startTime: new Date(data.time) },
+      ];
+      event[0].agendaList = [...timeLine, ...agenda];
+      this.saveEventInfo(this.events);
+      let gid = this.checkIfEventBelongsToGroup(eveId);
+      this.updateEventInfoInGroup(gid, eveId);
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  deleteTimeLine(eveID: number, timeLineId: number): boolean {
+    try {
+      let event = this.fetchEventInfoById(eveID);
+      let timeLine = event[0].agendaList;
+      event[0].agendaList = timeLine.filter((x) => x.id != timeLineId);
+      this.saveEventInfo(this.events);
+      let gid = this.checkIfEventBelongsToGroup(eveID);
+      this.updateEventInfoInGroup(gid, eveID);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   fetchEventByUserId(): void {

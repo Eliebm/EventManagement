@@ -142,17 +142,22 @@ export class GroupDetailsComponent implements OnInit {
     }
   }
 
-  AttendAnEvent(eventId: any): void {
+  AttendAnEvent(eventId: number): void {
     let userId = this.UserInfo[0].id;
     let msg;
 
     let groupEvent = this.groupInfos[0].eventList.filter(
       (x) => x.id == eventId
     );
-    let eventDate = groupEvent[0].startDate;
+
+    let newDate = new Date(groupEvent[0].startDate);
+    let newTime = new Date(groupEvent[0].startTime);
+
+    newDate.setHours(newTime.getHours());
+    newDate.setMinutes(newTime.getMinutes());
 
     let currentDate = new Date();
-    if (new Date(eventDate) < currentDate) {
+    if (newDate < currentDate) {
       this.displayToastMessage('alert-error', 'The event is finished.');
     } else {
       msg = this.eventService.addUserToEvent(this.groupId, eventId, userId);
