@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../Service/baseService/base.service';
 import { EventGroupsService } from '../../Service/event-groups.service';
@@ -10,13 +10,14 @@ import { EventClass } from '../../Models/event.Models';
 import { EventServicesService } from '../../Service/event-services.service';
 
 import { DeleteMemberModalComponent } from '../../Shared-Components/delete-member-modal/delete-member-modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-group-details',
   templateUrl: './group-details.component.html',
   styleUrl: './group-details.component.scss',
 })
-export class GroupDetailsComponent implements OnInit {
+export class GroupDetailsComponent implements OnInit, OnDestroy {
   themeStorageKey: string = 'DarkMode';
   StorageKey!: string;
   retrievedMode: any;
@@ -30,7 +31,7 @@ export class GroupDetailsComponent implements OnInit {
   toastMessage!: string;
   toastType!: string;
   isJoined: boolean = false;
-
+  private subscription!: Subscription;
   constructor(
     private _eventGroupsService: EventGroupsService,
     private _route: ActivatedRoute,
@@ -48,6 +49,12 @@ export class GroupDetailsComponent implements OnInit {
     this.isUserOnline();
     this.IsUserAnAdmin();
     this.fetchListOfEventsByGroupId();
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   isUserOnline() {
@@ -71,42 +78,42 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   openAddAdminDialog(): void {
-    const dialogRef = this.dialog
-      .open(AddAdminModalComponent, { position: { top: '90px' } })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res.data === null) {
+    const dialogRef = this.dialog.open(AddAdminModalComponent, {
+      position: { top: '90px' },
+    });
+    this.subscription = dialogRef.afterClosed().subscribe((res) => {
+      if (res.data === null) {
+      } else {
+        if (
+          this._eventGroupsService.addAdministratorToEventGroup(
+            this.groupId,
+            res.data
+          ) === 'true'
+        ) {
+          this.displayToastMessage(
+            'alert-success',
+            'Admin Added Successfully.'
+          );
+          this.fetchGroupInfos();
+        } else if (
+          this._eventGroupsService.addAdministratorToEventGroup(
+            this.groupId,
+            res.data
+          ) === 'error'
+        ) {
+          this.displayToastMessage(
+            'alert-error',
+            'Error: User Credentials Do Not Exist.'
+          );
         } else {
-          if (
-            this._eventGroupsService.addAdministratorToEventGroup(
-              this.groupId,
-              res.data
-            ) === 'true'
-          ) {
-            this.displayToastMessage(
-              'alert-success',
-              'Admin Added Successfully.'
-            );
-            this.fetchGroupInfos();
-          } else if (
-            this._eventGroupsService.addAdministratorToEventGroup(
-              this.groupId,
-              res.data
-            ) === 'error'
-          ) {
-            this.displayToastMessage(
-              'alert-error',
-              'Error: User Credentials Do Not Exist.'
-            );
-          } else {
-            this.displayToastMessage(
-              'alert-error',
-              'Error: Admin Already Exists.'
-            );
-          }
+          this.displayToastMessage(
+            'alert-error',
+            'Error: Admin Already Exists.'
+          );
         }
-        this.closeToastMessage();
-      });
+      }
+      this.closeToastMessage();
+    });
   }
 
   editGroup(): void {
@@ -226,31 +233,29 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   leaveTheGroup(): void {
-    const dialogRef = this.dialog
-      .open(DeleteMemberModalComponent, {
-        data: {
-          title: 'Leave Group',
-          description: 'Are you sure you want to leave the group?',
-          buttonTitle: 'Leave',
-        },
-        position: { top: '90px' },
-      })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res.data !== null) {
-          let userID = this.UserInfo[0].id;
-          let response = this._eventGroupsService.deleteMember(
-            this.groupId,
-            userID
-          );
-          if (response == true) {
-            this.displayToastMessage('alert-warning', "You've left the group.");
-            this.closeToastMessage();
-            this.isJoined = false;
-            this.fetchGroupInfos();
-          }
+    const dialogRef = this.dialog.open(DeleteMemberModalComponent, {
+      data: {
+        title: 'Leave Group',
+        description: 'Are you sure you want to leave the group?',
+        buttonTitle: 'Leave',
+      },
+      position: { top: '90px' },
+    });
+    this.subscription = dialogRef.afterClosed().subscribe((res) => {
+      if (res.data !== null) {
+        let userID = this.UserInfo[0].id;
+        let response = this._eventGroupsService.deleteMember(
+          this.groupId,
+          userID
+        );
+        if (response == true) {
+          this.displayToastMessage('alert-warning', "You've left the group.");
+          this.closeToastMessage();
+          this.isJoined = false;
+          this.fetchGroupInfos();
         }
-      });
+      }
+    });
   }
 
   showMoreMember(): void {

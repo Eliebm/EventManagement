@@ -56,7 +56,7 @@ export const staticUser = [
     lastName: 'lastname1',
     email: 'elie@hotmail.com',
     password: '123',
-    location: '',
+    location: 'lebanon',
   },
   {
     id: 2,
@@ -191,7 +191,24 @@ export const staticEvent = [
       },
     ],
 
-    agendaList: [],
+    agendaList: [
+      {
+        id: 5,
+        summary: 'ending ',
+        startTime: new Date('2024-06-25T11:00:00.000Z'),
+      },
+
+      {
+        id: 2,
+        summary: 'testing 2',
+        startTime: new Date('2024-06-25T04:52:00.000Z'),
+      },
+      {
+        id: 1,
+        summary: 'testing 1',
+        startTime: new Date('2024-06-25T04:30:00.000Z'),
+      },
+    ],
     rating: [],
     presentationType: 'on site',
     totalRating: 0,
@@ -228,7 +245,18 @@ export const staticEvent = [
     presentationType: 'Online',
     userList: [],
     hostList: [],
-    agendaList: [],
+    agendaList: [
+      {
+        id: 2,
+        summary: 'testing 2',
+        startTime: new Date('2024-06-25T04:52:00.000Z'),
+      },
+      {
+        id: 1,
+        summary: 'testing 1',
+        startTime: new Date('2024-06-25T04:30:00.000Z'),
+      },
+    ],
     rating: [],
     totalRating: 0,
   },
@@ -264,7 +292,33 @@ export const staticEvent = [
         location: 'new york',
       },
     ],
-    agendaList: [],
+    agendaList: [
+      {
+        id: 5,
+        summary: 'ending ',
+        startTime: new Date('2024-06-25T11:00:00.000Z'),
+      },
+      {
+        id: 4,
+        summary: 'timeline 5',
+        startTime: new Date('2024-06-25T07:30:00.000Z'),
+      },
+      {
+        id: 3,
+        summary: 'timeline 3',
+        startTime: new Date('2024-06-25T05:30:00.000Z'),
+      },
+      {
+        id: 2,
+        summary: 'testing 2',
+        startTime: new Date('2024-06-25T04:52:00.000Z'),
+      },
+      {
+        id: 1,
+        summary: 'testing 1',
+        startTime: new Date('2024-06-25T04:30:00.000Z'),
+      },
+    ],
     rating: [],
     totalRating: 0,
   },
@@ -435,7 +489,24 @@ export const staticGroupEvent = [
           },
         ],
 
-        agendaList: [],
+        agendaList: [
+          {
+            id: 5,
+            summary: 'ending ',
+            startTime: new Date('2024-06-25T11:00:00.000Z'),
+          },
+
+          {
+            id: 2,
+            summary: 'testing 2',
+            startTime: new Date('2024-06-25T04:52:00.000Z'),
+          },
+          {
+            id: 1,
+            summary: 'testing 1',
+            startTime: new Date('2024-06-25T04:30:00.000Z'),
+          },
+        ],
         rating: [],
         presentationType: 'on site',
         totalRating: 0,
@@ -599,7 +670,33 @@ export const staticGroupEvent = [
             location: 'new york',
           },
         ],
-        agendaList: [],
+        agendaList: [
+          {
+            id: 5,
+            summary: 'ending ',
+            startTime: new Date('2024-06-25T11:00:00.000Z'),
+          },
+          {
+            id: 4,
+            summary: 'timeline 5',
+            startTime: new Date('2024-06-25T07:30:00.000Z'),
+          },
+          {
+            id: 3,
+            summary: 'timeline 3',
+            startTime: new Date('2024-06-25T05:30:00.000Z'),
+          },
+          {
+            id: 2,
+            summary: 'testing 2',
+            startTime: new Date('2024-06-25T04:52:00.000Z'),
+          },
+          {
+            id: 1,
+            summary: 'testing 1',
+            startTime: new Date('2024-06-25T04:30:00.000Z'),
+          },
+        ],
         rating: [],
         totalRating: 5,
       },

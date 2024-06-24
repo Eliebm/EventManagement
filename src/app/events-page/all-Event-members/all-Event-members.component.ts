@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User } from '../../Models/user.Models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../Service/baseService/base.service';
@@ -6,13 +6,14 @@ import { EventGroupsService } from '../../Service/event-groups.service';
 import { EventServicesService } from '../../Service/event-services.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteMemberModalComponent } from '../../Shared-Components/delete-member-modal/delete-member-modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-all-Event-members',
   templateUrl: './all-Event-members.component.html',
   styleUrl: './all-Event-members.component.scss',
 })
-export class AllEventMembersComponent implements OnInit {
+export class AllEventMembersComponent implements OnInit, OnDestroy {
   retrievedMode: any;
   themeStorageKey: string = 'DarkMode';
   showToastMessage: boolean = false;
@@ -22,6 +23,8 @@ export class AllEventMembersComponent implements OnInit {
   isAdmin!: string;
   members!: User[];
   isUserLoggedIn: boolean = false;
+
+  private subscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,6 +44,12 @@ export class AllEventMembersComponent implements OnInit {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
     this.fetchAllMembers();
     this.isUserOnline();
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   isUserOnline() {
@@ -77,29 +86,28 @@ export class AllEventMembersComponent implements OnInit {
   }
 
   deleteMember(id: any): void {
-    const dialogRef = this.dialog
-      .open(DeleteMemberModalComponent, {
-        data: {
-          title: 'Member Removal Request',
-          description: 'Are you sure about removing the member?',
-          buttonTitle: 'Delete',
-        },
-        position: { top: '50px' },
-      })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res.data !== null) {
-          let response = this.eventService.deleteMember(this.eventId, id);
-          if (response == true) {
-            this.displayToastMessage(
-              'alert-warning',
-              'The member has been deleted.'
-            );
-            this.closeToastMessage();
+    const dialogRef = this.dialog.open(DeleteMemberModalComponent, {
+      data: {
+        title: 'Member Removal Request',
+        description: 'Are you sure about removing the member?',
+        buttonTitle: 'Delete',
+      },
+      position: { top: '50px' },
+    });
 
-            this.fetchAllMembers();
-          }
+    this.subscription = dialogRef.afterClosed().subscribe((res) => {
+      if (res.data !== null) {
+        let response = this.eventService.deleteMember(this.eventId, id);
+        if (response == true) {
+          this.displayToastMessage(
+            'alert-warning',
+            'The member has been deleted.'
+          );
+          this.closeToastMessage();
+
+          this.fetchAllMembers();
         }
-      });
+      }
+    });
   }
 }

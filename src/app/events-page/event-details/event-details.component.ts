@@ -23,7 +23,7 @@ import { TimelineModalComponent } from './event-time-line/timeline-modal/timelin
   templateUrl: './event-details.component.html',
   styleUrl: './event-details.component.scss',
 })
-export class EventDetailsComponent implements OnInit {
+export class EventDetailsComponent implements OnInit, OnDestroy {
   themeStorageKey: string = 'DarkMode';
   StorageKey!: string;
   retrievedMode: any;
@@ -37,6 +37,7 @@ export class EventDetailsComponent implements OnInit {
   toastType!: string;
   isJoined: boolean = false;
   isLoading: boolean = false;
+  private subscription!: Subscription;
 
   constructor(
     private _route: ActivatedRoute,
@@ -55,76 +56,80 @@ export class EventDetailsComponent implements OnInit {
     this.IsUserAnAdmin();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   openAddTimeLineModal(): void {
     let oldDate = new Date(this.eventInfos[0].startDate);
 
-    const dialogRef = this.dialog
-      .open(TimelineModalComponent, { position: { top: '90px' } })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res.data !== null) {
-          let response = res.data;
-          let oldTime = new Date(response.time);
+    const dialogRef = this.dialog.open(TimelineModalComponent, {
+      position: { top: '90px' },
+    });
 
-          oldDate.setHours(oldTime.getHours());
-          oldDate.setMinutes(oldTime.getMinutes());
+    this.subscription = dialogRef.afterClosed().subscribe((res) => {
+      if (res.data !== null) {
+        let response = res.data;
+        let oldTime = new Date(response.time);
 
-          response.time = oldDate;
-          let returnResponse = this.eventService.addTimeLineToEvent(
-            this.eventId,
-            response
+        oldDate.setHours(oldTime.getHours());
+        oldDate.setMinutes(oldTime.getMinutes());
+
+        response.time = oldDate;
+        let returnResponse = this.eventService.addTimeLineToEvent(
+          this.eventId,
+          response
+        );
+        if (returnResponse == true) {
+          this.displayToastMessage(
+            'alert-success',
+            'Timeline successfully added'
           );
-          if (returnResponse == true) {
-            this.displayToastMessage(
-              'alert-success',
-              'Timeline successfully added'
-            );
-            this.fetchEventInfo();
-          } else {
-            this.displayToastMessage('alert-error', 'Unable to add a Timeline');
-          }
+          this.fetchEventInfo();
+        } else {
+          this.displayToastMessage('alert-error', 'Unable to add a Timeline');
         }
-        this.closeToastMessage();
-      });
+      }
+      this.closeToastMessage();
+    });
   }
 
   rateUS(): void {
     if (this.isUserLoggedIn === true) {
-      const dialogRef = this.dialog
-        .open(RatingModalComponent, { position: { top: '90px' } })
-        .afterClosed()
-        .subscribe((res) => {
-          if (res.data !== null) {
-            if (res.data === 0) {
+      const dialogRef = this.dialog.open(RatingModalComponent, {
+        position: { top: '90px' },
+      });
+      this.subscription = dialogRef.afterClosed().subscribe((res) => {
+        if (res.data !== null) {
+          if (res.data === 0) {
+            this.displayToastMessage(
+              'alert-warning',
+              "you can't rate event with 0 star"
+            );
+            this.closeToastMessage();
+          } else {
+            let response = this.eventService.addRatingToEvent(
+              this.eventId,
+              this.UserInfo[0].id,
+              res.data
+            );
+
+            if (response === true) {
               this.displayToastMessage(
-                'alert-warning',
-                "you can't rate event with 0 star"
+                'alert-primary',
+                'Rating Successfully Added '
               );
-              this.closeToastMessage();
+              this.fetchEventInfo();
             } else {
-              let response = this.eventService.addRatingToEvent(
-                this.eventId,
-                this.UserInfo[0].id,
-                res.data
-              );
-
-              if (response === true) {
-                this.displayToastMessage(
-                  'alert-primary',
-                  'Rating Successfully Added '
-                );
-                this.fetchEventInfo();
-              } else {
-                this.displayToastMessage(
-                  'alert-error',
-                  'Error submitting Rate '
-                );
-              }
-
-              this.closeToastMessage();
+              this.displayToastMessage('alert-error', 'Error submitting Rate ');
             }
+
+            this.closeToastMessage();
           }
-        });
+        }
+      });
     } else {
       this.router.navigate(['/Login']);
     }
@@ -170,36 +175,37 @@ export class EventDetailsComponent implements OnInit {
   }
 
   openAddAdminDialog(): void {
-    const dialogRef = this.dialog
-      .open(AddAdminModalComponent, { position: { top: '90px' } })
-      .afterClosed()
-      .subscribe((res) => {
-        let submitResponse = this.eventService.addAdministratorToEventGroup(
-          this.eventId,
-          res.data
-        );
-        if (res.data === null) {
+    const dialogRef = this.dialog.open(AddAdminModalComponent, {
+      position: { top: '90px' },
+    });
+
+    this.subscription = dialogRef.afterClosed().subscribe((res) => {
+      let submitResponse = this.eventService.addAdministratorToEventGroup(
+        this.eventId,
+        res.data
+      );
+      if (res.data === null) {
+      } else {
+        if (submitResponse === 'true') {
+          this.displayToastMessage(
+            'alert-success',
+            'Admin Added Successfully.'
+          );
+          this.fetchEventInfo();
+        } else if (submitResponse === 'error') {
+          this.displayToastMessage(
+            'alert-error',
+            'Error: User Credentials Do Not Exist.'
+          );
         } else {
-          if (submitResponse === 'true') {
-            this.displayToastMessage(
-              'alert-success',
-              'Admin Added Successfully.'
-            );
-            this.fetchEventInfo();
-          } else if (submitResponse === 'error') {
-            this.displayToastMessage(
-              'alert-error',
-              'Error: User Credentials Do Not Exist.'
-            );
-          } else {
-            this.displayToastMessage(
-              'alert-error',
-              'Error: Admin Already Exists.'
-            );
-          }
+          this.displayToastMessage(
+            'alert-error',
+            'Error: Admin Already Exists.'
+          );
         }
-        this.closeToastMessage();
-      });
+      }
+      this.closeToastMessage();
+    });
   }
 
   showAllAdministrators(): void {
@@ -251,41 +257,54 @@ export class EventDetailsComponent implements OnInit {
   }
 
   leaveEvent(): void {
-    const dialogRef = this.dialog
-      .open(DeleteMemberModalComponent, {
-        data: {
-          title: 'Leave Event',
-          description: 'Are you sure you want to leave the event?',
-          buttonTitle: 'Leave',
-        },
-        position: { top: '90px' },
-      })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res.data !== null) {
-          let userID = this.UserInfo[0].id;
-          let response = this.eventService.deleteMember(this.eventId, userID);
-          if (response == true) {
-            this.displayToastMessage('alert-warning', "You've left the event.");
-            this.closeToastMessage();
-            this.isJoined = false;
-            this.fetchEventInfo();
-          }
+    const dialogRef = this.dialog.open(DeleteMemberModalComponent, {
+      data: {
+        title: 'Leave Event',
+        description: 'Are you sure you want to leave the event?',
+        buttonTitle: 'Leave',
+      },
+      position: { top: '90px' },
+    });
+    this.subscription = dialogRef.afterClosed().subscribe((res) => {
+      if (res.data !== null) {
+        let userID = this.UserInfo[0].id;
+        let response = this.eventService.deleteMember(this.eventId, userID);
+        if (response == true) {
+          this.displayToastMessage('alert-warning', "You've left the event.");
+          this.closeToastMessage();
+          this.isJoined = false;
+          this.fetchEventInfo();
         }
-      });
+      }
+    });
   }
 
   deleteEvent(id: number): void {
-    let response = this.eventService.deleteEvent(id);
-    if (response === true) {
-      this.isLoading = true;
-      this.displayToastMessage('alert-success', 'Event successfully delete');
-      setTimeout(() => {
-        this.router.navigate(['/Events']);
-      }, 4000);
-    } else {
-      this.displayToastMessage('alert-error', 'Unable to delete Event');
-    }
+    const dialogRef = this.dialog.open(DeleteMemberModalComponent, {
+      data: {
+        title: 'Delete Event',
+        description: 'Are you sure about Deleting this Event?',
+        buttonTitle: 'Delete',
+      },
+      position: { top: '50px' },
+    });
+    this.subscription = dialogRef.afterClosed().subscribe((res) => {
+      if (res.data !== null) {
+        let response = this.eventService.deleteEvent(id);
+        if (response === true) {
+          this.isLoading = true;
+          this.displayToastMessage(
+            'alert-success',
+            'Event successfully delete'
+          );
+          setTimeout(() => {
+            this.router.navigate(['/Events']);
+          }, 4000);
+        } else {
+          this.displayToastMessage('alert-error', 'Unable to delete Event');
+        }
+      }
+    });
     this.closeToastMessage();
   }
 

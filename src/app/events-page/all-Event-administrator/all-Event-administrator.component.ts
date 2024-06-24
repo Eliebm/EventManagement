@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../Service/baseService/base.service';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../Models/user.Models';
 import { EventServicesService } from '../../Service/event-services.service';
 import { DeleteMemberModalComponent } from '../../Shared-Components/delete-member-modal/delete-member-modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-all-Event-administrator',
   templateUrl: './all-Event-administrator.component.html',
   styleUrl: './all-Event-administrator.component.scss',
 })
-export class AllEventAdministratorComponent {
+export class AllEventAdministratorComponent implements OnInit, OnDestroy {
   retrievedMode: any;
   themeStorageKey: string = 'DarkMode';
   showToastMessage: boolean = false;
@@ -22,6 +23,8 @@ export class AllEventAdministratorComponent {
   admins!: User[];
   isUserLoggedIn: boolean = false;
   listTitle: string = 'Administrative Staff ';
+
+  private subscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +40,12 @@ export class AllEventAdministratorComponent {
 
   ngOnInit(): void {
     this.fetchAllAdmins();
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   displayToastMessage(type: string, msg: string): void {
@@ -60,38 +69,34 @@ export class AllEventAdministratorComponent {
   }
 
   deleteAdministrator(id: any): void {
-    const dialogRef = this.dialog
-      .open(DeleteMemberModalComponent, {
-        data: {
-          title: 'Administrator Removal Request',
-          description: 'Are you sure about removing the Administrator?',
-          buttonTitle: 'Delete',
-        },
-        position: { top: '50px' },
-      })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res.data !== null) {
-          let response = this.EventService.deleteAdministrator(
-            this.eventId,
-            id
-          );
-          if (response == true) {
-            this.displayToastMessage(
-              'alert-warning',
-              'The Administrator has been deleted.'
-            );
-            this.closeToastMessage();
+    const dialogRef = this.dialog.open(DeleteMemberModalComponent, {
+      data: {
+        title: 'Administrator Removal Request',
+        description: 'Are you sure about removing the Administrator?',
+        buttonTitle: 'Delete',
+      },
+      position: { top: '50px' },
+    });
 
-            this.fetchAllAdmins();
-          } else {
-            this.displayToastMessage(
-              'alert-error',
-              'the group can not be without any administrator '
-            );
-            this.closeToastMessage();
-          }
+    this.subscription = dialogRef.afterClosed().subscribe((res) => {
+      if (res.data !== null) {
+        let response = this.EventService.deleteAdministrator(this.eventId, id);
+        if (response == true) {
+          this.displayToastMessage(
+            'alert-warning',
+            'The Administrator has been deleted.'
+          );
+          this.closeToastMessage();
+
+          this.fetchAllAdmins();
+        } else {
+          this.displayToastMessage(
+            'alert-error',
+            'the group can not be without any administrator '
+          );
+          this.closeToastMessage();
         }
-      });
+      }
+    });
   }
 }
