@@ -149,15 +149,11 @@
       >
         <li class="text-secondary">{{ avatarName }}</li>
         <li>
-          <a class="font-bold text-lg" routerLink=""
+          <a class="font-bold text-lg" [routerLink]="'/Profile'"
             ><i class="fa-solid fa-id-card"></i> Profile
           </a>
         </li>
-        <li>
-          <a class="font-bold text-lg" routerLink=""
-            ><i class="fa-solid fa-list"></i>My Events</a
-          >
-        </li>
+
         <li>
           <a class="font-bold text-lg" (click)="userLogOut()"
             ><i class="fa-solid fa-right-from-bracket"></i>LogOut</a

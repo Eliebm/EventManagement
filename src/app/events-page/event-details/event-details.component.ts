@@ -311,6 +311,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   EditEventInfos(id: any): void {
     this.router.navigate(['/Events/' + id + '/editEvent']);
   }
+
   deleteTimeLineById(timeId: number): void {
     let response = this.eventService.deleteTimeLine(this.eventId, timeId);
     if (response == true) {

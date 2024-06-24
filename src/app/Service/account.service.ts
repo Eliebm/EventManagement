@@ -101,4 +101,19 @@ export class AccountService {
     let localStorageKey = 'loggedInUser';
     localStorage.removeItem(localStorageKey);
   }
+
+  changeUserPasswordByUserId(userId: number, newPass: string): boolean {
+    try {
+      let users = this.fetchUsers();
+      let userInfo = users.filter((user) => user.id == userId);
+      userInfo[0].password = newPass;
+      console.log(userInfo[0]);
+
+      this.saveUsers(users);
+      this.saveUserInfo(userInfo);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }
