@@ -21,6 +21,7 @@ export class GroupEventListComponent implements OnInit, OnChanges {
   @Output() addNewEventButton = new EventEmitter<any>();
 
   showEvents?: EventClass[];
+
   ngOnInit(): void {
     this.fetchList();
   }

@@ -40,7 +40,8 @@ export class CreateNewGroupComponent implements OnInit {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
   }
   returnBack(): void {
-    this.router.navigate(['/Groups/']);
+    let ActiveRoute = localStorage.getItem('A.R');
+    this.router.navigate([ActiveRoute]);
   }
 
   displayToastMessage(type: string, msg: string): void {

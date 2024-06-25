@@ -7,6 +7,8 @@ import { User } from '../Models/user.Models';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordModalComponent } from './change-password-modal/change-password-modal.component';
+import { EventGroup } from '../Models/eventGroup.Models';
+import { EventClass } from '../Models/event.Models';
 
 @Component({
   selector: 'app-profile-page',
@@ -22,6 +24,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   showToastMessage: boolean = false;
   toastMessage!: string;
   toastType!: string;
+  userGroups!: EventGroup[];
+  userEvents!: EventClass[];
+  filteredGroups!: EventGroup[];
+  filteredEvents!: EventClass[];
   private subscription!: Subscription;
 
   constructor(
@@ -36,6 +42,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     this.baseService.setActiveRoute();
 
     this.isUserOnline();
+    this.fetchUsersGroups();
+    this.fetchUsersEvents();
   }
 
   ngOnDestroy(): void {
@@ -83,6 +91,43 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         this.closeToastMessage();
       }
     });
+  }
+
+  fetchUsersGroups(): void {
+    this.userGroups = this.accountService.fetchGroupsByUserId(
+      this.UserInfo[0].id
+    );
+    this.filteredGroups = this.userGroups;
+  }
+
+  fetchUsersEvents(): void {
+    this.userEvents = this.accountService.fetchEventsByUserId(
+      this.UserInfo[0].id
+    );
+
+    this.filteredEvents = this.userEvents;
+  }
+
+  searchGroups(data: string): void {
+    if (data === undefined) {
+      this.filteredGroups = this.userGroups;
+    } else {
+      this.filteredGroups = this.userGroups.filter((x) =>
+        x.title.toLowerCase().includes(data.toLowerCase())
+      );
+    }
+  }
+
+  searchEvents(data: string): void {
+    if (data === undefined) {
+      this.filteredEvents = this.userEvents;
+    } else {
+      this.filteredEvents = this.userEvents.filter(
+        (x) =>
+          x.title.toLowerCase().includes(data.toLowerCase()) ||
+          x.location.toLowerCase().includes(data.toLowerCase())
+      );
+    }
   }
 
   displayToastMessage(type: string, msg: string): void {

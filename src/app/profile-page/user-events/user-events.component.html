@@ -1,1 +1,108 @@
-<p>user-events works!</p>
+<div class="flex flex-col items-center">
+  <div class="join mb-3">
+    <app-search-bar
+      class="join-item"
+      (CallSearchFunction)="submitSearch($event)"
+    ></app-search-bar>
+    <button
+      class="join-item btn btn-primary tooltip tooltip-bottom"
+      data-tip="new Event"
+      [routerLink]="['/Events/createNewEvent']"
+    >
+      <span><i class="fa-solid fa-square-plus"></i></span>
+    </button>
+  </div>
+  <!--Loader-->
+  <div class="flex flex-col gap-4 w-52 my-5" *ngIf="!allEvents?.length">
+    <h2 class="text-error text-center">No Events</h2>
+    <div class="skeleton h-32 w-full"></div>
+    <div class="skeleton h-4 w-28"></div>
+    <div class="skeleton h-4 w-full"></div>
+    <div class="skeleton h-4 w-full"></div>
+  </div>
+  <!-- Events card -->
+  <div
+    class="card w-80 md:w-[700px] lg:w-[980px] min-h-[220px] md:max-h-36 glass shadow-xl flex flex-col md:flex-row my-5 justify-start"
+    *ngFor="let event of showedEvent"
+  >
+    <figure
+      class="rounded-t-xl sm:rounded-b-none md:rounded-r-none md:rounded-l-xl"
+    >
+      <img
+        class="w-80 max-h-52 md:min-h-[220px]"
+        src="../../../../assets/image/{{ event.image }}"
+        alt="{{ event.image }} image"
+        loading="lazy"
+      />
+    </figure>
+    <div class="card-body md:w-[550px] lg:w-full">
+      <div
+        class="title-row w-72 md:w-[600px] flex flex-col md:flex-row gap-2 items-center"
+      >
+        <h2 class="card-title">{{ event.title.substring(0, 50) + "." }}</h2>
+        <div class="rating-row">
+          <div
+            class="badge badge-warning tooltip tooltip-bottom mr-5"
+            data-tip="rating"
+          >
+            {{ event.totalRating | number : "1.2-2" }}
+          </div>
+          <div
+            class="badge {{
+              event.presentationType === 'Online'
+                ? 'badge-secondary'
+                : 'badge-primary'
+            }}"
+          >
+            {{ event.presentationType }}
+          </div>
+        </div>
+      </div>
+
+      <p class="w-[280px] md:w-[450px] lg:w-[650px]">
+        {{ event.description.substring(0, 140) + "..." }}
+      </p>
+      <div class="flex flex-row justify-between">
+        <label
+          ><span
+            ><i class="fa-solid fas fa-location-arrow mr-1 text-info"></i></span
+          >{{ event.location }}</label
+        >
+        <label
+          ><span><i class="fa-solid fa-calendar mr-1 text-info"></i></span
+          >{{ event.startDate | date : "dd/MMMM/YYYY" }}</label
+        ><label class="w-[100px]"
+          ><span><i class="fa-solid fa-clock mr-1 text-info"></i></span
+          >{{ event.startTime | date : "shortTime" }}</label
+        >
+      </div>
+      <div class="card-actions justify-between items-baseline mt-2">
+        <div
+          class="type-badge-left-bottom badge badge-accent"
+          *ngIf="event.type"
+        >
+          {{ event.type }}
+        </div>
+        <div class="indicator">
+          <span class="indicator-item badge badge-primary w-9">
+            {{ event.userList.length < 100 ? event.userList.length : "99+" }}
+          </span>
+          <div class="grid w-9 h-9 place-items-start font-bold">
+            <span
+              class="tooltip tooltip-bottom"
+              [attr.data-tip]="event.userList.length + ' going'"
+              ><i class="fa-solid fa-users text-primary"></i
+            ></span>
+          </div>
+        </div>
+
+        <button
+          class="btn btn-sm md:btn-md btn-primary"
+          routerLink="/Events/{{ event.id }}"
+        >
+          Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

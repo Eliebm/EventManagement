@@ -39,6 +39,7 @@ export class AllEventAdministratorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.baseService.setActiveRoute();
     this.fetchAllAdmins();
   }
 

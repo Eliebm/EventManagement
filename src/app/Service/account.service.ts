@@ -3,6 +3,8 @@ import { User } from '../Models/user.Models';
 import { BaseService } from './baseService/base.service';
 import { Route, Router } from '@angular/router';
 import { staticUser } from '../Models/staticData.Models';
+import { EventGroup } from '../Models/eventGroup.Models';
+import { EventClass } from '../Models/event.Models';
 
 @Injectable({
   providedIn: 'root',
@@ -115,5 +117,41 @@ export class AccountService {
     } catch (error) {
       return false;
     }
+  }
+
+  fetchGroupsByUserId(userId: number): any {
+    let groupsData = localStorage.getItem('Groups-Of-Events');
+    let groupsList: EventGroup[] = [];
+    if (groupsData) {
+      groupsList = JSON.parse(groupsData);
+    }
+
+    let id = userId;
+    let fetchedList: any = [];
+    groupsList.forEach((x) => {
+      if (x.adminList.find((u) => u.id === id)) {
+        fetchedList.push(x);
+      }
+    });
+
+    return fetchedList;
+  }
+
+  fetchEventsByUserId(userId: number): any {
+    let eventsData = localStorage.getItem('All-Events');
+    let eventList: EventClass[] = [];
+    if (eventsData) {
+      eventList = JSON.parse(eventsData);
+    }
+
+    let id = userId;
+    let fetchList: any = [];
+    eventList.forEach((item) => {
+      if (item.hostList.find((x) => x.id === id)) {
+        fetchList.push(item);
+      }
+    });
+
+    return fetchList;
   }
 }

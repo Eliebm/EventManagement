@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../Models/user.Models';
 import { Router } from '@angular/router';
-import { EventGroupsService } from '../../Service/event-groups.service';
+
 import { AccountService } from '../../Service/account.service';
 import { EventServicesService } from '../../Service/event-services.service';
 
@@ -40,8 +40,10 @@ export class CreateNewEventComponent implements OnInit {
   SelectedTheme() {
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
   }
+
   returnBack(): void {
-    this.router.navigate(['/Events/']);
+    let activeRoute = localStorage.getItem('A.R');
+    this.router.navigate([activeRoute]);
   }
 
   displayToastMessage(type: string, msg: string): void {
