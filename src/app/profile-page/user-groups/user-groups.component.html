@@ -13,8 +13,8 @@
     </button>
   </div>
   <!--Loader-->
-  <div class="flex flex-col gap-4 w-52 mb-5" *ngIf="!allGroups?.length">
-    <h2 class="text-error text-center">No Groups</h2>
+  <div class="flex flex-col gap-4 w-52 my-5" *ngIf="!allGroups?.length">
+    <h2 class="text-error text-center font-bold">No Groups</h2>
     <div class="skeleton h-32 w-full"></div>
     <div class="skeleton h-4 w-28"></div>
     <div class="skeleton h-4 w-full"></div>
@@ -59,13 +59,28 @@
             ></span>
           </div>
         </div>
+        <div class="indicator">
+          <span class="indicator-item badge badge-info w-9">
+            {{ group.eventList.length < 10 ? group.eventList.length : "10+" }}
+          </span>
+          <div class="grid w-9 h-9 place-items-start font-bold">
+            <span
+              class="tooltip tooltip-bottom tooltip-info"
+              [attr.data-tip]="group.eventList.length + ' Event(s)'"
+              ><i class="fas far fa-calendar text-info"></i
+            ></span>
+          </div>
+        </div>
 
         <button
           class="btn btn-sm md:btn-md btn-primary"
           routerLink="/Groups/{{ group.id }}"
         >
           Details</button
-        ><button class="btn btn-sm md:btn-md btn-outline btn-error">
+        ><button
+          class="btn btn-sm md:btn-md btn-outline btn-error"
+          (click)="delete(group.id)"
+        >
           <span><i class="fa-solid fa-trash"></i></span>
         </button>
       </div>

@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EventClass } from '../Models/event.Models';
 import { staticEvent } from '../Models/staticData.Models';
-
-import { AccountService } from './account.service';
 import { EventGroupsService } from './event-groups.service';
 import { BaseService } from './baseService/base.service';
 import { Rating } from '../Models/rating.Models';
 import { Agenda } from '../Models/agenda.Models';
+import { User } from '../Models/user.Models';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +18,6 @@ export class EventServicesService {
   user: any[] = [];
 
   constructor(
-    private _accountService: AccountService,
     private eventGroupService: EventGroupsService,
     private baseService: BaseService
   ) {}
@@ -46,6 +44,16 @@ export class EventServicesService {
       this.events = JSON.parse(data);
     }
     return this.events;
+  }
+
+  getAllUsers(): User[] {
+    this.storageKey = 'USERS';
+    let data = localStorage.getItem(this.storageKey);
+    let users;
+    if (data) {
+      users = JSON.parse(data);
+    }
+    return users;
   }
 
   fetchEventInfoById(eventId: number): EventClass[] {
@@ -104,7 +112,7 @@ export class EventServicesService {
   }
 
   addAdministratorToEventGroup(eventID: number, userEmail: string): string {
-    let users = this._accountService.fetchUsers();
+    let users = this.getAllUsers();
     let user = users.filter((x) => x.email == userEmail);
     let gId = this.checkIfEventBelongsToGroup(eventID);
     if (!user?.length) {
@@ -139,7 +147,7 @@ export class EventServicesService {
 
   addUserToEvent(groupId: number, eventId: number, userId: number): String {
     let usId = userId;
-    this.user = this._accountService.fetchUsers();
+    this.user = this.getAllUsers();
     let fetchedEvent = this.getAllEvents().filter((x) => x.id == eventId);
     let fetchedUser = this.user.filter((x) => x.id === usId);
 
@@ -345,18 +353,5 @@ export class EventServicesService {
     } catch (error) {
       return false;
     }
-  }
-
-  fetchEventByUserId(): void {
-    let id = 3;
-    console.log('user id :' + id);
-    let fetchedList: any = [];
-    this.staticEventData.forEach((item) => {
-      if (item.userList.find((u2) => u2.id === id)) {
-        fetchedList.push(item);
-      }
-    });
-
-    console.log(fetchedList);
   }
 }

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordModalComponent } from './change-password-modal/change-password-modal.component';
 import { EventGroup } from '../Models/eventGroup.Models';
 import { EventClass } from '../Models/event.Models';
+import { DeleteMemberModalComponent } from '../Shared-Components/delete-member-modal/delete-member-modal.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -28,16 +29,19 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   userEvents!: EventClass[];
   filteredGroups!: EventGroup[];
   filteredEvents!: EventClass[];
+  isLoading!: boolean;
   private subscription!: Subscription;
 
   constructor(
     private router: Router,
     private baseService: BaseService,
     private accountService: AccountService,
+    private eventGroupService: EventGroupsService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = false;
     this.retrievedMode = localStorage.getItem(this.themeStorageKey);
     this.baseService.setActiveRoute();
 
@@ -128,6 +132,51 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           x.location.toLowerCase().includes(data.toLowerCase())
       );
     }
+  }
+
+  openDeleteGroupDialog(receivedGroupId: number): void {
+    const dialogRef = this.dialog.open(DeleteMemberModalComponent, {
+      data: {
+        title: 'Delete Event',
+        description: 'Are you sure about Deleting this Event?',
+        buttonTitle: 'Delete',
+      },
+      position: { top: '50px' },
+    });
+
+    this.subscription = dialogRef.afterClosed().subscribe((res) => {
+      if (res.data !== null) {
+        this.deleteGroup(receivedGroupId);
+      }
+    });
+  }
+
+  async deleteGroup(grpId: number) {
+    this.isLoading = true;
+    await this.accountService
+      .deleteGroupAndAssociatedEvents(grpId)
+      .then(() => {
+        this.isLoading = true;
+        let response = this.eventGroupService.deleteGroup(grpId);
+        if (response === true) {
+          this.displayToastMessage(
+            'alert-success',
+            'Groups and their events successfully deleted.'
+          );
+          this.fetchUsersEvents();
+          this.fetchUsersGroups();
+        } else {
+          this.displayToastMessage(
+            'alert-error',
+            'Error deleting Group and their events'
+          );
+        }
+      })
+      .catch((error) => {
+        this.displayToastMessage('alert-error', error);
+      });
+    this.closeToastMessage();
+    this.isLoading = false;
   }
 
   displayToastMessage(type: string, msg: string): void {

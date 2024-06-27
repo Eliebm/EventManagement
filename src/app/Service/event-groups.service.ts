@@ -17,11 +17,7 @@ export class EventGroupsService {
   user: User[] = [];
   eventGroups!: EventGroup[];
 
-  constructor(
-    private baseService: BaseService,
-    private router: Router,
-    private accountService: AccountService
-  ) {
+  constructor(private baseService: BaseService, private router: Router) {
     this.storageKey = 'Groups-Of-Events';
   }
 
@@ -46,6 +42,16 @@ export class EventGroupsService {
       this.eventGroups = JSON.parse(data);
     }
     return this.eventGroups;
+  }
+
+  getAllUsers(): User[] {
+    this.storageKey = 'USERS';
+    let data = localStorage.getItem(this.storageKey);
+    let users;
+    if (data) {
+      users = JSON.parse(data);
+    }
+    return users;
   }
 
   addNewGroup(receivedGroupData: any): boolean {
@@ -92,7 +98,7 @@ export class EventGroupsService {
   }
 
   addAdministratorToEventGroup(groupID: number, userEmail: string): string {
-    let users = this.accountService.fetchUsers();
+    let users = this.getAllUsers();
     let user = users.filter((x) => x.email == userEmail);
     if (!user?.length) {
       return 'error';
@@ -215,6 +221,17 @@ export class EventGroupsService {
       group[0].eventList = [...oldEventList, ...newEventInfo];
       this.saveEventGroup(this.eventGroups);
 
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  deleteGroup(grpId: number): boolean {
+    try {
+      let groups = this.getEventGroups();
+      let newGroups = groups.filter((x) => x.id !== grpId);
+      this.saveEventGroup(newGroups);
       return true;
     } catch (error) {
       return false;

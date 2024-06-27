@@ -5,6 +5,8 @@ import { Route, Router } from '@angular/router';
 import { staticUser } from '../Models/staticData.Models';
 import { EventGroup } from '../Models/eventGroup.Models';
 import { EventClass } from '../Models/event.Models';
+import { EventServicesService } from './event-services.service';
+import { EventGroupsService } from './event-groups.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,11 @@ export class AccountService {
   user: User[] = [];
   private storageKey: any;
 
-  constructor(private baseService: BaseService, private router: Router) {
+  constructor(
+    private baseService: BaseService,
+    private router: Router,
+    private eventService: EventServicesService
+  ) {
     this.storageKey = 'USERS';
   }
 
@@ -153,5 +159,37 @@ export class AccountService {
     });
 
     return fetchList;
+  }
+
+  async deleteGroupAndAssociatedEvents(groupId: number) {
+    let groupsData = localStorage.getItem('Groups-Of-Events');
+    let groupsList: EventGroup[] = [];
+    if (groupsData) {
+      groupsList = JSON.parse(groupsData);
+    }
+    let groupInfo = groupsList.filter((x) => x.id === groupId);
+    let events = groupInfo[0].eventList;
+
+    for (let event of events) {
+      try {
+        const response = await this.removeAllGroupEvents(event.id);
+        if (response === false) {
+          return;
+        }
+      } catch (error) {}
+    }
+  }
+
+  async removeAllGroupEvents(eveID: number) {
+    return await new Promise((resolve, reject) => {
+      let response = this.eventService.deleteEvent(eveID);
+      setTimeout(() => {
+        if (response === true) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }, 1000);
+    });
   }
 }
