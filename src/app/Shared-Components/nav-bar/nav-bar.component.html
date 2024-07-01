@@ -3,7 +3,7 @@
   [attr.data-theme]="themeVal"
 >
   <div class="navbar-start">
-    <div class="dropdown z-20">
+    <div class="dropdown z-50">
       <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +41,14 @@
         <li>
           <a class="font-bold text-lg flex flex-row" [routerLink]="'/Events'"
             ><span><i class="fa-solid far fa-calendar-week"></i></span>Events</a
+          >
+        </li>
+        <li>
+          <a
+            class="font-bold text-lg flex flex-row"
+            [routerLink]="'/ApiRequest'"
+            ><span><i class="fa-solid fa-code-pull-request"></i></span
+            >Api-request</a
           >
         </li>
       </ul>
@@ -89,6 +97,18 @@
         >
           <a class="text-blue-50 text-lg" [routerLink]="'/Events'"
             ><span><i class="fa-solid fa-calendar-week"></i></span
+          ></a>
+        </div>
+      </li>
+      <li>
+        <div
+          class="lg:tooltip lg:tooltip-bottom lg:tooltip-{{
+            themeVal === 'light' ? 'primary' : 'warning'
+          }}"
+          data-tip="ApiRequest"
+        >
+          <a class="text-blue-50 text-lg" [routerLink]="'/ApiRequest'"
+            ><span><i class="fa-solid fa-code-pull-request"></i></span
           ></a>
         </div>
       </li>

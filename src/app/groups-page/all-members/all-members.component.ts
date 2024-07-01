@@ -31,10 +31,13 @@ export class AllMembersComponent implements OnInit, OnDestroy {
     private groupService: EventGroupsService,
     private dialog: MatDialog
   ) {
-    this.route.queryParams.subscribe((params) => {
-      this.groupId = params['param1'];
-      this.isAdmin = params['param2'];
-    });
+    this.subscription = new Subscription();
+    this.subscription.add(
+      this.route.queryParams.subscribe((params) => {
+        this.groupId = params['param1'];
+        this.isAdmin = params['param2'];
+      })
+    );
   }
 
   ngOnInit(): void {

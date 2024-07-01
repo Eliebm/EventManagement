@@ -77,8 +77,8 @@ export class LogInComponent implements OnInit {
     }
   }
   removePasswordWarning(): void {
-    if (this.passwordInput === ' ') {
-      this.showPasswordTooltip = ' ';
+    if (this.passwordInput === '') {
+      this.showPasswordTooltip = '';
       this.hidePasswordExclamation = true;
     } else {
       this.showToastMessage = false;

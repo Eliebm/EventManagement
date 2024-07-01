@@ -38,9 +38,12 @@ export class AllAdministratorComponent implements OnInit, OnDestroy {
     private groupService: EventGroupsService,
     private dialog: MatDialog
   ) {
-    this.route.queryParams.subscribe((params) => {
-      this.groupId = params['param1'];
-    });
+    this.subscription = new Subscription();
+    this.subscription.add(
+      this.route.queryParams.subscribe((params) => {
+        this.groupId = params['param1'];
+      })
+    );
   }
 
   ngOnInit(): void {
