@@ -115,7 +115,6 @@ export class AccountService {
       let users = this.fetchUsers();
       let userInfo = users.filter((user) => user.id == userId);
       userInfo[0].password = newPass;
-      console.log(userInfo[0]);
 
       this.saveUsers(users);
       this.saveUserInfo(userInfo);

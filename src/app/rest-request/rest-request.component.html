@@ -1,0 +1,52 @@
+<div
+  class="container min-w-full min-h-screen flex flex-col gap-10 items-center bg-slate-200 p-5"
+  p-5
+>
+  <div class="title text-center">
+    <h1 class="text-2xl font-bold text-primary">Fetching Api</h1>
+  </div>
+  <div>
+    <div class="join">
+      <input
+        class="join-item input input-bordered input-primary"
+        type="text"
+        name=""
+        id=""
+        placeholder="Search"
+        [(ngModel)]="searchString"
+      />
+      <button
+        class="join-item btn btn-md btn-outline btn-primary"
+        (click)="searchFunction()"
+      >
+        <span><i class="fa-solid fa-magnifying-glass"></i></span>
+      </button>
+    </div>
+  </div>
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-16 xl:gap-20"
+  >
+    <div
+      class="card shadow-xl bg-slate-50 h-60 w-64"
+      *ngFor="let object of dataObject"
+    >
+      <div class="card-body">
+        <h2 class="text-primary text-center text-xl font-bold">
+          {{ object.name }}
+        </h2>
+        <div *ngIf="object?.data">
+          <div *ngIf="object?.data?.Description">
+            {{ object.data.Description }}
+          </div>
+          <div *ngIf="object?.data?.price">
+            Price : {{ object.data.price | currency }}
+          </div>
+          <div *ngIf="object?.data?.color">Color : {{ object.data.color }}</div>
+          <div *ngIf="object?.data?.Capacity">
+            Capacity : {{ object.data.Capacity }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

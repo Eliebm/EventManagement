@@ -33,9 +33,12 @@ export class AllEventAdministratorComponent implements OnInit, OnDestroy {
     private EventService: EventServicesService,
     private dialog: MatDialog
   ) {
-    this.route.queryParams.subscribe((params) => {
-      this.eventId = params['param1'];
-    });
+    this.subscription = new Subscription();
+    this.subscription.add(
+      this.route.queryParams.subscribe((params) => {
+        this.eventId = params['param1'];
+      })
+    );
   }
 
   ngOnInit(): void {

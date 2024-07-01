@@ -41,6 +41,13 @@ const routes: Routes = [
         (m) => m.ProfilePageModule
       ),
   },
+  {
+    path: 'ApiRequest',
+    loadChildren: () =>
+      import('./rest-request/rest-request.module').then(
+        (m) => m.RestRequestModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -43,6 +43,14 @@
             ><span><i class="fa-solid far fa-calendar-week"></i></span>Events</a
           >
         </li>
+        <li>
+          <a
+            class="font-bold text-lg flex flex-row"
+            [routerLink]="'/ApiRequest'"
+            ><span><i class="fa-solid fa-code-pull-request"></i></span
+            >Api-request</a
+          >
+        </li>
       </ul>
     </div>
 
@@ -89,6 +97,18 @@
         >
           <a class="text-blue-50 text-lg" [routerLink]="'/Events'"
             ><span><i class="fa-solid fa-calendar-week"></i></span
+          ></a>
+        </div>
+      </li>
+      <li>
+        <div
+          class="lg:tooltip lg:tooltip-bottom lg:tooltip-{{
+            themeVal === 'light' ? 'primary' : 'warning'
+          }}"
+          data-tip="ApiRequest"
+        >
+          <a class="text-blue-50 text-lg" [routerLink]="'/ApiRequest'"
+            ><span><i class="fa-solid fa-code-pull-request"></i></span
           ></a>
         </div>
       </li>

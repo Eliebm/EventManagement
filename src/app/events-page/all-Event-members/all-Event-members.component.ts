@@ -33,10 +33,13 @@ export class AllEventMembersComponent implements OnInit, OnDestroy {
     private eventService: EventServicesService,
     private dialog: MatDialog
   ) {
-    this.route.queryParams.subscribe((params) => {
-      this.eventId = params['param1'];
-      this.isAdmin = params['param2'];
-    });
+    this.subscription = new Subscription();
+    this.subscription.add(
+      this.route.queryParams.subscribe((params) => {
+        this.eventId = params['param1'];
+        this.isAdmin = params['param2'];
+      })
+    );
   }
 
   ngOnInit(): void {
