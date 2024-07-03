@@ -83,6 +83,7 @@ export class EditGroupComponent implements OnInit {
         'alert-success',
         'The group has been successfully Edited.'
       );
+      this.fetchGroupInfo();
       setTimeout(() => {
         this.loadingInProgress = false;
       }, 3000);
