@@ -160,6 +160,27 @@ export class AccountService {
     return fetchList;
   }
 
+  fetchAttendeeEventsByUserId(userID: number): any {
+    let eventsData = localStorage.getItem('All-Events');
+    let eventList: EventClass[] = [];
+    if (eventsData) {
+      eventList = JSON.parse(eventsData);
+    }
+
+    let id = userID;
+    let fetchList: any = [];
+    eventList.forEach((event) => {
+      if (
+        event.userList.find((x) => x.id === id) &&
+        event.hostList.find((x) => x.id !== id)
+      ) {
+        fetchList.push(event);
+      }
+    });
+    console.log(fetchList);
+    return fetchList;
+  }
+
   async deleteGroupAndAssociatedEvents(groupId: number) {
     let groupsData = localStorage.getItem('Groups-Of-Events');
     let groupsList: EventGroup[] = [];

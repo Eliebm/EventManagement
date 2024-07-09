@@ -27,8 +27,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   toastType!: string;
   userGroups!: EventGroup[];
   userEvents!: EventClass[];
+  userAttendeeEvent!: EventClass[];
   filteredGroups!: EventGroup[];
   filteredEvents!: EventClass[];
+  filteredAttendeeEvents!: EventClass[];
   isLoading!: boolean;
   private subscription!: Subscription;
 
@@ -48,6 +50,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     this.isUserOnline();
     this.fetchUsersGroups();
     this.fetchUsersEvents();
+    this.fetchUserAttendeeEvents();
   }
 
   ngOnDestroy(): void {
@@ -112,6 +115,13 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     this.filteredEvents = this.userEvents;
   }
 
+  fetchUserAttendeeEvents(): void {
+    this.userAttendeeEvent = this.accountService.fetchAttendeeEventsByUserId(
+      this.UserInfo[0].id
+    );
+    this.filteredAttendeeEvents = this.userAttendeeEvent;
+  }
+
   searchGroups(data: string): void {
     if (data === undefined) {
       this.filteredGroups = this.userGroups;
@@ -127,6 +137,18 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       this.filteredEvents = this.userEvents;
     } else {
       this.filteredEvents = this.userEvents.filter(
+        (x) =>
+          x.title.toLowerCase().includes(data.toLowerCase()) ||
+          x.location.toLowerCase().includes(data.toLowerCase())
+      );
+    }
+  }
+
+  searchAttendeeEvents(data: string): void {
+    if (data === undefined) {
+      this.filteredAttendeeEvents = this.userAttendeeEvent;
+    } else {
+      this.filteredAttendeeEvents = this.userAttendeeEvent.filter(
         (x) =>
           x.title.toLowerCase().includes(data.toLowerCase()) ||
           x.location.toLowerCase().includes(data.toLowerCase())
@@ -165,6 +187,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           );
           this.fetchUsersEvents();
           this.fetchUsersGroups();
+          this.fetchUserAttendeeEvents();
         } else {
           this.displayToastMessage(
             'alert-error',
